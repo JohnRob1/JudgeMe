@@ -5,30 +5,87 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../dist/main.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <title>Moods Page</title>
 </head>
-<body class="h-screen bg-gradient-to-b from-green-200 to-green-300">
+<body class="h-screen bg-gradient-to-b from-green-200 to-green-500">
     <!-- p = padding and m = margin-->
     <nav class="relative container mx-auto p-6">
-
         <!-- flex: puts all the items inisde into a flex row by default-->
         <div class="flex items-center justify-between">
-            
             <!-- Logo -->
-            <div class="pt-2">
+            <div class="logo">
                 <img src="../Logo.png" alt="">
             </div>
-
             <!-- Menu items-->
             <div class="hidden md:flex space-x-12">
-                <a href="#" class="hover:text-darkGrayishBlue">Home</a>
-                <a href="#" class="hover:text-darkGrayishBlue">Profile</a>
-                <a href="#" class="hover:text-darkGrayishBlue">Settings</a>
-  
+                <a href="#" class="p-2 px-6 text-white bg-backgroundColor rounded-full baseline hover:bg-stone-500 hover:text-darkGrayishBlue">Home</a>
+                <a href="#" class="p-2 px-6 text-white bg-backgroundColor rounded-full baseline hover:bg-stone-500 hover:text-darkGrayishBlue">Profile</a>
+                <a href="#" class="p-2 px-6 text-white bg-backgroundColor rounded-full baseline hover:bg-stone-500 hover:text-darkGrayishBlue">Settings</a>
             </div>
-
         </div>
     </nav>
+
+    <!--Button Container-->
+    <div class="button_container">
+        <div class="select-btn">
+            <span class="btn-text">Select Moods</span>
+            <span class="arrow-dwn">
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+        </div>
+        <ul class="list-items">
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">Happy</span>
+            </li>
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">Sad</span>
+            </li>
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">Country</span>
+            </li>
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">Indie</span>
+            </li>
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">Rap</span>
+            </li>
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">Jazz</span>
+            </li>
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">EDM</span>
+            </li>
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">Rock</span>
+            </li>
+        </ul>        
+    </div>
+    <script src="script.js"></script>
 </body>
 </html> 
 
