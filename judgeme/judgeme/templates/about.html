@@ -1,6 +1,6 @@
-{% load tailwind_tags %}
+{% load tailwind_tags %} {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,7 +16,7 @@
             width: 200px;
             height: 200px;
             position: relative;
-            left: 150px;
+            left: 200px;
             border-radius: 50%;
             border: 5px solid #00ff00;
         }
@@ -24,10 +24,16 @@
             width: 200px;
             height: 200px;
             position: relative;
-            right: 150px;
+            right: 75px;
             margin-left: auto;
             border-radius: 50%;
             border: 5px solid #00ff00;
+        }
+        .image3 {
+            width: 150px;
+            height: 150px;
+            margin-left: 75px;
+            margin-right: 75px;
         }
         .container {
             display: flex;
@@ -36,39 +42,45 @@
         }
         .container1 {
             display: flex;
-            align-items: center;
             justify-content: center;
         }
     </style>
     <body>
+        <div
+            class="fixed top-64 w-72 h-72 bg-[#8e3d81] rounded-full animate-blob"
+        ></div>
+        <div
+            class="fixed bottom-32 right-5 w-72 h-36 bg-[#8e3d81] rounded-full rotate-12 animate-blob animation-delay-1500"
+        ></div>
+        <div class="flex items-center justify-center h-screen">
+            <div class="flex space-y-8 w-96 items-center flex-col">
+                <h1
+                    class="font-medium text-center opacity-0 animate-fadeIn animation-delay-500"
+                    style="font-size: 800%; color: #00ff00;"
+                >
+                    JudgeMe
+                 </h1>
+                <p
+                    class="text-center opacity-0 animate-fadeIn animation-delay-1500"
+                >
+                    Your music taste sucks. But don’t worry, your friends aren’t
+                    doing much better.
+                </p>
+                <p
+                    class="text-center opacity-0 animate-fadeIn animation-delay-3000"
+                >
+                    JudgeMe exists to find the overlap between you and your
+                    friends’ trash taste so that maybe, for once, everyone can
+                    sing along during weekly grocery runs.
+                </p>
+            </div>
+        </div>
         <h1
-            class="font-medium"
-            style="font-size: 800%; color: #00ff00; text-align: center"
+            class="font-medium text-center"
+            style="font-size: 600%; color: #00ff00;"
         >
-            JudgeMe
+                Meet the Creators
         </h1>
-        <h2
-            class="font-medium"
-            style="font-size: 200%; color: white; text-align: center"
-        >
-            Your music taste sucks<br />
-            &<br />
-            Your friends aren’t doing much better<br /><br />
-        </h2>
-        <h3
-            class="font-medium"
-            style="font-size: 100%; color: white; text-align: center"
-        >
-            JudgeMe exists to find the overlap between you and your friends’
-            trash taste so that maybe, for once, everyone can sing along during
-            weekly grocery runs.<br /><br /><br /><br />
-        </h3>
-        <h4
-            class="font-medium"
-            style="font-size: 250%; color: #fff700; text-align: left"
-        >
-            &emsp;&emsp;Meet the Creators
-        </h4>
         <br />
         <div class="container">
             <div class="text">
@@ -139,33 +151,36 @@
                     class="image"
                 />
             </div>
+        </div><br><br><br><br><br><br><br><br>
+        <h3
+            class="font-medium text-center"
+            style="font-size: 600%; color: #00ff00;"
+        >
+            Features
+        </h3>
+        <div class="container1">
+            <div>
+                <img
+                    src="{% static '/icons/generate.png' %}"
+                    alt="My image"
+                    class="image3"
+                />
+            </div>
+            <div>
+                <img
+                    src="{% static '/icons/compare.png' %}"
+                    alt="My image"
+                    class="image3"
+                />
+            </div>
+            <div>
+                <img
+                    src="{% static '/icons/map.png' %}"
+                    alt="My image"
+                    class="image3"
+                />
+            </div>
         </div>
-        <h5
-            class="font-medium"
-            style="font-size: 250%; color: #fff700; text-align: left"
-        >
-            <br />&emsp;&emsp;Features
-        </h5>
-        <br />
-        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-        <button
-            class="bg-green-700 text-white font-bold py-2 px-4 rounded-full margin-left"
-        >
-            Recommendations Based on Locations
-        </button>
-        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-        <button
-            class="bg-green-700 text-white font-bold py-2 px-4 rounded-full margin-left"
-        >
-            Playlist Generation
-        </button>
-        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-        <button
-            class="bg-green-700 text-white font-bold py-2 px-4 rounded-full margin-left"
-        >
-            Comparisons
-        </button>
-        <br /><br /><br />
     </body>
     <head>
         <style type="text/css">
@@ -182,7 +197,7 @@
                 width: 100%;
             }
         </style>
-    </head>
+    </head
     <body>
         <div
             class="footer1"
