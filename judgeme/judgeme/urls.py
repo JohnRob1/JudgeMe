@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('about/', views.about, name='about'),
+    path('judge/', views.judge, name='judge'),
     path('tutorial/', views.tutorial, name='tutorial'),
     path('spotify/sign-in/', spotify_views.sign_in),
     # path('spotify/sign-in/', views.sign_in),
