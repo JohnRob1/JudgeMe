@@ -41,16 +41,16 @@
     </style>
     <body>
         <div
-            class="fixed top-64 w-72 h-72 bg-[#00ff00] rounded-full animate-blob"
+            class="fixed top-64 w-72 h-72 bg-[#518634] rounded-full animate-blob"
         ></div>
         <div
-            class="fixed bottom-32 right-5 w-72 h-36 bg-[#00ff00] rounded-full rotate-12 animate-blob animation-delay-1500"
+            class="fixed bottom-32 right-5 w-72 h-36 bg-[#518634] rounded-full rotate-12 animate-blob animation-delay-1500"
         ></div>
         <div class="flex items-center justify-center h-screen">
             <div class="flex space-y-8 w-96 items-center flex-col">
                 <h1
-                    class="font-medium text-center opacity-0 animate-fadeIn animation-delay-500"
-                    style="font-size: 800%; color: #00ff00;"
+                    class="text-[#E0FF9D] title font-medium text-center opacity-0 animate-fadeIn animation-delay-500"
+                    style="font-size: 800%;"
                 >
                     JudgeMe
                  </h1>
@@ -70,8 +70,8 @@
             </div>
         </div>
         <h1
-            class="font-medium text-center"
-            style="font-size: 600%; color: #00ff00;"
+            class="text-[#E0FF9D] font-medium text-center"
+            style="font-size: 600%; ;"
         >
                 Meet the Creators
         </h1>
@@ -147,22 +147,22 @@
             </div>
         </div><br><br><br><br><br><br><br><br>
         <h3
-            class="font-medium text-center"
-            style="font-size: 600%; color: #00ff00;"
+            class="title font-medium text-center text-[#E0FF9D]"
+            style="font-size: 600%;"
         >
             Features
         </h3>
-        <div class="container1">
+        <div class="container1 space-x-12">
             <div>
-                <button class="btn bg-[#00ff00] w-72 h-72 rounded-full items-center hover:bg-[white]">
+                <button class="btn bg-[#E0FF9D] w-72 h-72 rounded-full items-center hover:bg-[white]">
                     <img src="{% static '/icons/map.png' %}" alt="map" class="w-25 h-25"></img>
             </div>
             <div>
-                <button class="btn bg-[#00ff00] w-72 h-72 rounded-full items-center hover:bg-[white]" onclick="location.href='../judge/'">
+                <button class="btn bg-[#E0FF9D] w-72 h-72 rounded-full items-center hover:bg-[white]" onclick="location.href='../judge/'">
                     <img src="{% static '/icons/compare.png' %}" alt="compare" class="w-25 h-25"></img>
             </div>
             <div>
-                <button class="btn bg-[#00ff00] w-72 h-72 rounded-full items-center hover:bg-[white]">
+                <button class="btn bg-[#E0FF9D] w-72 h-72 rounded-full items-center hover:bg-[white]">
                     <img src="{% static '/icons/generate.png' %}" alt="generate" class="w-25 h-25"></img>
             </div>
         </div>
@@ -182,20 +182,19 @@
                 width: 100%;
             }
         </style>
-    </head
-    <body>
-        <div
-            class="footer1"
-            style="color: #00ff00; font-weight: 600; font-size: large"
-        >
-            JudgeMe &nbsp &nbsp
+    </head>
+     <!-- Navbar -->
+     <header class="fixed bottom-0 px-6 py-4">
+        <div class="flex-col">
+            <a href="../">
+                <p class="text-4xl title">JudgeMe</p>
+            </a>
+
+            <div class="flex space-x-2">
+                <button onclick="location.href = '../about/'">about</button>
+                <!-- <p>terms</p> -->
+            </div>
         </div>
-        <button
-            class="footer2"
-            style="color: white; font-weight: 100; font-size: medium"
-            onclick="location.href = '../about/'"
-        >
-            About &nbsp &nbsp
-        </button>
-    </body>
+    </header>
+    <!-- Navbar -->
 </html>
