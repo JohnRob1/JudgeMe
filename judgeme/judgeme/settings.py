@@ -39,9 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'judgeme',
-    'login',
-    'spotify',
-    'judge',
 
     'tailwind',
     'theme',
