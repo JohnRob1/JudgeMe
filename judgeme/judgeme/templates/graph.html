@@ -1,0 +1,31 @@
+{% load static tailwind_tags %} {% tailwind_css %}
+<!DOCTYPE html>
+<html>
+<title>Judge</title>
+    <body class="bg-emerald-900">
+        <div
+            class="fixed top-32 right-5 w-72 h-36 bg-emerald-300 rounded-full rotate-12 animate-blob animation-delay-1500"
+        ></div>
+        <div
+            class="fixed bottom-64 w-72 h-72 bg-emerald-300 rounded-full animate-blob"
+        ></div>
+        <div class="flex justify-center container h-24 w-screen">
+            <h1 class="text-7xl text-bold pl-20 pt-20">JudgeMe with a Graph</h1>
+        </div>
+        <div class="flex justify-center container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
+            <button 
+            class="btn opacity-0 animate-fadeIn"
+            >Top 3 Rankings</button>
+            <button 
+            class="btn opacity-0 animate-fadeIn"
+            >Line Graph</button>
+            <button 
+            class="btn opacity-0 animate-fadeIn"
+            >Pie Chart</button>
+            <button 
+            class="btn opacity-0 animate-fadeIn"
+            onclick="location.href='../bar/'"
+            >Bar Graph</button>
+        </div>
+    </body>
+</html>

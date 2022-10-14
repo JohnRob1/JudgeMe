@@ -23,23 +23,7 @@ function list_choices(buttonName, messageHtml, headingId, type) {
         case 'fPlaylist':
             //send to compare page for functionality
             placeholder.addEventListener("click", function(event) {
-                Id = document.getElementById('graphsTypesMessage');
-                Id.innerHTML = "<h3>Choose type of graph output for comparison</h3>"
-
-                let slider = document.createElement('button');
-                slider.innerHTML = 'Slider Graph';
-                Id.appendChild(slider);
-
-                let bar = document.createElement('button');
-                bar.innerHTML = 'Bar Graph';
-                Id.appendChild(bar);
-                Id.addEventListener("click", function(event) {
-                    location.href='../../judge/bar/';
-                });
-
-                let line = document.createElement('button');
-                line.innerHTML = "Line Graph";
-                Id.appendChild(line);
+                location.href='../../judge/graph/';
             });
             
             break;

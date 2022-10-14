@@ -31,6 +31,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('playlist/', views.playlist, name='playlist'),
     path('judge/bar/', views.bar, name='bar'),
+    path('judge/graph/', views.graph, name='graph'),
     # path('spotify/sign-in/', views.sign_in),
     # path('', include('login.urls')),
     # path('spotify/', include('spotify.urls')),
