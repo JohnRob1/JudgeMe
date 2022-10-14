@@ -1,3 +1,4 @@
+{% load static tailwind_tags %} {% tailwind_css %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,18 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playlist</title>
 </head>
-<body>
-    <img class="PlaylistCover"></img>
-    <h1 class="title playlist">Playlist_Name</h1>
-    <button class="button compare" onclick="list_choices('friendPlaceholder', '<h3>Choose a Friend</h3>', 'friendsMessage', 'friend')">Compare</button>
-    <h3 class="message heading" id="friendsMessage"></h3>
-    <h3 class="message heading" id="friendsPlaylistsMessage"></h3>
-    <h3 class="message heading" id="graphsTypesMessage"></h3>
-    <button class="button song">Song</button>
-    <button class="button song">Song</button>
-    <button class="button song">Song</button>
-    <button class="button song">Song</button>
-    <button class="button song">Song</button>
-    <script src="../../static/js/script.js"></script>
+<body class="bg-zinc-900">
+    <div class="flex container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
+        <img class="max-w-md m-4 shadow-white" src="https://external-preview.redd.it/MpMGj_4D6I1P536yfHuHuO9gd5jg4ak7qEJq_yUlc2M.jpg?width=640&crop=smart&auto=webp&s=62edb1b807106c90b5ad4bcb6a2476b0f9ef0de2"></img>
+        <h1 class="text-green-300 text-2xl align-middle font-bold p-4">Playlist Name</h1>
+        <button class="bg-green-300 w-60 border-0 border-black text-black p-4 rounded-full hover:border-gray-400 hover:bg-gray-400" 
+        onclick="list_choices('friendPlaceholder', '<h3>Choose a Friend</h3>', 'friendsMessage', 'friend')"
+        >Compare</button>
+
+        <h3 class="text-green-300 text-lg align-middle font-semibold" id="friendsMessage"></h3>
+        <h3 class="text-green-300 text-lg align-middle font-semibold" id="friendsPlaylistsMessage"></h3>
+        <h3 class="text-green-300 text-lg align-middle font-semibold" id="graphsTypesMessage"></h3>
+
+        <button class="flex w-80 rounded-lg border-green-300 border-2 max-h-20">
+            <img class="m-2 rounded-sm w-20 h-12" src="https://media.istockphoto.com/photos/vintage-vinyl-record-album-cover-mockup-flat-concept-picture-id1127565686?b=1&k=20&m=1127565686&s=170667a&w=0&h=OBvTbZEFPOwXQLGWAKODUXwX8VaiEbQvPWrNzfl5GUI=">
+            <h1 class="text-white grow text-lg text-bold mt-4 w-fit">Song</h1>
+        </button>
+        <button class="flex w-80 rounded-lg border-green-300 border-2 max-h-20">
+            <img class="m-2 rounded-sm w-20 h-12" src="https://images.theconversation.com/files/258026/original/file-20190208-174861-nms2kt.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=900.0&fit=crop">
+            <h1 class="text-white grow text-lg text-bold mt-4 w-fit">Song</h1>
+        </button>
+        <button class="flex w-80 rounded-lg border-green-300 border-2 max-h-20">
+            <img class="m-2 rounded-sm w-20 h-12" src="https://www.udiscovermusic.com/wp-content/uploads/2015/10/Janelle-Mona%CC%81e-Dirty-Computer-.jpg">
+            <h1 class="text-white grow text-lg text-bold mt-4 w-fit">Song</h1>
+        </button>
+        <button class="flex w-80 rounded-lg border-green-300 border-2 max-h-20">
+            <img class="m-2 rounded-sm w-20 max-h-12" src="https://www.udiscovermusic.com/wp-content/uploads/2020/09/Cream-Disraeli-Gears-.jpg">
+            <h1 class="text-white grow text-lg text-bold mt-4 w-fit">Song</h1>
+        </button>
+        <script src="../../static/js/script.js"></script>
+    </div>
 </body>
 </html>

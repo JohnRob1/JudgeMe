@@ -124,7 +124,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-NPM_BIN_PATH = r"/usr/local/bin/npm"
+NPM_BIN_PATH = r'/opt/homebrew/bin/npm'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

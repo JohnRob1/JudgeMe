@@ -27,3 +27,6 @@ def profile(request):
 
 def playlist(request):
     return render(request, 'playlist.html')
+
+def bar(request):
+    return render(request, 'bar.html')
