@@ -1,0 +1,17 @@
+@tailwind base;
+
+@layer base {
+    html {
+        @apply text-white;
+    }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .btn {
+        @apply bg-white w-60 border-0 border-gray-700 text-black py-4 px-4 rounded-full hover:border-gray-400 hover:bg-gray-400;
+    }
+    /* ... */
+}

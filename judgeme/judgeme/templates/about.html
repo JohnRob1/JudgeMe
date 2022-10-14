@@ -1,0 +1,201 @@
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tailwind django</title>
+        {% tailwind_css %}
+    </head>
+    <style>
+        body {
+            background-color: #355e3b;
+        }
+        .image {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            left: 150px;
+            border-radius: 50%;
+            border: 5px solid #00ff00;
+        }
+        .image2 {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            right: 150px;
+            margin-left: auto;
+            border-radius: 50%;
+            border: 5px solid #00ff00;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <body>
+        <h1
+            class="font-medium"
+            style="font-size: 800%; color: #00ff00; text-align: center"
+        >
+            JudgeMe
+        </h1>
+        <h2
+            class="font-medium"
+            style="font-size: 200%; color: white; text-align: center"
+        >
+            Your music taste sucks<br />
+            &<br />
+            Your friends aren’t doing much better<br /><br />
+        </h2>
+        <h3
+            class="font-medium"
+            style="font-size: 100%; color: white; text-align: center"
+        >
+            JudgeMe exists to find the overlap between you and your friends’
+            trash taste so that maybe, for once, everyone can sing along during
+            weekly grocery runs.<br /><br /><br /><br />
+        </h3>
+        <h4
+            class="font-medium"
+            style="font-size: 250%; color: #fff700; text-align: left"
+        >
+            &emsp;&emsp;Meet the Creators
+        </h4>
+        <br />
+        <div class="container">
+            <div class="text">
+                <h1 style="font-size: 250%; color: white">Aarushi Singh</h1>
+                <h2 style="font-size: 100%; color: white">
+                    A computer science student at Purdue.
+                </h2>
+            </div>
+            <div>
+                <img
+                    src="https://i.pinimg.com/originals/26/ea/fc/26eafc0b14488fea03fa8fa9751203ff.jpg"
+                    class="image"
+                />
+            </div>
+        </div>
+        <div class="container">
+            <div>
+                <img
+                    src="https://i.pinimg.com/originals/26/ea/fc/26eafc0b14488fea03fa8fa9751203ff.jpg"
+                    class="image2"
+                />
+            </div>
+            <div class="text">
+                <h1 style="font-size: 250%; color: white">John Robinson</h1>
+                <h2 style="font-size: 100%; color: white">
+                    A computer science student at Purdue.
+                </h2>
+            </div>
+        </div>
+        <div class="container">
+            <div class="text">
+                <h1 style="font-size: 250%; color: white">Kenny Park</h1>
+                <h2 style="font-size: 100%; color: white">
+                    A computer science student at Purdue.
+                </h2>
+            </div>
+            <div>
+                <img
+                    src="https://i.pinimg.com/originals/26/ea/fc/26eafc0b14488fea03fa8fa9751203ff.jpg"
+                    class="image"
+                />
+            </div>
+        </div>
+        <div class="container">
+            <div>
+                <img
+                    src="https://i.pinimg.com/originals/26/ea/fc/26eafc0b14488fea03fa8fa9751203ff.jpg"
+                    class="image2"
+                />
+            </div>
+            <div class="text">
+                <h1 style="font-size: 250%; color: white">Nick Pancione</h1>
+                <h2 style="font-size: 100%; color: white">
+                    A computer science student at Purdue.
+                </h2>
+            </div>
+        </div>
+        <div class="container">
+            <div class="text">
+                <h1 style="font-size: 250%; color: white">Sujal Timilsina</h1>
+                <h2 style="font-size: 100%; color: white">
+                    A computer science student at Purdue.
+                </h2>
+            </div>
+            <div>
+                <img
+                    src="https://i.pinimg.com/originals/26/ea/fc/26eafc0b14488fea03fa8fa9751203ff.jpg"
+                    class="image"
+                />
+            </div>
+        </div>
+        <h5
+            class="font-medium"
+            style="font-size: 250%; color: #fff700; text-align: left"
+        >
+            <br />&emsp;&emsp;Features
+        </h5>
+        <br />
+        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+        <button
+            class="bg-green-700 text-white font-bold py-2 px-4 rounded-full margin-left"
+        >
+            Recommendations Based on Locations
+        </button>
+        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+        <button
+            class="bg-green-700 text-white font-bold py-2 px-4 rounded-full margin-left"
+        >
+            Playlist Generation
+        </button>
+        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+        <button
+            class="bg-green-700 text-white font-bold py-2 px-4 rounded-full margin-left"
+        >
+            Comparisons
+        </button>
+        <br /><br /><br />
+    </body>
+    <head>
+        <style type="text/css">
+            .footer1 {
+                position: fixed;
+                text-align: right;
+                bottom: 20px;
+                width: 100%;
+            }
+            .footer2 {
+                position: fixed;
+                text-align: right;
+                bottom: 0px;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            class="footer1"
+            style="color: #00ff00; font-weight: 600; font-size: large"
+        >
+            JudgeMe &nbsp &nbsp
+        </div>
+        <button
+            class="footer2"
+            style="color: white; font-weight: 100; font-size: medium"
+            onclick="location.href = '../about/'"
+        >
+            About &nbsp &nbsp
+        </button>
+    </body>
+</html>
