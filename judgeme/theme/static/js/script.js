@@ -34,8 +34,8 @@ function list_choices(buttonName, messageHtml, headingId, type) {
                 bar.innerHTML = 'Bar Graph';
                 Id.appendChild(bar);
                 Id.addEventListener("click", function(event) {
-                    location.href='bar/';
-                })
+                    location.href='../../judge/bar/';
+                });
 
                 let line = document.createElement('button');
                 line.innerHTML = "Line Graph";
