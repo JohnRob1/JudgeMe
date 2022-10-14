@@ -1,11 +1,11 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
-const fontFamily = defaultTheme.fontFamily;
-fontFamily["sans"] = [
-    "Inter", // <-- Roboto is a default sans font now
-    "system-ui",
-    // <-- you may provide more font fallbacks here
-];
+// const fontFamily = defaultTheme.fontFamily;
+// fontFamily["sans"] = [
+//     "Inter", // <-- Roboto is a default sans font now
+//     "system-ui",
+//     // <-- you may provide more font fallbacks here
+// ];
 
 module.exports = {
     content: [
@@ -44,7 +44,12 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        fontFamily: fontFamily,
+        // fontFamily: fontFamily,
+        fontFamily: {
+            sans: ["Inter", "system-ui"],
+            // sans: ["ui-monospace", "SFMono-Regular"],
+            montserrat: ["Montserrat", "sans-serif"],
+        },
         extend: {
             animation: {
                 blob: "blob 7s infinite",
