@@ -715,6 +715,9 @@ html{
 .bottom-64{
   bottom: 16rem;
 }
+.-z-50{
+  z-index: -50;
+}
 .m-4{
   margin: 1rem;
 }
@@ -1017,6 +1020,18 @@ html{
   --tw-bg-opacity: 1;
   background-color: rgb(224 255 157 / var(--tw-bg-opacity));
 }
+.bg-\[\#595169\]{
+  --tw-bg-opacity: 1;
+  background-color: rgb(89 81 105 / var(--tw-bg-opacity));
+}
+.bg-\[\#273ba9\]{
+  --tw-bg-opacity: 1;
+  background-color: rgb(39 59 169 / var(--tw-bg-opacity));
+}
+.bg-\[\#2a3eab\]{
+  --tw-bg-opacity: 1;
+  background-color: rgb(42 62 171 / var(--tw-bg-opacity));
+}
 .object-center{
   -o-object-position: center;
      object-position: center;
@@ -1149,6 +1164,10 @@ html{
 }
 .outline-blue-500{
   outline-color: #3b82f6;
+}
+.animation-delay-100{
+  -webkit-animation-delay: 100ms;
+          animation-delay: 100ms;
 }
 .animation-delay-500{
   -webkit-animation-delay: 500ms;

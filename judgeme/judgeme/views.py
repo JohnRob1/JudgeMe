@@ -30,3 +30,6 @@ def playlist(request):
 
 def bar(request):
     return render(request, 'bar.html')
+
+def artist(request):
+    return render(request, 'artist.html')

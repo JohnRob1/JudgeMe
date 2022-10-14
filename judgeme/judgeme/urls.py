@@ -31,9 +31,11 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('playlist/', views.playlist, name='playlist'),
     path('judge/bar/', views.bar, name='bar'),
+    path('artist/', views.artist, name='artist'),
     # path('spotify/sign-in/', views.sign_in),
     # path('', include('login.urls')),
     # path('spotify/', include('spotify.urls')),
     # path('theme/', include('theme.urls')),
+    # path('judge/', include('judge.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
