@@ -1,20 +1,28 @@
+{% load static tailwind_tags %} {% tailwind_css %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Judge</title>
-</head>
-<body>
-    <div class="container mx-auto px-10">
-        <button class="button vs object-center" onclick="list_choices('playlistPlaceholder', '<h3>Choose a Playlist</h3>', 'playlistMessage', 'playlist')">Playlist vs Playlist</button>
-        <h3 class="message heading" id="playlistMessage"></h3>
-        <h3 class="message heading" id="friendsMessage"></h3>
-        <h3 class="message heading" id="friendsPlaylistsMessage"></h3>
-        <h3 class="message heading" id="graphsTypesMessage"></h3>
-        <button class="button vs">Friend vs Friend</button>
-        <script src="../../static/js/script.js"></script>
-    </div>
-</body>
+<html>
+<title>Judge</title>
+    <body class="bg-emerald-900">
+        <div
+            class="fixed top-32 right-5 w-72 h-36 bg-emerald-300 rounded-full rotate-12 animate-blob animation-delay-1500"
+        ></div>
+        <div
+            class="fixed bottom-64 w-72 h-72 bg-emerald-300 rounded-full animate-blob"
+        ></div>
+        <div class="flex justify-center container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
+            <button 
+            class="btn opacity-0 animate-fadeIn"
+            onclick="list_choices('playlistPlaceholder', '<h3>Choose a Playlist</h3>', 'playlistMessage', 'playlist')"
+            >Playlist vs Playlist</button>
+
+            <h3 class="text-white text-lg align-middle font-semibold" id="playlistMessage"></h3>
+            <h3 class="text-white text-lg align-middle font-semibold" id="friendsMessage"></h3>
+            <h3 class="text-white text-lg align-middle font-semibold" id="friendsPlaylistsMessage"></h3>
+            <h3 class="text-white text-lg align-middle font-semibold" id="graphsTypesMessage"></h3>
+            <button class="btn opacity-0 animate-fadeIn">Friend vs Friend</button>
+            <script src="../../static/js/script.js"></script>
+            <script src="../../static/js/round-slider.min.js"></script>
+            <script src="../../static/js/nouislider.min.js"></script>
+        </div>
+    </body>
 </html>
