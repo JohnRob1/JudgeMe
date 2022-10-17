@@ -10,6 +10,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        judgeMe: '#322C3d',
         brightRed: 'hsl(12, 88%, 59%)',
         brightRedLight: 'hsl(12, 88%, 69%)',
         brightRedSupLight: 'hsl(12, 88%, 95%)',

@@ -6,16 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../dist/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <title>Moods Page</title>
+    <title>Generate Playlist</title>
 </head>
-<body class="h-screen bg-gradient-to-b from-green-200 to-green-500">
+<body class="bg-[#322c3d]">
+    <div
+        class="fixed top-64 w-72 h-72 bg-[#8e3d81] rounded-full animate-blob"
+    ></div>
+    <div
+        class="fixed bottom-32 right-5 w-72 h-36 bg-[#8e3d81] rounded-full rotate-12 animate-blob animation-delay-1500"
+    ></div>
     <!-- p = padding and m = margin-->
     <nav class="relative container mx-auto p-6">
         <!-- flex: puts all the items inisde into a flex row by default-->
         <div class="flex items-center justify-between">
             <!-- Logo -->
             <div class="logo">
-                <img src="../Logo.png" alt="">
+                <img src="../Logo White.png" alt="">
             </div>
             <!-- Menu items-->
             <div class="hidden md:flex space-x-12">
@@ -30,9 +36,11 @@
             <button class="bg-black to hover:bg-slate-500 text-white font-bold py-2 px-4 rounded">
                 Back
             </button>
-            <button class="bg-black to hover:bg-slate-500 text-white font-bold py-2 px-4 rounded">
-                Confirm
-            </button>
+            <a href="http://127.0.0.1:5500/tailwind/src/social.html" >
+                <button class="bg-black to hover:bg-slate-500 text-white font-bold py-2 px-4 rounded">
+                    Confirm
+                </button>
+            </a>
         </div>
     </div>  
     <!--Button Container-->
@@ -96,25 +104,5 @@
     </div> 
     <script src="script.js"></script> 
 </body>
-</html> 
 
-
-<!-- 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css">
-    <title>Moods Page</title>
-</head>
-<body>
-    <nav class="relative container bg-red-500">Hello</nav>
-</body>
 </html>
-
-
-
--->
