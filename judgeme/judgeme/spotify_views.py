@@ -8,8 +8,8 @@ from spotipy import oauth2
 SPOTIPY_CLIENT_ID = '1fba4b0df2fe49318273c0ab3aeb1d49'
 SPOTIPY_CLIENT_SECRET = '8d0bfdb045024e74bbdc22cd47c69588'
 SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/tutorial/'
-SCOPE = 'user-top-read'
-scope = 'user-library-read'
+# https://developer.spotify.com/documentation/general/guides/authorization/scopes/ for scopes
+scope = 'user-top-read user-library-read playlist-read-private playlist-modify-public'
 username = ''
 
 

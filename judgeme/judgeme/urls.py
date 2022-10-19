@@ -19,9 +19,11 @@ from django.urls import include, path
 
 from . import views
 from . import spotify_views
+from . import spotipy_test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('test/', spotipy_test.test),
     path('', views.index, name='index'),
     path('about/', views.about, name='about'),
     path('judge/', views.judge, name='judge'),
