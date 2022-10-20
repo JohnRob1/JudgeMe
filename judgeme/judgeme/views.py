@@ -1,3 +1,5 @@
+from pprint import pprint
+from pydoc import cli
 from typing import Dict
 from django.shortcuts import render, HttpResponseRedirect
 from . import spotify_views
@@ -11,7 +13,7 @@ SPOTIPY_CLIENT_ID = '1fba4b0df2fe49318273c0ab3aeb1d49'
 SPOTIPY_CLIENT_SECRET = '8d0bfdb045024e74bbdc22cd47c69588'
 SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/tutorial/'
 # https://developer.spotify.com/documentation/general/guides/authorization/scopes/ for scopes
-scope = 'user-top-read user-library-read playlist-read-private playlist-modify-public'
+scope = 'user-top-read user-library-read playlist-read-private playlist-modify-public user-read-private user-read-email'
 username = ''
 
 
@@ -73,7 +75,8 @@ def artist(request):
 
 def test(request):
     urn = 'spotify:track:0Svkvt5I79wficMFgaqEQJ'
-    sp = get_sp()
+
+    sp: spotipy.Spotify = get_spotify_object()
 
     features = sp.audio_features(urn)
     # Array index 0 because we're only passing in one urn. This is a dictionary.
@@ -81,7 +84,16 @@ def test(request):
     for key, value in features_dict.items():
         print(key, ": ", value)
 
+    # tracks = sp.curr
+
+    # profile = sp.current_user()
+    # for key, value in profile.items():
+    #     print(key, ": ", value)
+
     # print(features)
+
+    user = sp.user("virtualkenny")
+    pprint(user)
 
     track: Dict = sp.track(urn)
     # for key, value in track.items():
@@ -90,8 +102,10 @@ def test(request):
     return render(request, 'test.html')
 
 
-def get_sp():
+def get_spotify_object() -> spotipy.Spotify:
     client_credentials_manager = SpotifyClientCredentials(
         SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+    # sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(
+    #     client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=scope))
     return sp
