@@ -33,3 +33,6 @@ def bar(request):
 
 def graph(request):
     return render(request, 'graph.html')
+    
+def artist(request):
+    return render(request, 'artist.html')
