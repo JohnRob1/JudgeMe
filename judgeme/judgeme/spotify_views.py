@@ -12,6 +12,8 @@ SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/tutorial/'
 scope = 'user-top-read user-library-read playlist-read-private playlist-modify-public'
 username = ''
 
+sp: spotipy.Spotify = None
+
 
 def next_offset(n):
     try:
@@ -25,7 +27,6 @@ def next_offset(n):
 
 
 def sign_in(request):
-
     # token = util.prompt_for_user_token(username, scope)
     # print(token)
     sp_oauth = oauth2.SpotifyOAuth(
@@ -56,3 +57,21 @@ def sign_in(request):
             tracks.append(track)
 
     return render(request, 'pages/sign-in.html', {'results': tracks})
+
+
+def get_spotify_object() -> spotipy.Spotify:
+    # token = util.prompt_for_user_token(username, scope)
+    # print(token)
+    sp_oauth = oauth2.SpotifyOAuth(
+        SPOTIPY_CLIENT_ID,
+        SPOTIPY_CLIENT_SECRET,
+        SPOTIPY_REDIRECT_URI,
+        scope=scope,
+        cache_path=".cache-" + username)
+
+    token_info = sp_oauth.get_cached_token()
+    if not token_info:
+        auth_url = sp_oauth.get_authorize_url()
+        return HttpResponseRedirect(auth_url)
+    sp = spotipy.Spotify(auth=token_info['access_token'])
+    return sp
