@@ -1,3 +1,4 @@
+from pprint import pprint
 from django.shortcuts import render, redirect, HttpResponseRedirect
 
 import os
@@ -16,17 +17,20 @@ def test(request):
 
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
-    # results = sp.current_user_saved_tracks()
-    # for idx, item in enumerate(results['items']):
-    #     track = item['track']
-    #     print(idx, track['artists'][0]['name'], " – ", track['name'])
+    results = sp.current_user_saved_tracks()
+    for idx, item in enumerate(results['items']):
+        track = item['track']
+        print(idx, track['artists'][0]['name'], " – ", track['name'])
+
+    profile = sp.current_user()
+    pprint(profile)
 
     # sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 
-    urn = 'spotify:track:0Svkvt5I79wficMFgaqEQJ'
+    # urn = 'spotify:track:0Svkvt5I79wficMFgaqEQJ'
 
-    track = sp.track(urn)
-    print(track)
+    # track = sp.track(urn)
+    # print(track)
 
     # start = time.time()
     # analysis = sp.audio_analysis(urn)

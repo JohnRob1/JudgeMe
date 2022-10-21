@@ -9,5 +9,70 @@
             <img src="{% static 'login/Logo.png' %}" alt="Logo" />
             <p class="mb-8 text-black">Test page.</p>
         </div>
+
+        <!-- Friend Overlay -->
+        <!-- Implement the overlay menu -->
+        <div
+            id="menu"
+            class="fixed z-90 w-0 h-0 flex justify-center items-center bg-gray-900 opacity-0 duration-700"
+        >
+            <a
+                href="javascript:void(0)"
+                class="fixed top-6 right-8 text-white hover:text-amber-500 text-7xl font-semibold duration-300"
+                onclick="closeMenu()"
+                >&times;</a
+            >
+            <div
+                class="flex flex-col text-white text-center text-xl font-light space-y-3"
+            >
+                <a class="hover:text-amber-500 duration-300" href="#"
+                    >KindaCode.com</a
+                >
+                <a class="hover:text-amber-500 duration-300" href="#"
+                    >About Us</a
+                >
+                <a class="hover:text-amber-500 duration-300" href="#"
+                    >Get In Touch</a
+                >
+                <a class="hover:text-amber-500 duration-300" href="#"
+                    >Privacy Policy</a
+                >
+                <a class="hover:text-amber-500 duration-300" href="#"
+                    >Terms of Use</a
+                >
+            </div>
+        </div>
+        <!-- Other elements -->
+        <div class="container p-20 space-y-8">
+            <h1 class="text-4xl font-light">Welcome to KindaCode.com</h1>
+            <h2 class="text-xl">Full-screen overlay navigation menu example</h2>
+            <p>
+                <a
+                    href="javascript:void(0)"
+                    onclick="openMenu()"
+                    class="px-5 py-3 bg-blue-500 hover:bg-blue-600 text-xl text-white duration-300"
+                >
+                    <span class="text-2xl">&#9776;</span>
+                    Menu
+                </a>
+            </p>
+        </div>
+
+        <!-- Javascript code -->
+        <script>
+            var menu = document.getElementById("menu");
+
+            // this function is used to open the menu
+            function openMenu() {
+                menu.classList.remove("w-0", "h-0", "opacity-0");
+                menu.classList.add("w-screen", "h-screen", "opacity-95");
+            }
+
+            // this function is used to close the menu
+            function closeMenu() {
+                menu.classList.remove("w-screen", "h-screen", "opactiy-95");
+                menu.classList.add("w-0", "h-0", "opacity-0");
+            }
+        </script>
     </body>
 </html>
