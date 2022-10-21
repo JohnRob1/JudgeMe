@@ -76,6 +76,22 @@ def graph(request):
 def artist(request):
     return render(request, 'artist.html')
 
+def homepage(request):
+    return render(request, 'homepage.html')
+
+def breakdown(request):
+    sp: spotipy.Spotify = get_spotify_object()
+
+    ranges = ['short_term', 'medium_term', 'long_term']
+
+    for sp_range in ranges:
+        print("range:", sp_range)
+        results = sp.current_user_top_tracks(time_range=sp_range, limit=50)
+        for i, item in enumerate(results['items']):
+            print(i, item['name'], '//', item['artists'][0]['name'])
+        print()
+    
+    return render(request, 'breakdown.html')
 
 def test(request):
     urn = 'spotify:track:0Svkvt5I79wficMFgaqEQJ'
