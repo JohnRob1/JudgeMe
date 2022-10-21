@@ -79,14 +79,21 @@ def artist(request):
 
 
 def test(request):
-    urn = 'spotify:track:0Svkvt5I79wficMFgaqEQJ'
+    os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
+    os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIPY_CLIENT_SECRET
+    os.environ['SPOTIPY_REDIRECT_URI'] = SPOTIPY_REDIRECT_URI
 
-    # sp: spotipy.Spotify = get_spotify_object()
-    sp: spotipy.Spotify = get_spotify_object()
+    scope = "user-library-read user-top-read"
 
-    features = sp.audio_features(urn)
-    # Array index 0 because we're only passing in one urn. This is a dictionary.
-    features_dict = features[0]
+    sp: spotipy.Spotify = spotipy.Spotify(
+        auth_manager=SpotifyOAuth(scope=scope))
+
+    aaa = sp.current_user_top_tracks(2)
+    pprint(aaa)
+
+    # features = sp.audio_features(urn)
+    # # Array index 0 because we're only passing in one urn. This is a dictionary.
+    # features_dict = features[0]
     # for key, value in features_dict.items():
     #     print(key, ": ", value)
 
@@ -98,13 +105,13 @@ def test(request):
 
     # print(features)
 
-    user = sp.user("virtualkenny")
-    pprint(user)
+    # user = sp.user("virtualkenny")
+    # pprint(user)
 
     # for key, value in track.items():
     #     print(key, ": ", value)
 
-    return render(request, 'test.html')
+    return render(request, 'index.html')
 
 
 def get_spotify_object_old() -> spotipy.Spotify:
@@ -117,11 +124,9 @@ def get_spotify_object_old() -> spotipy.Spotify:
 
 
 def get_spotify_object() -> spotipy.Spotify:
-    os.environ['SPOTIPY_CLIENT_ID'] = '1fba4b0df2fe49318273c0ab3aeb1d49'
-    os.environ['SPOTIPY_CLIENT_SECRET'] = '8d0bfdb045024e74bbdc22cd47c69588'
-    os.environ['SPOTIPY_REDIRECT_URI'] = 'http://127.0.0.1:8001/tutorial/'
-
-    scope = "user-library-read"
+    os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
+    os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIPY_CLIENT_SECRET
+    os.environ['SPOTIPY_REDIRECT_URI'] = SPOTIPY_REDIRECT_URI
 
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
