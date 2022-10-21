@@ -37,6 +37,7 @@ urlpatterns = [
     path('breakdown/', views.breakdown, name='breakdown'),
     path('test/', views.test, name='test'),
     path('homepage/', views.homepage, name='homepage'),
+    path('spotify-test/', spotipy_test.test, name='test'),
     # path('spotify/sign-in/', views.sign_in),
     # path('', include('login.urls')),
     # path('spotify/', include('spotify.urls')),

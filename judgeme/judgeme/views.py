@@ -6,8 +6,9 @@ from . import spotify_views
 
 
 import spotipy
+import os
 from spotipy import oauth2
-from spotipy.oauth2 import SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 
 SPOTIPY_CLIENT_ID = '1fba4b0df2fe49318273c0ab3aeb1d49'
 SPOTIPY_CLIENT_SECRET = '8d0bfdb045024e74bbdc22cd47c69588'
@@ -96,13 +97,14 @@ def breakdown(request):
 def test(request):
     urn = 'spotify:track:0Svkvt5I79wficMFgaqEQJ'
 
+    # sp: spotipy.Spotify = get_spotify_object()
     sp: spotipy.Spotify = get_spotify_object()
 
     features = sp.audio_features(urn)
     # Array index 0 because we're only passing in one urn. This is a dictionary.
     features_dict = features[0]
-    for key, value in features_dict.items():
-        print(key, ": ", value)
+    # for key, value in features_dict.items():
+    #     print(key, ": ", value)
 
     # tracks = sp.curr
 
@@ -115,17 +117,28 @@ def test(request):
     user = sp.user("virtualkenny")
     pprint(user)
 
-    track: Dict = sp.track(urn)
     # for key, value in track.items():
     #     print(key, ": ", value)
 
     return render(request, 'test.html')
 
 
-def get_spotify_object() -> spotipy.Spotify:
+def get_spotify_object_old() -> spotipy.Spotify:
     client_credentials_manager = SpotifyClientCredentials(
         SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
     # sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(
     #     client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=scope))
+    return sp
+
+
+def get_spotify_object() -> spotipy.Spotify:
+    os.environ['SPOTIPY_CLIENT_ID'] = '1fba4b0df2fe49318273c0ab3aeb1d49'
+    os.environ['SPOTIPY_CLIENT_SECRET'] = '8d0bfdb045024e74bbdc22cd47c69588'
+    os.environ['SPOTIPY_REDIRECT_URI'] = 'http://127.0.0.1:8001/tutorial/'
+
+    scope = "user-library-read"
+
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+
     return sp
