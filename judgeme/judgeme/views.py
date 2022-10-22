@@ -77,6 +77,9 @@ def graph(request):
 def artist(request):
     return render(request, 'artist.html')
 
+def homepage(request):
+    return render(request, 'homepage.html')
+
 
 def test(request):
     os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID

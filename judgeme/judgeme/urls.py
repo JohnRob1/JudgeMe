@@ -34,6 +34,7 @@ urlpatterns = [
     path('judge/bar/', views.bar, name='bar'),
     path('judge/graph/', views.graph, name='graph'),
     path('artist/', views.artist, name='artist'),
+    path('homepage/', views.homepage, name='homepage'),
     path('test/', views.test, name='test'),
     path('spotify-test/', spotipy_test.test, name='test'),
     # path('spotify/sign-in/', views.sign_in),
