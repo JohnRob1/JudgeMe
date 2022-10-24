@@ -2,31 +2,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Profile</title>
+    <title>Profile</title>
 </head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    }
+    .container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .card {
+        position: relative;
+        width: 600px;
+        height: 600px;
+        background: #ffff;
+        border-radius: 20px;
+        box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
+        transition: 0.5s;
+    }
+    .imgbx{
+        position: relative;
+        left: 20px;
+        top: 20px;
+        width: 150px;
+        height: 150px;
+        border-radius: 80px;
+        background: black;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
+    }
+    
+    .card:hover{
+        height: 600px;
+    } 
+
+    .welcome{
+        position: relative;
+        left: 200px;
+        bottom: 100px;
+        width: 300px;
+    }
+    .upload{
+        position: relative;
+        top: 30px;
+        left: 50px;
+    }
+    .cancel{
+        position: relative;
+        top: 350px;
+        padding: 10px 30px;
+    }
+    .save {
+        position: relative;
+        top: 292px;
+        padding: 10px 30px;
+        left: 450px;
+    }
+</style>
 <body class="bg-blue-900">
-    <div
-        class="fixed top-32 right-5 w-72 h-36 bg-[#7dd3fc] rounded-full rotate-12 animate-blob animation-delay-1500"
-    ></div>
-    <div
-        class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"
-    ></div>
-    <div
-        class="flex container mx-auto my-auto w-screen h-screen items-center flex-col"
-    >
-        <img class="object-top h-72 w-72 rounded-full p-2" src="{% static 'login/profile.jpg' %}"
-         alt="profile_placeholder">
-        <h1 class="text-white text-4xl align-middle font-bold p-4">Hello, Tynan</h1>
-        <h2 class="text-white text-xl align-middle font-semibold p-4">Playlists</h2>
-        <!--on click, send to playlist.html-->
-        <button 
-            class="btn"
-            onclick="location.href = '../playlist/'"
-            >Playlist_Placeholder</button>
-        <h2 class="text-white text-xl align-middle font-semibold p-4">Friends List</h2>
-        <button 
-            class="btn"
-        >Friend_Placeholder</button>
+    <!-- 
+    <div class="fixed top-32 right-5 w-72 h-36 bg-[#7dd3fc] rounded-full rotate-12 animate-blob animation-delay-1500"></div>
+    <div class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"></div> -->
+    <div class="container">
+        <div class="card">
+            <div class="imgbx">
+                <img src="{% static '/icons/ProfilePic.png' %}" class="src">
+            </div>
+            <div class="upload">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                    Upload
+                  </button>
+            </div>
+            <div class="Cancel">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                    Cancel
+                  </button>
+            </div>
+            <div class="save">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                    Save
+                  </button>
+            </div>
+            <div class="welcome">
+                <p class="text-center"style="color:blue;">
+                    Hey, there *Insert Name here* profile looking
+                    is looking spectacular!
+                </p>
+            </div> 
+        </div>
     </div>
+
 </body>
 </html>

@@ -1,0 +1,32 @@
+{% load static tailwind_tags %} {% tailwind_css %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Profile</title>
+</head>
+<body class="bg-blue-900">
+    <div
+        class="fixed top-32 right-5 w-72 h-36 bg-[#7dd3fc] rounded-full rotate-12 animate-blob animation-delay-1500"
+    ></div>
+    <div
+        class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"
+    ></div>
+    <div
+        class="flex container mx-auto my-auto w-screen h-screen items-center flex-col"
+    >
+        <img class="object-top h-72 w-72 rounded-full p-2" src="{% static 'login/profile.jpg' %}"
+         alt="profile_placeholder">
+        <h1 class="text-white text-4xl align-middle font-bold p-4">Hello, Tynan</h1>
+        <h2 class="text-white text-xl align-middle font-semibold p-4">Playlists</h2>
+        <!--on click, send to playlist.html-->
+        <button 
+            class="btn"
+            onclick="location.href = '../playlist/'"
+            >Playlist_Placeholder</button>
+        <h2 class="text-white text-xl align-middle font-semibold p-4">Friends List</h2>
+        <button 
+            class="btn"
+        >Friend_Placeholder</button>
+    </div>
+</body>
+</html>
