@@ -19,6 +19,7 @@ from django.urls import include, path
 
 from . import views
 from . import spotify_views
+from . import spotipy_test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,13 +27,15 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('judge/', views.judge, name='judge'),
     path('tutorial/', views.tutorial, name='tutorial'),
-    path('spotify/sign-in/', spotify_views.sign_in),
+    path('spotify/sign-in/', views.sign_in),
     path('judge/', views.judge, name='judge'),
     path('profile/', views.profile, name='profile'),
     path('playlist/', views.playlist, name='playlist'),
     path('judge/bar/', views.bar, name='bar'),
     path('judge/graph/', views.graph, name='graph'),
     path('artist/', views.artist, name='artist'),
+    path('test/', views.test, name='test'),
+    path('spotify-test/', spotipy_test.test, name='test'),
     # path('spotify/sign-in/', views.sign_in),
     # path('', include('login.urls')),
     # path('spotify/', include('spotify.urls')),
