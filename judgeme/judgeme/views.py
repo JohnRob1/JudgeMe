@@ -3,6 +3,7 @@ from pydoc import cli
 from typing import Dict
 from django.shortcuts import render, HttpResponseRedirect
 from . import spotify_views
+import pandas as pd
 
 
 import spotipy
@@ -75,23 +76,63 @@ def graph(request):
 
 
 def artist(request):
+    sp: spotipy.Spotify = get_spotify_object()
+    print(sp)
+
+
+
+    artist = '  '
+    if request.GET:
+        artist = request.GET.get('aname')
+        print(artist)
+        print('wowee')
+        if (artist == ''):
+            return render(request, 'artist.html')
+        if 'aname' in request.GET:
+            print("nice")
+    
+    
+    sp = spotipy.search(artist)
+    print(artist)
+
     return render(request, 'artist.html')
 
 def homepage(request):
     return render(request, 'homepage.html')
 
-def breakdown(request):
-    sp: spotipy.Spotify = get_spotify_object()
+def mainpage(request):
+    return render(request, 'mainpage.html')
 
-    ranges = ['short_term', 'medium_term', 'long_term']
+def breakdown(request):
+
+    sp: spotipy.Spotify = get_spotify_object()
+    print(sp)
+
+    # ranges = ['short_term', 'medium_term', 'long_term']
+    ranges = ['medium_term']
+    top_song_ids = []
+    all_artists = []
+    all_genres = []
 
     for sp_range in ranges:
         print("range:", sp_range)
         results = sp.current_user_top_tracks(time_range=sp_range, limit=50)
         for i, item in enumerate(results['items']):
-            print(i, item['name'], '//', item['artists'][0]['name'])
+            #print(i, item['name'], '//', item['artists'][0]['name'])
+            top_song_ids.append(item['id'])
+            all_artists.append(item['artists'][0]['name'])
+            album = sp.album(item["album"]["external_urls"]["spotify"])
+            all_genres.append(album["genres"])
+            print(album["genres"])
+            print()
         print()
+
     
+    print(all_artists)
+    print()
+    print(all_genres)
+    print()
+    print(top_song_ids)
     return render(request, 'breakdown.html')
 
 def test(request):
@@ -116,6 +157,7 @@ def test(request):
 
     user = sp.user("virtualkenny")
     pprint(user)
+    request.session['sp'] = sp
 
     # for key, value in track.items():
     #     print(key, ": ", value)
