@@ -3,7 +3,7 @@ from pydoc import cli
 from typing import Dict
 from django.shortcuts import render, HttpResponseRedirect
 from . import spotify_views
-import pandas as pd
+#import pandas as pd
 
 
 import spotipy
@@ -82,20 +82,35 @@ def artist(request):
 
 
     artist = '  '
-    if request.GET:
-        artist = request.GET.get('aname')
-        print(artist)
-        print('wowee')
-        if (artist == ''):
-            return render(request, 'artist.html')
-        if 'aname' in request.GET:
-            print("nice")
-    
-    
-    sp = spotipy.search(artist)
-    print(artist)
+    if 'aname' in request.POST:
+        artist = request.POST['aname']
+        if 'aname' in request.POST:
+            result = sp.search(q=artist, limit=1, type='artist')
+            for i,t in enumerate(result['artists']['items']):
+                name = t['name']
+                print(name)
+                artistId = t['id']
+                uri = t['uri']
 
-    return render(request, 'artist.html')
+                holder = []
+                top_tracks = sp.artist_top_tracks(uri)
+                for track in top_tracks['tracks'][:5]:
+                    print('track    : ' + track['name'])
+                    print()
+                    holder.append(track['name'])
+                
+                context = {
+                    'render_intro' : False,
+                    'top_tracks' : holder,
+                }
+                return render(request, 'artist.html', context)
+
+    context = {
+        'render_intro' : True,
+        'dontrun': True,
+    }
+
+    return render(request, 'artist.html', context)
 
 def homepage(request):
     return render(request, 'homepage.html')
