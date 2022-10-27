@@ -8,6 +8,7 @@ from . import spotify_views
 from django.template import Context, Template
 import random
 
+from django.contrib.auth.models import User
 
 import spotipy
 import os
@@ -183,6 +184,48 @@ def breakdown(request):
     print()
     print(top_song_ids)
     return render(request, 'breakdown.html')
+
+
+def base(request):
+    return render(request, 'base.html')
+
+
+def make_user(request):
+
+    os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
+    os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIPY_CLIENT_SECRET
+    os.environ['SPOTIPY_REDIRECT_URI'] = SPOTIPY_REDIRECT_URI
+
+    scope = "user-library-read user-top-read"
+
+    sp: spotipy.Spotify = spotipy.Spotify(
+        auth_manager=SpotifyOAuth(scope=scope))
+
+    sp_user = sp.me()
+    id = sp_user.get("id")
+    email = sp_user.get("email")
+    profile_picture = sp_user.get("images")[0]
+
+    # if request.user == None:
+    if True:
+        user = User.objects.create_user(id, email, 'password')
+        user.profile_picture = profile_picture
+        user.save()
+        pprint(user)
+
+    context = {}
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+
+    return render(request, 'friends.html', context)
+
+
+def friends(request):
+    context = {}
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+    return render(request, 'friends.html', context)
+    # return render(request, 'friend_listing.html')
 
 
 def test(request):
