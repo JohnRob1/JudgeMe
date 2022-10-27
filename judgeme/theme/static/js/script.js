@@ -29,18 +29,3 @@ function list_choices(buttonName, messageHtml, headingId, type) {
             break;
     }
 }
-function gif(mode, taste) {    
-    if (mode == 'light' && taste == 'bad') {
-        console.log("Light mode insult");
-        fs.readFile("../../static/light_mode_gifs/insults.txt", 'utf-8', (err, data) => {
-            if (err) throw err;
-            console.log(data.toString());
-
-            var fr=new FileReader();
-            fr.onload=function() {
-                document.getElementById('fvf').appendChild=fr.result;
-            }
-            fr.readAsText(this.files[0]);
-        });
-    }
-}
