@@ -99,12 +99,27 @@ def artist(request):
                     print()
                     holder.append(track['name'])
                 
+                
+                results = sp.artist_albums(uri, album_type='album')
+                albums = results['items']
+                while results['next']:
+                    results = spotify.next(results)
+                    albums.extend(results['items'])
+
+                album_titles = []
+
+                for album in albums:
+                    album_titles.append(album['name'])
+                
+                print(album_titles)
+
                 context = {
                     'render_intro' : False,
                     'top_tracks' : holder,
+                    'album_titles' : album_titles,
                 }
                 return render(request, 'artist.html', context)
-
+            return render(request, 'artist.html', {'error': True})
     context = {
         'render_intro' : True,
         'dontrun': True,

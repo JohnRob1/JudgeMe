@@ -10,8 +10,12 @@
             class="fixed bottom-32 right-5 w-72 h-36 -z-50 bg-[#2a3eab] rounded-full rotate-12 animate-blob animation-delay-1500"
         ></div>
         <div class="flex items-center justify-center h-screen">
-            <div class="flex space-y-8 w-96 items-center flex-col">
-                {% if dontrun %}
+            <div class="flex space-y-8 w-50% items-center flex-col">
+                {% if error %}
+                <p class="text-center opacity-0 animate-fadeIn animation-delay-800">
+                    We couldn't find any artist like that. Try again
+                </p>
+                {% elif dontrun %}
                 <p class="text-center opacity-0 animate-fadeIn animation-delay-1500">
                     Here you can learn more about your favorite artists
                 </p>
@@ -19,24 +23,37 @@
                     Lets explore any artists best songs, albums, and statistics
                 </p>
                 {% elif top_tracks %}
-                    <ul>
-                        {% for song in top_tracks %}
-                            <li>{{ song }}</li>
-                        {% endfor %}
-                    </ul>
+                <div class="grid grid-cols-2">
+                    <div>
+                    <table class="table-auto">
+                        <thead>
+                                <th>Top Songs</th>                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for song in top_tracks %}
+                                <tr><td>{{ song }}</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <table class="table-auto">
+                        <thead>
+                                <th>List of Albums</th>                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for album in album_titles %}
+                                <tr><td>{{ album }}</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                
                 {% endif %}
                 <div class="flex space-y-4 w-96 items-center flex-col">
                     <form method="POST">
                         {% csrf_token %} 
-                        {% comment %} <label for="aname"><b>Enter Artist Name</b></label> {% endcomment %}
-                        {% comment %} <input type="text" class="rounded-full w-96 items-center" placeholder="Enter Artist" name="aname" required>
-            
-                        <button
-                            type="submit"
-                            class="btn opacity-0 animate-fadeIn animation-delay-100 justify-center"
-                        >
-                            Cool, show me this artist
-                        </button>  {% endcomment %}
                         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
                             <div class="relative">
                                 <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
