@@ -2,10 +2,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-class User(AbstractUser):
+class JMUser(AbstractUser):
     # username = models.CharField(max_length=256)
+    email = None
+    REQUIRED_FIELDS = ["username"]
+
     # password = models.CharField(max_length=256)
     profile_picture = models.CharField(max_length=256)
+    top_songs = models.ManyToManyField("Track", blank=True)
 
     friends = models.ManyToManyField("User", blank=True)
 
