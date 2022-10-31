@@ -14,19 +14,20 @@
         width: 600px;
         height: 600px;
         border: 2px solid green;   
-        border-radius: 5px;
+        border-radius: 40px;
         background-color: black;
         margin-top:  50px;
         overflow: hidden;
         transition: 00.3s;
     }
-    /*
-    .box:hover{
-        width: 600px;
-        height: 600px;
-    } */
+    
+ 
     .imgbx{
         position: relative;
+        border: 1px solid red;
+        background-color: white;
+        background-size: 140px  140px;
+        background-repeat: no-repeat;
         right: 200px;
         top: 10px;
         width: 150px;
@@ -43,6 +44,12 @@
         border: 5px solid green;
         padding: 3px;
         background-color: white;
+    } 
+    .upload{
+        position: relative;
+        width: 20%;
+        Top: 20px;
+        right: 203px;
     }
     .text{
         display: block;
@@ -67,50 +74,26 @@
     input[type="file"]{
         display: none;
     }
-    /*
-    .imgbx label{
-        box-sizing: border-box;
-        right: 100px;
-        font-size: 20px;
-        background-color: black;
-        color: white;
-        border: 1px solid green;
-        padding: 2px 15px;
-        border-radius: 5px;
-        transition: all 0.3s;
-    } */
-    /*
-    label:hover{
-        background-color: green;
-        color: black;
+    label{
+        height: 100px;
+        margin-top: 300px;
 
-    }*/
- 
-
-    /*
-    input[type="text"]:focus,
-    input[type="email"]:focus{
-        border-bottom: px solid green;
-        color: green;
-    } */
-
-
-
+    }
 
 
 </style>
 <!--Figure this out: Some colors work like the ones that have been used and others don't work. Why is that?-->
-<body class="bg-yellow-400">
-    <!-- 
+<body class="bg-blue-700" style="background-color: #1e3a8a;">
     <div class="fixed top-32 right-5 w-72 h-36 bg-[#7dd3fc] rounded-full rotate-12 animate-blob animation-delay-1500"></div>
-    <div class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"></div> -->
+    <div class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"></div>
     <center>
-        <div class="box">
+        <div class="box" id="boxid">
             <!-- figure out how to get the chosen file to populate the template-->
             <div class="imgbx" id="imgid">
-                <img src="{% static '/icons/ProfilePic.png' %}" class="src" id="profid"></image>
-                <input type="file" id ="image_input", accept="image/png, image/jpg">
-                <label class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" for="image_input">EDIT PIC</label>
+                <input type="file" id ="image-input", accept="image/png, image/jpg">
+            </div>
+            <div class="upload">
+                <label class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" for="image-input">EDIT PIC</label>
             </div>
             <div class="text">
                 <div class="center">
@@ -129,17 +112,21 @@
                 </button>
             </div>
         </div>
-
     </center>
     <script>
-        const image_input = document.querySelector('#image_input');
+
+        const image_input = document.querySelector("#image-input");
         var uploaded_image = "";
-        
+
         image_input.addEventListener("change", function() {
-            console.log(image_input.value);
-        })
-
-
+            const reader = new FileReader();
+            reader.addEventListener("load", ()=> {
+                const uploaded_image = reader.result;
+                let image = document.querySelector("#imgid").style.backgroundImage = `url(${uploaded_image})`;
+            });
+            reader.readAsDataURL(this.files[0]);
+        });
+        
         function profile() {
             location.href='../profile'
         }
@@ -149,8 +136,11 @@
             localStorage.setItem("textvalue", vibes);
             var about=document.getElementById("input").value;
             localStorage.setItem("aboutvalue", about);
+            var image=document.getElementById("imgid").value;
+            localStorage.setItem("imgvalue", image);
             return false;
         }
+
         var textarea = document.getElementById('textarea')
         var counter = document.getElementById("counter")
         var name = document.getElementById('name')

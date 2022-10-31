@@ -41,7 +41,6 @@
     <label class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" for="image-input">EDIT PIC</label>
     <div id="display-image"></div>
     <script>
-       
         const image_input = document.querySelector("#image-input");
         image_input.addEventListener("change", function() {
         const reader = new FileReader();
@@ -52,7 +51,6 @@
         reader.readAsDataURL(this.files[0]);
         });
         
-
     </script>
 
 </body>

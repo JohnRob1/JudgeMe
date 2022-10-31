@@ -14,7 +14,7 @@
         width: 600px;
         height: 600px;
         border: 2px solid green;   
-        border-radius: 5px;
+        border-radius: 40px;
         background-color: black;
         margin-top:  50px;
         overflow: hidden;
@@ -27,6 +27,7 @@
     } */
     .imgbx{
         position: relative;
+        background-color: white;
         right: 200px;
         top: 10px;
         width: 150px;
@@ -73,24 +74,6 @@
         border: none;
         border-bottom: 1px solid #0082e6;
     }
-    /*
-    .imgbx label{
-        box-sizing: border-box;
-        right: 100px;
-        font-size: 20px;
-        background-color: black;
-        color: white;
-        border: 1px solid green;
-        padding: 2px 15px;
-        border-radius: 5px;
-        transition: all 0.3s;
-    } */
-    /*
-    label:hover{
-        background-color: green;
-        color: black;
-
-    }*/
     .welcome{
         position: relative;
         left: 50px;
@@ -115,15 +98,14 @@
 
 </style>
 <!--Figure this out: Some colors work like the ones that have been used and others don't work. Why is that?-->
-<body class="bg-yellow-400">
-    <!-- 
+<body class="bg-blue-600" style="background-color: #1e3a8a;" >
     <div class="fixed top-32 right-5 w-72 h-36 bg-[#7dd3fc] rounded-full rotate-12 animate-blob animation-delay-1500"></div>
-    <div class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"></div> -->
+    <div class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"></div>
     <center>
         <div class="box">
             <!-- figure out how to get the chosen file to populate the template-->
-            <div class="imgbx">
-                <img src="{% static '/icons/ProfilePic.png' %}" class="src"></image>
+            <div class="imgbx" id="imgid">
+                <img src="{% static '/icons/ProfilePic.png' %}" class="src">
             </div>
             <div class="welcome">
                 <p class="text-center"style="color:white;">
