@@ -29,7 +29,7 @@ function list_choices(buttonName, messageHtml, headingId, type) {
             break;
     }
 }
-function gif(mode, taste) {    
+function gif(mode, taste) {
     if (mode == 'light' && taste == 'bad') {
         console.log("Light mode insult");
         fs.readFile("../../static/light_mode_gifs/insults.txt", 'utf-8', (err, data) => {
