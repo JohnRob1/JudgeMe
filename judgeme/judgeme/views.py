@@ -80,6 +80,12 @@ def artist(request):
 def homepage(request):
     return render(request, 'homepage.html')
 
+def profiledit(request):
+    return render(request, 'profiledit.html')
+
+def temp(request):
+    return render(request, 'temp.html')
+
 
 def test(request):
     os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID

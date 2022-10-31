@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>document</title>
+</head>
+<style>
+    body{
+        background-color: #222;
+        color: #fff;
+    }
+    .title{
+        color: #c1ffad;
+        margin-bottom: 10px;
+    }
+    .description{
+        font-style: italic;
+        text-decoration: underline;
+    }
+    .name{
+        color: white;
+    }
+    #display-image{
+        width: 400px;
+        height: 225px;
+        border: 1px solid black;
+        background-position: center;
+        background-size: cover;
+    }
+</style>
+<body>
+    <h1 class="title">Chase Page</h1>
+    <p class="description"> 
+        This page is all about Chase.
+    </p>
+    <div class="center">
+        <textarea name="textarea" maxlength="250" style="resize: none;" id="input" cols="30" rows="10" placeholder="About me..."></textarea>
+        <p id="counter">Character Limit: 0/250</p>
+        <p id="name"></p>
+    </div>
+    <input onlick="EditImage()" type="file" id="image-input" accept="image/jpeg, image/png, image/jpg">
+    <label class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" for="image-input">EDIT PIC</label>
+    <div id="display-image"></div>
+    <script>
+       
+        const image_input = document.querySelector("#image-input");
+        image_input.addEventListener("change", function() {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            const uploaded_image = reader.result;
+            document.querySelector("#display-image").style.backgroundImage = `url(${uploaded_image})`;
+        });
+        reader.readAsDataURL(this.files[0]);
+        });
+        
+
+    </script>
+
+</body>
+</html>

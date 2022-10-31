@@ -73,9 +73,6 @@
         border: none;
         border-bottom: 1px solid #0082e6;
     }
-    input[type="file"]{
-        display: none;
-    }
     /*
     .imgbx label{
         box-sizing: border-box;
@@ -100,22 +97,25 @@
         bottom: 100px;
         width: 300px;
     }
- 
-
-    /*
-    input[type="text"]:focus,
-    input[type="email"]:focus{
-        border-bottom: px solid green;
-        color: green;
-    } */
-
-
-
+    .textdisplay{
+        background-color: white;
+        margin-top: 50px;
+        height: 200px;
+        width: 100%;
+        border-radius: 15px;
+    }
+    .vibes{
+        background-color: white;
+        height: 50px;
+        margin-top: 70px;
+        margin-bottom: 40px;
+        border-radius: 15px;
+    }
 
 
 </style>
 <!--Figure this out: Some colors work like the ones that have been used and others don't work. Why is that?-->
-<body class="bg-blue-900">
+<body class="bg-yellow-400">
     <!-- 
     <div class="fixed top-32 right-5 w-72 h-36 bg-[#7dd3fc] rounded-full rotate-12 animate-blob animation-delay-1500"></div>
     <div class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"></div> -->
@@ -124,27 +124,30 @@
             <!-- figure out how to get the chosen file to populate the template-->
             <div class="imgbx">
                 <img src="{% static '/icons/ProfilePic.png' %}" class="src"></image>
-                <input type="file" name="'" id ="file", accept="image/*">
-                <label class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" for="file">EDIT PIC</label>
             </div>
             <div class="welcome">
                 <p class="text-center"style="color:white;">
                     Hey, there *Insert Name here* profile looking
                     is looking spectacular!
                 </p>
-            </div> 
-            <div class="text">
-                <input type="about" name="" placeholder="About Me">
-                <input type="vibes" name="" placeholder="My Vibes">
+            <div>
+                <div class="textdisplay">
+                    <p class="about" id="aboutid" style="color: black;"></p>
+                </div>
+            <div class="vibes">
+                <p class="display" id="result" style="color: black;"></p>
             </div>
-            <button style="float: left; margin: 10px 0 0 10%;" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                Cancel
+            <button onclick="location.href = '../homepage'" style="float: left; margin: 10px 0 0 10%;" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                Home
             </button>
-            <button style="float: right; margin: 10px 10% 0 0;"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                Save
+            <button onclick="location.href = '../profiledit'" style="float: right; margin: 10px 10% 0 0;"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                EDIT
             </button>
-        </div>
     </center>
+    <Script>
+        document.getElementById("result").innerHTML=localStorage.getItem("textvalue");
+        document.getElementById("aboutid").innerHTML=localStorage.getItem("aboutvalue");
+    </SCript>
 
 </body>
 </html>
