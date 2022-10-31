@@ -1,10 +1,16 @@
 from pprint import pprint
 from pydoc import cli
 from typing import Dict
+from urllib.request import HTTPRedirectHandler
 from django.shortcuts import render, HttpResponseRedirect
+from django.contrib.auth import authenticate, login
+from django.core.exceptions import ObjectDoesNotExist
+from django.urls import is_valid_path
 from . import spotify_views
+from .forms import AddFriend
 
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from .models import JMUser
 
 import spotipy
 import os
@@ -83,7 +89,7 @@ def base(request):
     return render(request, 'base.html')
 
 
-def make_user(request):
+def login_user(request):
 
     os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
     os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIPY_CLIENT_SECRET
@@ -95,22 +101,44 @@ def make_user(request):
         auth_manager=SpotifyOAuth(scope=scope))
 
     sp_user = sp.me()
-    id = sp_user.get("id")
-    email = sp_user.get("email")
-    profile_picture = sp_user.get("images")[0]
+    sp_id = sp_user.get("id")
+    sp_email = sp_user.get("email")
+    sp_profile_picture = sp_user.get("images")[0].get("url")
 
-    # if request.user == None:
-    if True:
-        user = User.objects.create_user(id, email, 'password')
-        user.profile_picture = profile_picture
+    user = None
+    try:
+        user = JMUser.objects.get(username=sp_id)
+    except ObjectDoesNotExist:
+        user = JMUser.objects.create_user(sp_id, sp_email, 'password')
+        user.profile_picture = sp_profile_picture
         user.save()
-        pprint(user)
+        print("user created.")
+
+    login(request, user)
 
     context = {}
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
 
+    # return HttpResponseRedirect('/home/')
     return render(request, 'friends.html', context)
+
+
+def update_top_tracks():
+
+    pass
+
+
+def find_friend(request):
+    if request.method == 'POST':
+        form = AddFriend(request.POST)
+        if form.is_valid():
+
+            return HttpResponseRedirect('/friends/')
+    else:
+        form = AddFriend()
+
+    return render(request, 'friends.html', {'form': form})
 
 
 def friends(request):

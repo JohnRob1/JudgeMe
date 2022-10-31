@@ -768,6 +768,11 @@ html{
 .h-36{
   height: 9rem;
 }
+.h-min{
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+}
 .h-24{
   height: 6rem;
 }
@@ -776,11 +781,6 @@ html{
 }
 .h-0{
   height: 0px;
-}
-.h-min{
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
 }
 .max-h-20{
   max-height: 5rem;
@@ -1019,6 +1019,10 @@ html{
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
+.bg-slate-700{
+  --tw-bg-opacity: 1;
+  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
+}
 .bg-gray-200{
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
@@ -1062,14 +1066,6 @@ html{
 .bg-\[\#8e3d81\]{
   --tw-bg-opacity: 1;
   background-color: rgb(142 61 129 / var(--tw-bg-opacity));
-}
-.bg-cyan-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(207 250 254 / var(--tw-bg-opacity));
-}
-.bg-slate-700{
-  --tw-bg-opacity: 1;
-  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
 }
 .object-top{
   -o-object-position: top;
@@ -1153,11 +1149,11 @@ html{
 .font-medium{
   font-weight: 500;
 }
-.font-light{
-  font-weight: 300;
-}
 .font-semibold{
   font-weight: 600;
+}
+.font-light{
+  font-weight: 300;
 }
 .text-gray-600{
   --tw-text-opacity: 1;
