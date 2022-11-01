@@ -10,33 +10,62 @@
             class="fixed bottom-32 right-5 w-72 h-36 -z-50 bg-[#2a3eab] rounded-full rotate-12 animate-blob animation-delay-1500"
         ></div>
         <div class="flex items-center justify-center h-screen">
-            <div class="flex space-y-8 w-96 items-center flex-col">
-                <p
-                    class="text-center opacity-0 animate-fadeIn animation-delay-1500"
-                >
+            <div class="flex space-y-8 w-50% items-center flex-col">
+                {% if error %}
+                <p class="text-center opacity-0 animate-fadeIn animation-delay-800">
+                    We couldn't find any artist like that. Try again
+                </p>
+                {% elif dontrun %}
+                <p class="text-center opacity-0 animate-fadeIn animation-delay-1500">
                     Here you can learn more about your favorite artists
                 </p>
-                <p
-                    class="text-center opacity-0 animate-fadeIn animation-delay-3000"
-                >
-                    Lets explore any artists best songs, location, and albums
+                <p class="text-center opacity-0 animate-fadeIn animation-delay-3000">
+                    Lets explore any artists best songs, albums, and statistics
                 </p>
-                <div class="flex space-y-8 w-96 items-center flex-col">
-                    {% comment %} <form method="post">
-                        {% csrf_token %} {% endcomment %}
-                        {% comment %} <label for="aname"><b>Enter Artist Name</b></label> {% endcomment %}
-                        <input type="text" class="rounded-full w-96" placeholder="Enter Artist" name="aname" required>
-            
-                        <button
-                            type="submit"
-                            class="btn opacity-0 animate-fadeIn animation-delay-100"
-                        >
-                            Cool, show me this artist
-                        </button>                
-                    {% comment %} </form> {% endcomment %}
+                {% elif top_tracks %}
+                <div class="grid grid-cols-2">
+                    <div>
+                    <table class="table-auto">
+                        <thead>
+                                <th>Top Songs</th>                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for song in top_tracks %}
+                                <tr><td>{{ song }}</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <table class="table-auto">
+                        <thead>
+                                <th>List of Albums</th>                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for album in album_titles %}
+                                <tr><td>{{ album }}</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                
+                {% endif %}
+                <div class="flex space-y-4 w-96 items-center flex-col">
+                    <form method="POST">
+                        {% csrf_token %} 
+                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
+                            <div class="relative">
+                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                 </div>
+                                <input type="search" name='aname' id="aname" class="block p-4 pl-10 w-96 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Artist" required>
+                                <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                             </div>               
+                    </form> 
                 </div>
                 {% comment %} <a href="/tutorial/?1">
-                    <button
+                    <button>
                         type="submit"
                         class="btn opacity-0 animate-fadeIn animation-delay-5000"
                     >
