@@ -27,6 +27,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('judge/', views.judge, name='judge'),
     path('tutorial/', views.tutorial, name='tutorial'),
+    path('spotify/sign-in/', views.sign_in, name='sign-in'),
     path('login/', views.login_user, name='login'),
     path('judge/', views.judge, name='judge'),
     path('judge/result/', views.result, name='result'),
