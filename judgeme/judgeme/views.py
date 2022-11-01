@@ -152,6 +152,38 @@ def artist(request):
 
     return render(request, 'artist.html', context)
 
+def breakdown(request):
+
+    sp: spotipy.Spotify = get_spotify_object()
+    print(sp)
+
+    # ranges = ['short_term', 'medium_term', 'long_term']
+    ranges = ['medium_term']
+    top_song_ids = []
+    all_artists = []
+    all_genres = []
+
+    for sp_range in ranges:
+        print("range:", sp_range)
+        results = sp.current_user_top_tracks(time_range=sp_range, limit=50)
+        for i, item in enumerate(results['items']):
+            #print(i, item['name'], '//', item['artists'][0]['name'])
+            top_song_ids.append(item['id'])
+            all_artists.append(item['artists'][0]['name'])
+            album = sp.album(item["album"]["external_urls"]["spotify"])
+            all_genres.append(album["genres"])
+            print(album["genres"])
+            print()
+        print()
+
+    
+    print(all_artists)
+    print()
+    print(all_genres)
+    print()
+    print(top_song_ids)
+    return render(request, 'breakdown.html')
+
 
 def test(request):
     os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
