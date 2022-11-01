@@ -7,7 +7,6 @@ from django.contrib.auth import authenticate, login
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
 from . import spotify_views
-from .forms import AddFriend
 
 # from django.contrib.auth.models import User
 from .models import JMUser

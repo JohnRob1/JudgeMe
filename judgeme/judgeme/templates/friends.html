@@ -1,16 +1,20 @@
-{% load static tailwind_tags %} {% tailwind_css %}
+{% extends "base.html" %}
 
 <!DOCTYPE html>
 
-<head>
-    <div class="bg-black">
+<html>
+    {% block content %}
+    <div
+        class="absolute m-auto left-0 right-0 top-0 bottom-0 text-center backdrop-blur-sm"
+    >
         <div
-            class="w-96 h-min bg-slate-700 p-4 flex flex-col items-center text-white text-center text-xl space-y-2"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/30 backdrop-blur-sm rounded-lg px-4 py-8"
         >
             <p class="title">Ur Friends</p>
             {% if user %} {% if friends %} {% for friend in friends %}
+            <!-- Friend Listing -->
             <div
-                class="relative flex flex-row w-80 h-16 p-2 rounded-lg bg-slate-500 border-0 space-x-2 hover:bg-slate-600"
+                class="relative flex flex-row w-80 h-16 p-2 my-1 rounded-lg bg-slate-500 border-0 space-x-2 hover:bg-slate-600"
             >
                 <button type="button">
                     <img
@@ -48,6 +52,7 @@
                     {% endcomment %}
                 </div>
             </div>
+            <!-- Friend Listing end -->
             {% endfor %} {% else %}
             <p class="text-sm text-slate-300">You don't have any friends lol</p>
             {% endif %} {% endif %}
@@ -102,4 +107,8 @@
             <button type="submit" class="btn bg-gray-200">Close</button>
         </div>
     </div>
-</head>
+    <div>
+        <p>uh oh! other stuff!</p>
+    </div>
+    {% endblock %}
+</html>
