@@ -60,10 +60,14 @@ def tutorial(request):
 def judge(request):
     return render(request, "judge.html")
 
-def gif(request):
+def result(request):
+
+    # Implement Comparison Algorithm
+    
+
     f = open('theme/static/light_mode_gifs/insults.txt', 'r')
     lines = f.readlines()
-    r = random.randint(0, len(lines) - 1) 
+    r = random.randint(0, len(lines) - 1)
     return HttpResponse(lines[r])
 
 def profile(request):
