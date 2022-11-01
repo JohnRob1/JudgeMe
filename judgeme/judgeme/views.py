@@ -61,10 +61,14 @@ def judge(request):
     return render(request, "judge.html")
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def result(request):
 =======
 def gif(request):
 >>>>>>> faf81867 (got 3/4 acceptance criteria for gif user story)
+=======
+def result(request):
+>>>>>>> f55929dd (fixed some styling)
     f = open('theme/static/light_mode_gifs/insults.txt', 'r')
     lines = f.readlines()
     r = random.randint(0, len(lines) - 1) 
