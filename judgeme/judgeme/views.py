@@ -2,7 +2,7 @@ from multiprocessing import context
 from pprint import pprint
 from pydoc import cli
 from typing import Dict
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.core.files import File
 from . import spotify_views
 import random
@@ -60,18 +60,14 @@ def tutorial(request):
 def judge(request):
     return render(request, "judge.html")
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 def result(request):
-=======
-def gif(request):
->>>>>>> faf81867 (got 3/4 acceptance criteria for gif user story)
-=======
-def result(request):
->>>>>>> f55929dd (fixed some styling)
+
+    # Implement Comparison Algorithm
+    
+
     f = open('theme/static/light_mode_gifs/insults.txt', 'r')
     lines = f.readlines()
-    r = random.randint(0, len(lines) - 1) 
+    r = random.randint(0, len(lines) - 1)
     return HttpResponse(lines[r])
 
 def profile(request):
