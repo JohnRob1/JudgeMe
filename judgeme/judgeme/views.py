@@ -61,10 +61,17 @@ def judge(request):
     return render(request, "judge.html")
 
 def result(request):
+    os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
+    os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIPY_CLIENT_SECRET
+    os.environ['SPOTIPY_REDIRECT_URI'] = SPOTIPY_REDIRECT_URI
 
+    scope = "user-library-read user-top-read"
+
+    sp: spotipy.Spotify = spotipy.Spotify(
+        auth_manager=SpotifyOAuth(scope=scope))
     # Implement Comparison Algorithm
+    sp.current_user_top_tracks(100, 0, "medium_term")
     
-
     f = open('theme/static/light_mode_gifs/insults.txt', 'r')
     lines = f.readlines()
     r = random.randint(0, len(lines) - 1)
