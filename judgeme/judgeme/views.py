@@ -75,7 +75,54 @@ def graph(request):
 
 
 def artist(request):
-    return render(request, 'artist.html')
+    sp: spotipy.Spotify = get_spotify_object()
+    print(sp)
+
+    artist = '  '
+    if 'aname' in request.POST:
+        artist = request.POST['aname']
+        if 'aname' in request.POST:
+            result = sp.search(q=artist, limit=1, type='artist')
+            for i,t in enumerate(result['artists']['items']):
+                name = t['name']
+                print(name)
+                artistId = t['id']
+                uri = t['uri']
+
+                holder = []
+                top_tracks = sp.artist_top_tracks(uri)
+                for track in top_tracks['tracks'][:5]:
+                    print('track    : ' + track['name'])
+                    print()
+                    holder.append(track['name'])
+                
+                
+                results = sp.artist_albums(uri, album_type='album')
+                albums = results['items']
+                while results['next']:
+                    results = spotify.next(results)
+                    albums.extend(results['items'])
+
+                album_titles = []
+
+                for album in albums:
+                    album_titles.append(album['name'])
+                
+                print(album_titles)
+
+                context = {
+                    'render_intro' : False,
+                    'top_tracks' : holder,
+                    'album_titles' : album_titles,
+                }
+                return render(request, 'artist.html', context)
+            return render(request, 'artist.html', {'error': True})
+    context = {
+        'render_intro' : True,
+        'dontrun': True,
+    }
+
+    return render(request, 'artist.html', context)
 
 
 def test(request):
