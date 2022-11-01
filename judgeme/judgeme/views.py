@@ -79,8 +79,6 @@ def artist(request):
     sp: spotipy.Spotify = get_spotify_object()
     print(sp)
 
-
-
     artist = '  '
     if 'aname' in request.POST:
         artist = request.POST['aname']
