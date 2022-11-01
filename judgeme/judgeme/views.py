@@ -145,6 +145,30 @@ def friends(request):
     context = {}
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
+
+    if 'add-friend' in request.GET:
+        username = request.GET['add-friend']
+        print("trying to add:", username)
+
+        try:
+
+            user = JMUser.objects.get(username=username)
+            request.user.friends.add(user)
+            print("friend added.")
+        except ObjectDoesNotExist:
+            print("doesn't exist!!")
+            pass
+
+    if 'remove-friend' in request.GET:
+        username = request.GET['remove-friend']
+        print("trying to remove:", username)
+        try:
+            user = JMUser.objects.get(username=username)
+            request.user.friends.remove(user)
+            print("friend removed.")
+        except ObjectDoesNotExist:
+            print("doesn't exist!!")
+
     return render(request, 'friends.html', context)
     # return render(request, 'friend_listing.html')
 

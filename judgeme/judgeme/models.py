@@ -10,6 +10,7 @@ class JMUser(AbstractUser):
 
     # password = models.CharField(max_length=256)
     profile_picture = models.CharField(max_length=256)
+
     top_songs = models.ManyToManyField("Track", blank=True)
 
     friends = models.ManyToManyField("JMUser", blank=True)
@@ -51,7 +52,7 @@ class Album(models.Model):
 
 
 class Track(models.Model):
-    uri = models.CharField(max_length = 512)
+    uri = models.CharField(max_length=512)
     # artist = models.ForeignKey(
     #     Artist, on_delete=models.CASCADE, related_name='tracks')
     # album = models.ForeignKey(
