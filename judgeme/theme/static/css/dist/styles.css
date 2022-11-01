@@ -721,23 +721,8 @@ html{
 .right-8{
   right: 2rem;
 }
-.top-16{
-  top: 4rem;
-}
-.top-48{
-  top: 12rem;
-}
 .-z-50{
   z-index: -50;
-}
-.z-0{
-  z-index: 0;
-}
-.z-10{
-  z-index: 10;
-}
-.z-20{
-  z-index: 20;
 }
 .m-4{
   margin: 1rem;
@@ -835,9 +820,6 @@ html{
 }
 .max-w-md{
   max-width: 28rem;
-}
-.max-w-7xl{
-  max-width: 80rem;
 }
 .grow{
   flex-grow: 1;
@@ -1098,10 +1080,6 @@ html{
   padding-left: 1.25rem;
   padding-right: 1.25rem;
 }
-.px-4{
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
 .pl-20{
   padding-left: 5rem;
 }
@@ -1177,10 +1155,6 @@ html{
 .text-green-300{
   --tw-text-opacity: 1;
   color: rgb(134 239 172 / var(--tw-text-opacity));
-}
-.text-indigo-600{
-  --tw-text-opacity: 1;
-  color: rgb(79 70 229 / var(--tw-text-opacity));
 }
 .opacity-0{
   opacity: 0;
@@ -1265,24 +1239,8 @@ html{
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
-@media (min-width: 640px){
-  .sm\:px-6{
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-}
 @media (min-width: 768px){
   .md\:w-1\/2{
     width: 50%;
-  }
-}
-@media (min-width: 1024px){
-  .lg\:px-8{
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-
-  .lg\:text-center{
-    text-align: center;
   }
 }
