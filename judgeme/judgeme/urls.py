@@ -29,7 +29,7 @@ urlpatterns = [
     path('tutorial/', views.tutorial, name='tutorial'),
     path('spotify/sign-in/', views.sign_in),
     path('judge/', views.judge, name='judge'),
-    path('judge/gif/', views.gif, name='gif'),
+    path('judge/result/', views.result, name='result'),
     path('profile/', views.profile, name='profile'),
     path('playlist/', views.playlist, name='playlist'),
     path('judge/bar/', views.bar, name='bar'),

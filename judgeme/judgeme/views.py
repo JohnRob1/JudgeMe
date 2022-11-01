@@ -60,7 +60,7 @@ def tutorial(request):
 def judge(request):
     return render(request, "judge.html")
 
-def gif(request):
+def result(request):
     f = open('theme/static/light_mode_gifs/insults.txt', 'r')
     lines = f.readlines()
     r = random.randint(0, len(lines) - 1) 
