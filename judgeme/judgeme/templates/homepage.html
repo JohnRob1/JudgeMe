@@ -1,13 +1,174 @@
 {% load static tailwind_tags %} {% tailwind_css %}
 <!DOCTYPE html>
 <html>
+
+<style>
+
+
+    .nav{
+        display: flex;
+        position: absolute;
+        /*background-color: white;*/
+        color: black;
+        /*outline: 5px solid red; */
+        left: 10px;
+        width: 99%;
+        height: 250px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+    .prof-container{
+        display: block;
+        position: relative;
+        align-items: center;
+        /*outline: 3px solid green; */
+        margin-top: 10px;
+        height: 200px;
+        left: 20px;
+        width: 220px;
+    }
+    .imgbox{
+        position: relative;
+        /*outline: 3px solid black;*/
+        height: 140px;
+        width: 140px;
+        left: 50px;
+        top: 10px;
+        border-radius: 70px;
+    }
+    #btnid{
+        position: relative;
+        margin-top: 20px;
+        bottom: 5px;
+        left: 68px;
+        width: 100px;
+    }
+    .info{
+        display: flex;
+        /*outline: 3px solid purple;*/
+        position: absolute;
+        justify-content: space-around;
+        left: 300px;
+        height: 250px;
+        width: 80%;
+    }
+    .friends{
+        display: block;
+        text-align: center;
+        justify-content: space-around;
+        color: white;
+        /*outline: 3px solid brown;*/
+        width: 30%;
+        font-size: 30px;
+        margin-block: 10px;
+        padding: 20px;
+
+    }
+    .playlist{
+        display: block;
+        text-align: center;
+        justify-content: space-around;
+        color: white;
+        /*outline: 3px solid brown;*/
+        padding: 20px;
+        margin-block: 10px;
+        width: 30%;
+        font-size: 30px;
+        width: 30%;
+        font-size: 30px;
+    }
+    .numfriends{
+        margin-top: 40px;
+        background-color: black;
+        border-radius: 40px;
+        color: white;
+    }
+    .btn-container{
+        display: flex; 
+        position: absolute;
+        justify-content: space-around; 
+        align-items: center; 
+        /*outline: 3px solid pink; */
+        top: 260px;
+        width: 90%;
+        margin: 50px;
+        height: 200px;
+    }
+
+</style>
+
 <body class="bg-[#322c3d]">
+    
+    <div class="fixed bottom-32 w-72 h-72 bg-[#8e3d81] rounded-full animate-blob"></div>
+    <div class="fixed bottom-32 right-5 w-72 h-36 bg-[#8e3d81] rounded-full rotate-12 animate-blob animation-delay-1500"></div> 
+    <div class="nav">
+        <div class="prof-container">
+            <div class="imgbox">
+                <img src="{% static '/icons/ProfilePic.png' %}" class="src">
+            </div>
+            <button onclick="location.href = '../profile/'" id="btnid" class="btn opacity-0 animate-fadeIn animation-delay-2000">View</button>
+        </div>
+        <div class="info">
+            <div class="friends">
+                <p class="one">Your Friends Count</p>
+                <p class="numfriends"> 100 </p>
+            </div>
+            <div class="playlist">
+                <div class="two">Your Playlist Count</div>
+                <p class="numfriends"> 100 </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="btn-container">
+        <div class="compare-container">
+            <button type="submit" class="btn opacity-0 animate-fadeIn animation-delay-2000">
+            Lets go make a comparison.
+            </button>
+        </div>
+        <div class="generate-container">
+            <button type="submit" class="btn opacity-0 animate-fadeIn animation-delay-2000">
+            Click me if you wanna generate some tunes.
+            </button>
+        </div>
+    </div>
+    
+
+    <div class="graph-container">
+
+    </div>
+
+    <header class="fixed bottom-0 px-6 py-4">
+        <div class="flex-col">
+            <a href="../">
+                <p class="text-4xl title">JudgeMe</p>
+            </a>
+
+            <div class="flex space-x-2">
+                <button onclick="location.href = '../about/'">about</button>
+                <!-- <p>terms</p> -->
+            </div>
+        </div>
+    </header>
+</body>
+</html>
+
+
+
+  <!--   
+    
+        <header class="fixed bottom-0 px-6 py-4">
+        <div class="logo">
+            <img src="../Logo White.png" alt="">
+        </div>
+    </header>
+
     <div
         class="fixed top-64 w-72 h-72 bg-[#8e3d81] rounded-full animate-blob"
     ></div>
     <div
         class="fixed bottom-32 right-5 w-72 h-36 bg-[#8e3d81] rounded-full rotate-12 animate-blob animation-delay-1500"
-    ></div>
+    ></div> 
     <div class="selection">
         <div class="relative">
             <div class="absolute left-0 px-6 py-14">
@@ -41,11 +202,4 @@
                 </button>
             </div>
         </div>
-    </div>
-    <header class="fixed bottom-0 px-6 py-4">
-        <div class="logo">
-            <img src="../Logo White.png" alt="">
-        </div>
-    </header>
-</body>
-</html>
+    </div> -->
