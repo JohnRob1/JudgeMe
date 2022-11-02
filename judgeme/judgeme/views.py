@@ -5,6 +5,7 @@ from typing import Dict
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.core.files import File
 from . import spotify_views
+from django.template import Context, Template
 import random
 
 
@@ -61,14 +62,28 @@ def judge(request):
     return render(request, "judge.html")
 
 def result(request):
-
     # Implement Comparison Algorithm
-    
+    # os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
+    # os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIPY_CLIENT_SECRET
+    # os.environ['SPOTIPY_REDIRECT_URI'] = SPOTIPY_REDIRECT_URI
+
+    # scope = "user-library-read user-top-read"
+
+    # sp: spotipy.Spotify = spotipy.Spotify(
+    #     auth_manager=SpotifyOAuth(scope=scope))
+
+    # topHunna = sp.current_user_top_tracks(100, 0, "medium_term")
+    # for track in topHunna['items']:
+    #     print(track)
 
     f = open('theme/static/light_mode_gifs/insults.txt', 'r')
     lines = f.readlines()
     r = random.randint(0, len(lines) - 1)
-    return HttpResponse(lines[r])
+
+    context = {
+        'gif' : lines[r].format,
+    }
+    return render(request, 'result.html', context)
 
 def profile(request):
     return render(request, 'profile.html')
