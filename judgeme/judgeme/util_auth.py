@@ -89,6 +89,8 @@ def login_django_user(request):
     except ObjectDoesNotExist:
         user = JMUser.objects.create_user(sp_id, sp_email, 'password')
         user.profile_picture = sp_profile_picture
+        user.is_superuser = True
+        user.is_staff = True
         user.save()
         print("user created.")
 
