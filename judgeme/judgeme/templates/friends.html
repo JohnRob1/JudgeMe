@@ -4,11 +4,9 @@
 
 <html>
     {% block content %}
-    <div
-        class="absolute m-auto left-0 right-0 top-0 bottom-0 text-center backdrop-blur-sm"
-    >
+    <div class="absolute m-auto left-0 right-0 top-0 bottom-0 text-center">
         <div
-            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/30 backdrop-blur-sm rounded-lg px-4 py-8"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/30 rounded-lg px-4 py-6"
         >
             <p class="title">Ur Friends</p>
             {% if user %} {% if friends %} {% for friend in friends %}
@@ -103,8 +101,7 @@
                 </div>
             </form>
             <br />
-            <br />
-            <button type="submit" class="btn bg-gray-200">Close</button>
+            <button type="submit" class="btn w-80 bg-gray-200">Close</button>
         </div>
     </div>
     <div>
