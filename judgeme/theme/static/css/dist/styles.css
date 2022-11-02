@@ -493,7 +493,7 @@ select{
   outline: 1px auto -webkit-focus-ring-color;
 }
 * {
-  /* cursor: none; */
+  cursor: none;
 }
 html{
   overflow: clip;
@@ -1043,9 +1043,6 @@ html{
 }
 .items-center{
   align-items: center;
-}
-.justify-start{
-  justify-content: flex-start;
 }
 .justify-center{
   justify-content: center;
