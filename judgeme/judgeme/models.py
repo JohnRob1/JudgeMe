@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser, User
 class JMUser(AbstractUser):
     profile_picture = models.CharField(max_length=256)
 
-    top_songs = models.ManyToManyField("Track", blank=True)
+    top_tracks = models.ManyToManyField("Track", blank=True)
 
     friends = models.ManyToManyField("JMUser", blank=True)
 
@@ -29,6 +29,7 @@ class Album(models.Model):
 
 
 class Track(models.Model):
+    name = models.CharField(max_length=256)
     uri = models.CharField(max_length=512)
     # artist = models.ForeignKey(
     #     Artist, on_delete=models.CASCADE, related_name='tracks')
@@ -40,3 +41,6 @@ class Track(models.Model):
     # index = models.PositiveIntegerField()
     # name = models.CharField(max_length=256)
     # audio = models.FileField()
+
+    def __str__(self):
+        return self.name

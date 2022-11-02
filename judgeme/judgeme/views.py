@@ -1,4 +1,4 @@
-from multiprocessing import context
+from distutils.log import debug
 from pprint import pprint
 from urllib.request import HTTPRedirectHandler
 from django.shortcuts import render, HttpResponseRedirect, redirect
@@ -10,7 +10,7 @@ import random
 
 from .util_auth import generate_url, create_token_info, check_token, login_django_user
 
-from .models import JMUser
+from .models import JMUser, Track
 
 import spotipy
 import os
@@ -27,17 +27,29 @@ def spotify_callback(request):
         return redirect('..')
 
     code = request.GET.get('code')
+    token = create_token(code)
 
-    token_info = create_token_info(code=code)
-
-    token = token_info['access_token']
+    request.session['code'] = code
     request.session['token'] = token
+    request.session.set_expiry(0)
 
     return redirect('login')
 
 
+def create_token(code):
+    token_info = create_token_info(code=code)
+    if token_info == None:
+        return None
+
+    return token_info['access_token']
+
+
 def get_spotify_object(request) -> spotipy.Spotify:
     token = request.session.get('token')
+    if token == None:
+        code = request.session.get('code')
+        create_token(code)
+
     return spotipy.Spotify(auth=token)
 
 
@@ -199,9 +211,22 @@ def login_user(request):
     # return render(request, "friends.html")
 
 
-def update_top_tracks():
+def update_top_tracks(request):
+    request.user.top_tracks.clear()
 
-    pass
+    sp = get_spotify_object(request)
+    for track in sp.current_user_top_tracks(50).get("items"):
+        song_uri = track.get("uri")
+        track = get_or_create_track_from_uri(request, song_uri)
+        request.user.top_tracks.add(track)
+
+
+def get_or_create_track_from_uri(request, uri) -> Track:
+    sp = get_spotify_object(request)
+    name = sp.track(uri).get("name")
+    track, created = Track.objects.get_or_create(uri=uri, name=name)
+    print(track)
+    return track
 
 
 def friends(request):
@@ -231,10 +256,7 @@ def friends(request):
         except ObjectDoesNotExist:
             print("doesn't exist!!")
 
-    # print(get_spotify_object(request).current_user_top_tracks(1))
-
     return render(request, 'friends.html', context)
-    # return render(request, 'friend_listing.html')
 
 
 def print_top_genres(request):
