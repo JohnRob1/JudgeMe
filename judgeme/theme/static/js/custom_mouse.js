@@ -1,6 +1,8 @@
 const cursor = document.querySelector(".cursor");
 const cursorBlob = document.querySelector(".cursor-blob");
 
+const blobSmoothSpeed = 0.2;
+
 var mouseY = 150;
 var mouseX = 150;
 
@@ -17,8 +19,8 @@ setInterval(moveBlob, 1000 / 60);
 function moveBlob() {
     var xPrev = smoothX;
     var yPrev = smoothY;
-    smoothX = lerp(smoothX, mouseX, 0.1);
-    smoothY = lerp(smoothY, mouseY, 0.1);
+    smoothX = lerp(smoothX, mouseX, blobSmoothSpeed);
+    smoothY = lerp(smoothY, mouseY, blobSmoothSpeed);
 
     var deltaX = smoothX - mouseX;
     var deltaY = smoothY - mouseY;

@@ -7,7 +7,7 @@ from ast import literal_eval
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login
 
-from .models import JMUser, AuthInfo
+from .models import JMUser
 
 SPOTIPY_CLIENT_ID = '1fba4b0df2fe49318273c0ab3aeb1d49'
 SPOTIPY_CLIENT_SECRET = '8d0bfdb045024e74bbdc22cd47c69588'
@@ -31,7 +31,7 @@ def generate_url(show_dialog=True):
     return auth_url
 
 
-def create_token(code, show_dialog=False):
+def create_token_info(code, show_dialog=False):
     print("Creating token")
 
     sp_oauth = oauth2.SpotifyOAuth(

@@ -1,53 +1,33 @@
-{% load static tailwind_tags %} {% tailwind_css %}
+{% extends "base.html" %}
+
 <!DOCTYPE html>
 
 <html>
-    <body class="bg-[#322c3d]">
-        <div
-            class="fixed top-64 w-72 h-72 bg-[#8e3d81] rounded-full animate-blob"
-        ></div>
-        <div
-            class="fixed bottom-32 right-5 w-72 h-36 bg-[#8e3d81] rounded-full rotate-12 animate-blob animation-delay-1500"
-        ></div>
-        <div class="flex items-center justify-center h-screen">
-            <div class="flex space-y-8 w-96 items-center flex-col">
-                <p
-                    class="text-center opacity-0 animate-fadeIn animation-delay-1500"
+    {% block content %}
+    <div class="flex items-center justify-center h-screen">
+        <div class="flex space-y-8 w-96 items-center flex-col">
+            <p
+                class="text-center opacity-0 animate-fadeIn animation-delay-1500"
+            >
+                Your music taste sucks. But don’t worry, your friends aren’t
+                doing much better.
+            </p>
+            <p
+                class="text-center opacity-0 animate-fadeIn animation-delay-3000"
+            >
+                JudgeMe exists to find the overlap between you and your friends’
+                trash taste so that maybe, for once, everyone can sing along
+                during weekly grocery runs.
+            </p>
+            <a href="/tutorial/?1">
+                <button
+                    type="submit"
+                    class="btn opacity-0 animate-fadeIn animation-delay-5000"
                 >
-                    Your music taste sucks. But don’t worry, your friends aren’t
-                    doing much better.
-                </p>
-                <p
-                    class="text-center opacity-0 animate-fadeIn animation-delay-3000"
-                >
-                    JudgeMe exists to find the overlap between you and your
-                    friends’ trash taste so that maybe, for once, everyone can
-                    sing along during weekly grocery runs.
-                </p>
-                <a href="/tutorial/?1">
-                    <button
-                        type="submit"
-                        class="btn opacity-0 animate-fadeIn animation-delay-5000"
-                    >
-                        Cool, show me around.
-                    </button>
-                </a>
-            </div>
-        </div>
-    </body>
-
-    <!-- Navbar -->
-    <header class="fixed bottom-0 px-6 py-4">
-        <div class="flex-col">
-            <a href="../">
-                <p class="text-4xl title">JudgeMe</p>
+                    Cool, show me around.
+                </button>
             </a>
-
-            <div class="flex space-x-2">
-                <button onclick="location.href = '../about/'">about</button>
-                <!-- <p>terms</p> -->
-            </div>
         </div>
-    </header>
-    <!-- Navbar -->
+    </div>
+    {% endblock %}
 </html>
