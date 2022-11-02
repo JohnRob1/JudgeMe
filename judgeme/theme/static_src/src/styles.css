@@ -4,8 +4,14 @@
 @tailwind base;
 
 @layer base {
+    * {
+        /* cursor: none; */
+    }
+
     html {
-        @apply text-white;
+        @apply text-white overflow-clip;
+
+        
     }
 }
 
