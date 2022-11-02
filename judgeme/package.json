@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@georgedoescode/spline": "^1.0.1",
-    "simplex-noise": "^4.0.1"
+    "swup": "^2.0.19"
   }
 }
