@@ -51,11 +51,17 @@ def get_spotify_object(request) -> spotipy.Spotify:
 
 
 def index(request):
-    return render(request, 'index.html')
+    context = {}
+    context["bg_color"] = "white"
+    context["bubble_color"] = "black/30"
+    return render(request, 'index.html', context)
 
 
 def about(request):
-    return render(request, 'about.html')
+    context = {}
+    context["bg_color"] = "[#355e3b]"
+    context["bubble_color"] = "[#518634]"
+    return render(request, 'about.html', context)
 
 
 def spotify(request):
@@ -63,7 +69,10 @@ def spotify(request):
 
 
 def welcome(request):
-    return render(request, 'tutorial.html')
+    context = {}
+    context["bg_color"] = "[#322c3d]"
+    context["bubble_color"] = "[#8e3d81]"
+    return render(request, 'tutorial.html', context)
 
 
 def judge(request):
@@ -206,6 +215,8 @@ def friends(request):
     context = {}
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
+    context["bg_color"] = "[#322c3d]"
+    context["bubble_color"] = "[#8e3d81]"
 
     if 'add-friend' in request.GET:
         username = request.GET['add-friend']
