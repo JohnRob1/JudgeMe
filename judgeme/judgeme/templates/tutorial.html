@@ -1,33 +1,33 @@
 {% extends "base.html" %}
 
-<!DOCTYPE html>
-
 <html>
     {% block content %}
-    <div class="flex items-center justify-center h-screen">
-        <div class="flex space-y-8 w-96 items-center flex-col">
-            <p
-                class="text-center opacity-0 animate-fadeIn animation-delay-1500"
-            >
-                Your music taste sucks. But don’t worry, your friends aren’t
-                doing much better.
-            </p>
-            <p
-                class="text-center opacity-0 animate-fadeIn animation-delay-3000"
-            >
-                JudgeMe exists to find the overlap between you and your friends’
-                trash taste so that maybe, for once, everyone can sing along
-                during weekly grocery runs.
-            </p>
-            <a href="/tutorial/?1">
-                <button
-                    type="submit"
-                    class="btn opacity-0 animate-fadeIn animation-delay-5000"
+    <body>
+        <div class="flex items-center justify-center h-screen">
+            <div class="flex space-y-8 w-96 items-center flex-col">
+                <p
+                    class="text-center opacity-0 animate-fadeIn animation-delay-1500"
                 >
-                    Cool, show me around.
-                </button>
-            </a>
+                    Your music taste sucks. But don’t worry, your friends aren’t
+                    doing much better.
+                </p>
+                <p
+                    class="text-center opacity-0 animate-fadeIn animation-delay-3000"
+                >
+                    JudgeMe exists to find the overlap between you and your
+                    friends’ trash taste so that maybe, for once, everyone can
+                    sing along during weekly grocery runs.
+                </p>
+                <a href="/tutorial/?1">
+                    <button
+                        type="submit"
+                        class="btn opacity-0 animate-fadeIn animation-delay-5000"
+                    >
+                        Cool, show me around.
+                    </button>
+                </a>
+            </div>
         </div>
-    </div>
+    </body>
     {% endblock %}
 </html>

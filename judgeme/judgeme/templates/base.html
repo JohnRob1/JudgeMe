@@ -1,19 +1,29 @@
-{% load static tailwind_tags %} {% tailwind_css %}
+{% load static tailwind_tags %} {% load static %}
 <!DOCTYPE html>
 
-<html>
-    <body class="bg-[#322c3d]">
+<link href="../../static/css/page_transitions.css" rel="stylesheet" />
+
+<div class="absolute opacity-0">
+    <div class="w-2 h-2 bg-[#355e3b]"></div>
+    <div class="w-2 h-2 bg-[#518634]"></div>
+    <div class="w-2 h-2 bg-[#322c3d]"></div>
+    <div class="w-2 h-2 bg-[#8e3d81]"></div>
+</div>
+
+<html class="base">
+    {% tailwind_css %}
+    <body class="bg-{{bg_color}}">
         {% block bubbles %}
         <div id="bubbles">
             <div
-                class="fixed top-64 w-72 h-72 bg-[#8e3d81] rounded-full animate-blob -z-50"
+                class="fixed top-64 w-72 h-72 bg-{{bubble_color}} rounded-full animate-blob -z-50"
             ></div>
             <div
-                class="fixed bottom-32 right-5 w-72 h-36 bg-[#8e3d81] rounded-full rotate-12 animate-blob animation-delay-1500 -z-50"
+                class="fixed bottom-32 right-5 w-72 h-36 bg-{{bubble_color}} rounded-full rotate-12 animate-blob animation-delay-1500 -z-50"
             ></div>
         </div>
         {% endblock %}
-        <div id="content">{% block content %}{% endblock %}</div>
+        <div id="swup" class="fade">{% block content %}{% endblock %}</div>
     </body>
 
     {% block page-footer %}
@@ -30,22 +40,26 @@
     </header>
     {% endblock %}
 
-    <!-- <div
-        class="cursor rounded-full w-2 h-2 bg-cyan-400 z-50 animate-pulse"
-    ></div> -->
-    <div class="cursor absolute left-0 top-0 z-50 pointer-events-none">
+    <!-- Cursor -->
+    <div class="cursor fixed left-0 top-0 z-50 pointer-events-none">
         <div
-            class="absolute rounded-full w-2 h-2 -left-1 -top-1 bg-white border-black border-0"
+            class="relative rounded-full w-2 h-2 -left-1 -top-1 bg-white border-black border-0 opacity-0"
         ></div>
     </div>
     <div
         class="cursor-blob fixed w-0 h-0 -left-0 -top-0 -z-50 origin-center pointer-events-none"
     >
         <div
-            class="relative rounded-full w-20 h-20 -left-10 -top-10 bg-[#8e3d81] animate-pulse origin-center"
+            class="relative rounded-full w-20 h-20 -left-10 -top-10 bg-{{bubble_color}} animate-pulse origin-center"
         ></div>
     </div>
-    <!-- <div class="cursor rounded-full w-2 h-2 bg-cyan-400 z-50"></div> -->
+    <!-- Cursor -->
 </html>
 
-<script src="../../static/js/custom_mouse.js"></script>
+{% comment %}
+<script defer src="../../static/js/custom_mouse.js"></script>
+{% endcomment %}
+<script defer src="{% static 'js/custom_mouse.js' %}"></script>
+
+<script defer src="{% static 'swup/dist/swup.min.js' %}"></script>
+<script defer src="{% static 'js/page_transitions.js' %}"></script>
