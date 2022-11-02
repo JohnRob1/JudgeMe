@@ -4,7 +4,7 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
 
-from .util_auth import generate_url, create_token, check_token, login_django_user
+from .util_auth import generate_url, create_token_info, check_token, login_django_user
 
 from .models import JMUser
 
@@ -24,7 +24,7 @@ def spotify_callback(request):
 
     code = request.GET.get('code')
 
-    token_info = create_token(code=code)
+    token_info = create_token_info(code=code)
 
     token = token_info['access_token']
     request.session['token'] = token
@@ -32,7 +32,7 @@ def spotify_callback(request):
     return redirect('login')
 
 
-def get_sp(request) -> spotipy.Spotify:
+def get_spotify_object(request) -> spotipy.Spotify:
     token = request.session.get('token')
     return spotipy.Spotify(auth=token)
 
@@ -74,7 +74,7 @@ def graph(request):
 
 
 def artist(request):
-    sp: spotipy.Spotify = get_spotify_object()
+    sp: spotipy.Spotify = get_spotify_object(request)
     print(sp)
 
     artist = '  '
@@ -82,7 +82,7 @@ def artist(request):
         artist = request.POST['aname']
         if 'aname' in request.POST:
             result = sp.search(q=artist, limit=1, type='artist')
-            for i,t in enumerate(result['artists']['items']):
+            for i, t in enumerate(result['artists']['items']):
                 name = t['name']
                 print(name)
                 artistId = t['id']
@@ -94,8 +94,7 @@ def artist(request):
                     print('track    : ' + track['name'])
                     print()
                     holder.append(track['name'])
-                
-                
+
                 results = sp.artist_albums(uri, album_type='album')
                 albums = results['items']
                 while results['next']:
@@ -106,22 +105,23 @@ def artist(request):
 
                 for album in albums:
                     album_titles.append(album['name'])
-                
+
                 print(album_titles)
 
                 context = {
-                    'render_intro' : False,
-                    'top_tracks' : holder,
-                    'album_titles' : album_titles,
+                    'render_intro': False,
+                    'top_tracks': holder,
+                    'album_titles': album_titles,
                 }
                 return render(request, 'artist.html', context)
             return render(request, 'artist.html', {'error': True})
     context = {
-        'render_intro' : True,
+        'render_intro': True,
         'dontrun': True,
     }
 
     return render(request, 'artist.html', context)
+
 
 def breakdown(request):
 
@@ -147,7 +147,6 @@ def breakdown(request):
             print()
         print()
 
-    
     print(all_artists)
     print()
     print(all_genres)
@@ -163,14 +162,6 @@ def base(request):
 def login_user(request):
 
     login_django_user(request)
-    # for track in sp.current_user_top_tracks(1):
-    #     pprint(track)
-
-    # song_uri = "spotify:track:7lEptt4wbM0yJTvSG5EBof"
-    # artist_id = sp.track(song_uri).get("artists")[0].get("id")
-    # artist = sp.artist(artist_id)
-    # genres = artist.get("genres")
-    # pprint(genres)
 
     context = {}
     context['user'] = request.user
@@ -212,8 +203,21 @@ def friends(request):
         except ObjectDoesNotExist:
             print("doesn't exist!!")
 
+    # print(get_spotify_object(request).current_user_top_tracks(1))
+
     return render(request, 'friends.html', context)
     # return render(request, 'friend_listing.html')
+
+
+def print_top_genres(request):
+    sp = get_spotify_object(request)
+    for track in sp.current_user_top_tracks(10).get("items"):
+        song_uri = track.get("uri")
+        artist_id = sp.track(song_uri).get("artists")[0].get("id")
+        artist = sp.artist(artist_id)
+        genres = artist.get("genres")
+        top_genre = genres[0]
+        pprint(top_genre)
 
 
 def test(request):
