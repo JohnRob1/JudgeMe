@@ -76,6 +76,7 @@ def result(request):
     # for track in topHunna['items']:
     #     print(track)
 
+
     f = open('theme/static/light_mode_gifs/insults.txt', 'r')
     lines = f.readlines()
     r = random.randint(0, len(lines) - 1)
