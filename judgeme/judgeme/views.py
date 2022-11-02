@@ -1,41 +1,40 @@
 from pprint import pprint
-from pydoc import cli
-from typing import Dict
-from django.shortcuts import render, HttpResponseRedirect
-from . import spotify_views
+from urllib.request import HTTPRedirectHandler
+from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.core.exceptions import ObjectDoesNotExist
+from django.urls import is_valid_path
 
+from .util_auth import generate_url, create_token, check_token, login_django_user
+
+from .models import JMUser
 
 import spotipy
 import os
-from spotipy import oauth2
-from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
-
-SPOTIPY_CLIENT_ID = '1fba4b0df2fe49318273c0ab3aeb1d49'
-SPOTIPY_CLIENT_SECRET = '8d0bfdb045024e74bbdc22cd47c69588'
-SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/tutorial/'
-# https://developer.spotify.com/documentation/general/guides/authorization/scopes/ for scopes
-scope = 'user-top-read user-library-read playlist-read-private playlist-modify-public user-read-private user-read-email'
-username = ''
 
 
 def sign_in(request):
-    # token = util.prompt_for_user_token(username, scope)
-    # print(token)
-    print("signing in ")
-    sp_oauth = oauth2.SpotifyOAuth(
-        SPOTIPY_CLIENT_ID,
-        SPOTIPY_CLIENT_SECRET,
-        SPOTIPY_REDIRECT_URI,
-        scope=scope,
-        cache_path=".cache-" + username)
+    url = generate_url()
+    return HttpResponseRedirect(url)
 
-    token_info = sp_oauth.get_cached_token()
-    if not token_info:
-        print("No token?")
-        auth_url = sp_oauth.get_authorize_url()
-        return HttpResponseRedirect(auth_url)
 
-    return render(request, 'tutorial.html')
+def spotify_callback(request):
+    if request.GET.get('error'):
+        # User pressed cancel
+        return redirect('..')
+
+    code = request.GET.get('code')
+
+    token_info = create_token(code=code)
+
+    token = token_info['access_token']
+    request.session['token'] = token
+
+    return redirect('login')
+
+
+def get_sp(request) -> spotipy.Spotify:
+    token = request.session.get('token')
+    return spotipy.Spotify(auth=token)
 
 
 def index(request):
@@ -50,7 +49,7 @@ def spotify(request):
     return render(request, 'spotify.html')
 
 
-def tutorial(request):
+def welcome(request):
     return render(request, 'tutorial.html')
 
 
@@ -157,56 +156,66 @@ def breakdown(request):
     return render(request, 'breakdown.html')
 
 
+def base(request):
+    return render(request, 'base.html')
+
+
+def login_user(request):
+
+    login_django_user(request)
+    # for track in sp.current_user_top_tracks(1):
+    #     pprint(track)
+
+    # song_uri = "spotify:track:7lEptt4wbM0yJTvSG5EBof"
+    # artist_id = sp.track(song_uri).get("artists")[0].get("id")
+    # artist = sp.artist(artist_id)
+    # genres = artist.get("genres")
+    # pprint(genres)
+
+    context = {}
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+
+    return redirect('welcome')
+    # return render(request, "friends.html")
+
+
+def update_top_tracks():
+
+    pass
+
+
+def friends(request):
+    context = {}
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+
+    if 'add-friend' in request.GET:
+        username = request.GET['add-friend']
+        print("trying to add:", username)
+
+        try:
+            user = JMUser.objects.get(username=username)
+            request.user.friends.add(user)
+            print("friend added.")
+        except ObjectDoesNotExist:
+            print("doesn't exist!!")
+            pass
+
+    if 'remove-friend' in request.GET:
+        username = request.GET['remove-friend']
+        print("trying to remove:", username)
+        try:
+            user = JMUser.objects.get(username=username)
+            request.user.friends.remove(user)
+            print("friend removed.")
+        except ObjectDoesNotExist:
+            print("doesn't exist!!")
+
+    return render(request, 'friends.html', context)
+    # return render(request, 'friend_listing.html')
+
+
 def test(request):
-    os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
-    os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIPY_CLIENT_SECRET
-    os.environ['SPOTIPY_REDIRECT_URI'] = SPOTIPY_REDIRECT_URI
 
-    scope = "user-library-read user-top-read"
-
-    sp: spotipy.Spotify = spotipy.Spotify(
-        auth_manager=SpotifyOAuth(scope=scope))
-
-    aaa = sp.current_user_top_tracks(2)
-    pprint(aaa)
-
-    # features = sp.audio_features(urn)
-    # # Array index 0 because we're only passing in one urn. This is a dictionary.
-    # features_dict = features[0]
-    # for key, value in features_dict.items():
-    #     print(key, ": ", value)
-
-    # tracks = sp.curr
-
-    # profile = sp.current_user()
-    # for key, value in profile.items():
-    #     print(key, ": ", value)
-
-    # print(features)
-
-    # user = sp.user("virtualkenny")
-    # pprint(user)
-
-    # for key, value in track.items():
-    #     print(key, ": ", value)
-
-    return render(request, 'index.html')
-
-
-def get_spotify_object_old() -> spotipy.Spotify:
-    client_credentials_manager = SpotifyClientCredentials(
-        SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET)
-    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-    # sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(
-    #     client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=scope))
-    return sp
-
-
-def get_spotify_object() -> spotipy.Spotify:
-    os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
-    os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIPY_CLIENT_SECRET
-    os.environ['SPOTIPY_REDIRECT_URI'] = SPOTIPY_REDIRECT_URI
-
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
-
-    return sp
+    return render(request, 'test.html')

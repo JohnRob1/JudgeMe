@@ -1,0 +1,51 @@
+{% load static tailwind_tags %} {% tailwind_css %}
+<!DOCTYPE html>
+
+<html>
+    <body class="bg-[#322c3d]">
+        {% block bubbles %}
+        <div id="bubbles">
+            <div
+                class="fixed top-64 w-72 h-72 bg-[#8e3d81] rounded-full animate-blob -z-50"
+            ></div>
+            <div
+                class="fixed bottom-32 right-5 w-72 h-36 bg-[#8e3d81] rounded-full rotate-12 animate-blob animation-delay-1500 -z-50"
+            ></div>
+        </div>
+        {% endblock %}
+        <div id="content">{% block content %}{% endblock %}</div>
+    </body>
+
+    {% block page-footer %}
+    <header class="fixed bottom-0 px-6 py-4">
+        <div class="flex-col">
+            <a href="../">
+                <p class="text-4xl title">JudgeMe</p>
+            </a>
+
+            <div class="flex space-x-2">
+                <button onclick="location.href = '../about/'">about</button>
+            </div>
+        </div>
+    </header>
+    {% endblock %}
+
+    <!-- <div
+        class="cursor rounded-full w-2 h-2 bg-cyan-400 z-50 animate-pulse"
+    ></div> -->
+    <div class="cursor absolute left-0 top-0 z-50 pointer-events-none">
+        <div
+            class="absolute rounded-full w-2 h-2 -left-1 -top-1 bg-white border-black border-2"
+        ></div>
+    </div>
+    <div
+        class="cursor-blob fixed w-0 h-0 -left-0 -top-0 -z-50 origin-center pointer-events-none"
+    >
+        <div
+            class="relative rounded-full w-20 h-20 -left-10 -top-10 bg-[#8e3d81] animate-pulse origin-center"
+        ></div>
+    </div>
+    <!-- <div class="cursor rounded-full w-2 h-2 bg-cyan-400 z-50"></div> -->
+</html>
+
+<script src="../../static/js/custom_mouse.js"></script>
