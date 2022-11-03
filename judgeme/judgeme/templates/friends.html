@@ -90,6 +90,23 @@
                         {% endcomment %}
                     </div>
                 </form>
+                {% if request_code != 0 %}
+                <div>
+                    {% if request_code == 1 %}
+                    <p class="text-sm mt-2 text-green-500">
+                        Friend added successfully.
+                    </p>
+                    {% endif %} {% if request_code == 2 %}
+                    <p class="text-sm mt-2 text-red-500">
+                        Couldn't find friend.
+                    </p>
+                    {% endif %} {% if request_code == 3 %}
+                    <p class="text-sm mt-2 text-red-500">
+                        Friend removed successfully.
+                    </p>
+                    {% endif %}
+                </div>
+                {% endif %}
                 <br />
                 <button type="submit" class="btn w-80 bg-gray-200">
                     Close

@@ -90,7 +90,18 @@ def judge(request):
 
 
 def profile(request):
-    return render(request, 'profile.html')
+    user = request.user
+    if "user" in request.GET:
+        try:
+            user = JMUser.objects.get(username=request.GET.get('user'))
+        except:
+            user = None
+            pass
+
+    pprint(user.username)
+
+    context = {'user_to_display': user}
+    return render(request, 'profile.html', context)
 
 
 def playlist(request):
@@ -104,6 +115,7 @@ def bar(request):
 def graph(request):
     return render(request, 'graph.html')
 
+
 def tutorial(request):
     return render(request, 'tutorial.html')
 
@@ -112,14 +124,14 @@ def homepage(request):
     sp = get_spotify_object(request)
     iterations = 0
     playlists = []
-    
+
     if 'darkMode' in request.GET:
         darkmode = True
 
     if 'lightMode' in request.GET:
         darkmode = False
 
-    while(True):
+    while (True):
         result = sp.current_user_playlists(limit=50, offset=iterations*50)
         items = result.get('items')
         if (len(items) == 0):
@@ -127,30 +139,31 @@ def homepage(request):
         iterations += 1
         for playlist in items:
             playlists.append(playlist)
-    
 
     count = 0
     for item in playlists:
         if item.get('owner').get('id') == request.user.username:
             count += 1
-            
-    context = {'user':request.user, 'friendcount':request.user.friends.count(), 'playlist_count':count}
+
+    context = {'user': request.user,
+               'friendcount': request.user.friends.count(), 'playlist_count': count}
     return render(request, 'homepage.html', context)
+
 
 def profiledit(request):
     return render(request, 'profiledit.html')
 
+
 def temp(request):
     return render(request, 'temp.html')
 
-def artist(request):
-    return render(request, 'artist.html')
 
 def generate(request):
     if 'next' in request.GET:
         print("hi")
 
     return render(request, 'generate.html')
+
 
 def artist(request):
     sp: spotipy.Spotify = get_spotify_object(request)
@@ -275,6 +288,7 @@ def friends(request):
     context["bg_color"] = "[#322c3d]"
     context["bubble_color"] = "[#8e3d81]"
 
+    request_code = 0
     if 'add-friend' in request.GET:
         username = request.GET['add-friend']
         print("trying to add:", username)
@@ -283,9 +297,10 @@ def friends(request):
             user = JMUser.objects.get(username=username)
             request.user.friends.add(user)
             print("friend added.")
+            request_code = 1
         except ObjectDoesNotExist:
             print("doesn't exist!!")
-            pass
+            request_code = 2
 
     if 'remove-friend' in request.GET:
         username = request.GET['remove-friend']
@@ -294,8 +309,12 @@ def friends(request):
             user = JMUser.objects.get(username=username)
             request.user.friends.remove(user)
             print("friend removed.")
+            request_code = 3
         except ObjectDoesNotExist:
             print("doesn't exist!!")
+            request_code = 4
+
+    context['request_code'] = request_code
 
     return render(request, 'friends.html', context)
 
