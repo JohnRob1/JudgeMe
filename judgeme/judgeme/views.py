@@ -16,6 +16,7 @@ SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/tutorial/'
 # https://developer.spotify.com/documentation/general/guides/authorization/scopes/ for scopes
 scope = 'user-top-read user-library-read playlist-read-private playlist-modify-public user-read-private user-read-email'
 username = ''
+darkmode = False
 
 
 def sign_in(request):
