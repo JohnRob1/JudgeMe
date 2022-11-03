@@ -17,10 +17,10 @@
             <div class="p-6 text-center">
               <svg aria-hidden="true" class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                 <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Which mode would you like? Choose wisely!</h3>
-                <button data-modal-toggle="popup-modal" type="button" class="text-gray-500 bg-white hover:bg-[#f5deb3] focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-[#f5deb3] font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2" onclick="changeMode(false)">
-                  Light Mode
-                </button>
-                <button data-modal-toggle="popup-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600" onclick="changeMode(true)">Dark Mode</button>
+                <form>
+                  <input type="submit" name="lightMode" value="Light Mode" data-modal-toggle="popup-modal" type="button" class="text-gray-500 bg-white hover:bg-[#f5deb3] focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-[#f5deb3] font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"></input>
+                  <input type="submit" name="darkMode" value="Dark Mode" data-modal-toggle="popup-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"></input>
+                </form>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
             </ul>
           </div>
           <!-- End Dropdown Menu -->
-          <button class="bg-[#3d0c02] text-white text-lg font-medium py-2 px-10 rounded-full" onclick="next(dropdownCheckboxButton, dropdownDefaultCheckbox, this)" id="next">
+          <button class="bg-[#3d0c02] text-white text-lg font-medium py-2 px-10 rounded-full" onclick="next(dropdownCheckboxButton, dropdownDefaultCheckbox, this)" id="next" name="next">
             Next
           </button>
           <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
@@ -72,6 +72,22 @@
         <script src="../../static/js/generate.js"></script>
     </div>
 
+    <style>
+      .image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 5px solid #ffffff;
+      }
+    </style>
+    <div class="flex items-end justify-center h-screen">
+      <div class="flex space-y-80 w-200 flex-col">
+          <img src="{% static '/creator_pictures/Aarushi.jpg' %}" alt="Aarushi" class="image"></img>
+          <img src="{% static '/creator_pictures/Aarushi.jpg' %}" alt="Aarushi" class="image"></img>
+          <img src="{% static '/creator_pictures/Aarushi.jpg' %}" alt="Aarushi" class="image"></img>
+          <img src="{% static '/icons/podium.png' %}" alt="podium"></img>
+      </div>
+    </div>
 
 </body>
 <head>

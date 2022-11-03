@@ -109,8 +109,18 @@ def artist(request):
     return render(request, 'artist.html')
 
 def generate(request):
+    if 'next' in request.GET:
+        print("hi")
+
+    if 'darkMode' in request.GET:
+        darkmode = True
+
+    if 'lightMode' in request.GET:
+        darkmode = False
+
     return render(request, 'generate.html')
 
+def artist(request):
     sp: spotipy.Spotify = get_spotify_object(request)
     print(sp)
 

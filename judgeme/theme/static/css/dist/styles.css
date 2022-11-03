@@ -1048,6 +1048,9 @@ html{
 .w-1\/2{
   width: 50%;
 }
+.w-40{
+  width: 10rem;
+}
 .max-w-md{
   max-width: 28rem;
 }
@@ -1486,6 +1489,10 @@ html{
 .object-top{
   -o-object-position: top;
      object-position: top;
+}
+.object-left-top{
+  -o-object-position: left top;
+     object-position: left top;
 }
 .p-4{
   padding: 1rem;
