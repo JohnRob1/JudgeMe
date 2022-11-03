@@ -38,12 +38,9 @@ urlpatterns = [
     path('artist/', views.artist, name='artist'),
     path('breakdown/', views.breakdown, name='breakdown'),
     path('test/', views.test, name='test'),
-<<<<<<< HEAD
     path('generate/', views.generate, name='generate'),
-=======
     path('base/', views.base, name='base'),
     path('friends/', views.friends, name='friends'),
->>>>>>> origin/main
     path('spotify-test/', spotipy_test.test, name='test'),
     # path('spotify/sign-in/', views.sign_in),
     # path('', include('login.urls')),
