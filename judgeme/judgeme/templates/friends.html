@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+<html>
+    {% block content %}
+    <body>
+        <div class="absolute m-auto left-0 right-0 top-0 bottom-0 text-center">
+            <div
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/30 rounded-lg px-4 py-6"
+            >
+                <p class="title">Ur Friends</p>
+                {% if user %} {% if friends %} {% for friend in friends %}
+                <!-- Friend Listing -->
+                <div
+                    class="relative flex flex-row w-80 h-16 p-2 my-1 rounded-lg border-0 space-x-2 bg-indigo-600 hover:bg-[{{bubble_color}}]"
+                >
+                    <button type="button">
+                        <img
+                            src="{{friend.profile_picture}}"
+                            class="w-12 h-12 rounded-full"
+                            onClick=""
+                        />
+                    </button>
+                    <div class="flex flex-col text-left">
+                        <p class="text-white text-base">{{friend}}</p>
+                        <p class="text-indigo-200 text-xs">
+                            Joined {{friend.date_joined}}
+                        </p>
+                        <form>
+                            <button
+                                class="absolute right-2.5 bottom-1 font-light text-xs text-indigo-300 hover:underline"
+                                type="submit"
+                                name="remove-friend"
+                                value="{{friend}}"
+                            >
+                                remove
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Friend Listing end -->
+                {% endfor %} {% else %}
+                <p class="text-sm text-slate-300">
+                    You don't have any friends lol
+                </p>
+                {% endif %} {% endif %}
+                <br />
+                <p class="title text-slate-300 text-sm">Add a friend.</p>
+                <form>
+                    <label
+                        for="default-search"
+                        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300"
+                        >Search</label
+                    >
+                    <div class="relative w-80">
+                        <div
+                            class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+                        >
+                            <svg
+                                aria-hidden="true"
+                                class="w-5 h-5 text-gray-500"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                ></path>
+                            </svg>
+                        </div>
+                        <input
+                            type="search"
+                            title=""
+                            name="add-friend"
+                            id="default-search"
+                            class="block p-2.5 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-full border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Search for friends"
+                            required
+                        />
+                        {% comment %}
+                        <button
+                            type="submit"
+                            class="text-white absolute right-2 bottom-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-4 py-2"
+                        >
+                            Search
+                        </button>
+                        {% endcomment %}
+                    </div>
+                </form>
+                <br />
+                <button type="submit" class="btn w-80 bg-gray-200">
+                    Close
+                </button>
+            </div>
+        </div>
+        <div>
+            <p>uh oh! other stuff!</p>
+        </div>
+    </body>
+    {% endblock %}
+</html>
