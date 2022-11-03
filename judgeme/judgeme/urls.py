@@ -37,10 +37,15 @@ urlpatterns = [
     path('judge/graph/', views.graph, name='graph'),
     path('artist/', views.artist, name='artist'),
     path('breakdown/', views.breakdown, name='breakdown'),
-    path('test/', views.test, name='test'),
+    # path('test/', views.test, name='test'),
     path('base/', views.base, name='base'),
     path('friends/', views.friends, name='friends'),
     path('spotify-test/', spotipy_test.test, name='test'),
+
+    path('transition-test/1/', views.test1, name='test'),
+    path('transition-test/2/', views.test2, name='test'),
+    path('transition-test/3/', views.test3, name='test'),
+
     # path('spotify/sign-in/', views.sign_in),
     # path('', include('login.urls')),
     # path('spotify/', include('spotify.urls')),

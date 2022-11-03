@@ -254,6 +254,13 @@ def print_top_genres(request):
         pprint(top_genre)
 
 
-def test(request):
+def test1(request):
+    return render(request, 'testing/transition_test1.html')
 
-    return render(request, 'test.html')
+
+def test2(request):
+    return render(request, 'testing/transition_test2.html')
+
+
+def test3(request):
+    return render(request, 'testing/transition_test3.html')
