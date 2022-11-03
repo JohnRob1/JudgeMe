@@ -6,7 +6,6 @@ function next(button, checkbox, triggerButton) {
   checkboxElement.remove();
 
   var triggerButtonElement = triggerButton;
-  triggerButtonElement.appendChild();
   triggerButtonElement.innerHTML = "Generate";
 }
 
