@@ -1185,6 +1185,7 @@ html{
   -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+<<<<<<< HEAD
 .cursor-default{
   cursor: default;
 }
@@ -1194,6 +1195,8 @@ html{
 .cursor-pointer{
   cursor: pointer;
 }
+=======
+>>>>>>> main
 .resize{
   resize: both;
 }
@@ -1426,6 +1429,7 @@ html{
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
+<<<<<<< HEAD
 .bg-\[\#9f8170\]{
   --tw-bg-opacity: 1;
   background-color: rgb(159 129 112 / var(--tw-bg-opacity));
@@ -1445,6 +1449,8 @@ html{
   --tw-bg-opacity: 1;
   background-color: rgb(61 12 2 / var(--tw-bg-opacity));
 }
+=======
+>>>>>>> main
 .bg-emerald-900{
   --tw-bg-opacity: 1;
   background-color: rgb(6 78 59 / var(--tw-bg-opacity));
@@ -1452,6 +1458,10 @@ html{
 .bg-emerald-300{
   --tw-bg-opacity: 1;
   background-color: rgb(110 231 183 / var(--tw-bg-opacity));
+}
+.bg-slate-50{
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
 }
 .bg-zinc-900{
   --tw-bg-opacity: 1;
@@ -1461,17 +1471,22 @@ html{
   --tw-bg-opacity: 1;
   background-color: rgb(134 239 172 / var(--tw-bg-opacity));
 }
-.bg-blue-900{
+.bg-blue-600{
   --tw-bg-opacity: 1;
-  background-color: rgb(30 58 138 / var(--tw-bg-opacity));
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 .bg-\[\#7dd3fc\]{
   --tw-bg-opacity: 1;
   background-color: rgb(125 211 252 / var(--tw-bg-opacity));
 }
+.bg-blue-500{
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
 .bg-gray-500\/50{
   background-color: rgb(107 114 128 / 0.5);
 }
+<<<<<<< HEAD
 .bg-gray-100{
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -1494,6 +1509,8 @@ html{
   -o-object-position: left top;
      object-position: left top;
 }
+=======
+>>>>>>> main
 .p-4{
   padding: 1rem;
 }
@@ -1550,6 +1567,7 @@ html{
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 }
+<<<<<<< HEAD
 .px-2{
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -1569,6 +1587,11 @@ html{
 .px-10{
   padding-left: 2.5rem;
   padding-right: 2.5rem;
+=======
+.py-14{
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+>>>>>>> main
 }
 .pl-3{
   padding-left: 0.75rem;
@@ -1622,6 +1645,7 @@ html{
   font-size: 1.125rem;
   line-height: 1.75rem;
 }
+<<<<<<< HEAD
 .text-7xl{
   font-size: 4.5rem;
   line-height: 1;
@@ -1630,6 +1654,8 @@ html{
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
+=======
+>>>>>>> main
 .font-bold{
   font-weight: 700;
 }
@@ -1645,11 +1671,16 @@ html{
 .font-semibold{
   font-weight: 600;
 }
+<<<<<<< HEAD
 .leading-6{
   line-height: 1.5rem;
 }
 .leading-9{
   line-height: 2.25rem;
+=======
+.italic{
+  font-style: italic;
+>>>>>>> main
 }
 .text-gray-600{
   --tw-text-opacity: 1;
@@ -1711,9 +1742,15 @@ html{
   --tw-text-opacity: 1;
   color: rgb(134 239 172 / var(--tw-text-opacity));
 }
+<<<<<<< HEAD
 .text-blue-600{
   --tw-text-opacity: 1;
   color: rgb(37 99 235 / var(--tw-text-opacity));
+=======
+.underline{
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+>>>>>>> main
 }
 .opacity-0{
   opacity: 0;
@@ -1744,6 +1781,7 @@ html{
 .outline-blue-500{
   outline-color: #3b82f6;
 }
+<<<<<<< HEAD
 .blur{
   --tw-blur: blur(8px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -1756,6 +1794,8 @@ html{
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+=======
+>>>>>>> main
 .transition{
   transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
@@ -1763,6 +1803,7 @@ html{
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+<<<<<<< HEAD
 .transition-opacity{
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1776,6 +1817,8 @@ html{
 .ease-out{
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
+=======
+>>>>>>> main
 .animation-delay-500{
   -webkit-animation-delay: 500ms;
           animation-delay: 500ms;
@@ -1787,6 +1830,10 @@ html{
 .animation-delay-1500{
   -webkit-animation-delay: 1500ms;
           animation-delay: 1500ms;
+}
+.animation-delay-2000{
+  -webkit-animation-delay: 2000ms;
+          animation-delay: 2000ms;
 }
 .animation-delay-3000{
   -webkit-animation-delay: 3000ms;
@@ -1822,6 +1869,7 @@ html{
   --tw-bg-opacity: 1;
   background-color: rgb(30 64 175 / var(--tw-bg-opacity));
 }
+<<<<<<< HEAD
 .hover\:bg-\[black\]:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
@@ -1841,6 +1889,11 @@ html{
 .hover\:bg-\[\#3d0c02\]:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(61 12 2 / var(--tw-bg-opacity));
+=======
+.hover\:bg-slate-300:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
+>>>>>>> main
 }
 .hover\:bg-gray-400:hover{
   --tw-bg-opacity: 1;

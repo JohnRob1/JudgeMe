@@ -104,6 +104,37 @@ def bar(request):
 def graph(request):
     return render(request, 'graph.html')
 
+def tutorial(request):
+    return render(request, 'tutorial.html')
+
+
+def homepage(request):
+    sp = get_spotify_object(request)
+    iterations = 0
+    playlists = []
+    while(True):
+        result = sp.current_user_playlists(limit=50, offset=iterations*50)
+        items = result.get('items')
+        if (len(items) == 0):
+            break
+        iterations += 1
+        for playlist in items:
+            playlists.append(playlist)
+    
+
+    count = 0
+    for item in playlists:
+        if item.get('owner').get('id') == request.user.username:
+            count += 1
+            
+    context = {'user':request.user, 'friendcount':request.user.friends.count(), 'playlist_count':count}
+    return render(request, 'homepage.html', context)
+
+def profiledit(request):
+    return render(request, 'profiledit.html')
+
+def temp(request):
+    return render(request, 'temp.html')
 
 def artist(request):
     return render(request, 'artist.html')

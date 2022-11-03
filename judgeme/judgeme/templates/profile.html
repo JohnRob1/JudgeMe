@@ -2,31 +2,134 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Profile</title>
+    <title>Profile</title>
 </head>
-<body class="bg-blue-900">
-    <div
-        class="fixed top-32 right-5 w-72 h-36 bg-[#7dd3fc] rounded-full rotate-12 animate-blob animation-delay-1500"
-    ></div>
-    <div
-        class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"
-    ></div>
-    <div
-        class="flex container mx-auto my-auto w-screen h-screen items-center flex-col"
-    >
-        <img class="object-top h-72 w-72 rounded-full p-2" src="{% static 'login/profile.jpg' %}"
-         alt="profile_placeholder">
-        <h1 class="text-white text-4xl align-middle font-bold p-4">Hello, Tynan</h1>
-        <h2 class="text-white text-xl align-middle font-semibold p-4">Playlists</h2>
-        <!--on click, send to playlist.html-->
-        <button 
-            class="btn"
-            onclick="location.href = '../playlist/'"
-            >Playlist_Placeholder</button>
-        <h2 class="text-white text-xl align-middle font-semibold p-4">Friends List</h2>
-        <button 
-            class="btn"
-        >Friend_Placeholder</button>
-    </div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    *:focus{
+        outline: none;
+    }
+    .box{
+        box-sizing: border-box;
+        width: 600px;
+        height: 600px;
+        border: 2px solid green;   
+        border-radius: 40px;
+        background-color: black;
+        margin-top:  50px;
+        overflow: hidden;
+        transition: 00.3s;
+    }
+    /*
+    .box:hover{
+        width: 600px;
+        height: 600px;
+    } */
+    .imgbx{
+        position: relative;
+        background-color: white;
+        right: 200px;
+        top: 10px;
+        width: 150px;
+        height: 150px;
+        border-radius: 80px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
+    }
+    img{
+        box-sizing: border-box;
+        width: 149px;
+        height: 149px;
+        border-radius: 50%;
+        margin: 0;
+        border: 5px solid green;
+        padding: 3px;
+        background-color: white;
+    }
+    .text{
+        display: block;
+        margin-bottom: 30px;
+    }
+    .text input[type="about"] {
+        display: block;
+        box-sizing: border-box;
+        /*background: none;*/
+        color: green;
+        margin-top: 30px;
+        padding: 10px;
+        width: 220px;
+        height: 100px;
+        border: none;
+        border-bottom: 1px solid #0082e6;
+    }
+    input[type="vibes"]{
+        display: block;
+        box-sizing: border-box;
+        /*background: none;*/
+        color: green;
+        margin-top: 70px;
+        margin-bottom: 80px;
+        padding: 10px;
+        width: 220px;
+        height: 50px;
+        border: none;
+        border-bottom: 1px solid #0082e6;
+    }
+    .welcome{
+        position: relative;
+        left: 50px;
+        bottom: 100px;
+        width: 300px;
+    }
+    .textdisplay{
+        background-color: white;
+        margin-top: 50px;
+        height: 200px;
+        width: 100%;
+        border-radius: 15px;
+    }
+    .vibes{
+        background-color: white;
+        height: 50px;
+        margin-top: 70px;
+        margin-bottom: 40px;
+        border-radius: 15px;
+    }
+
+
+</style>
+<!--Figure this out: Some colors work like the ones that have been used and others don't work. Why is that?-->
+<body class="bg-blue-600" style="background-color: #1e3a8a;" >
+    <div class="fixed top-32 right-5 w-72 h-36 bg-[#7dd3fc] rounded-full rotate-12 animate-blob animation-delay-1500"></div>
+    <div class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"></div>
+    <center>
+        <div class="box">
+            <!-- figure out how to get the chosen file to populate the template-->
+            <div class="imgbx" id="imgid">
+                <img src="{% static '/icons/ProfilePic.png' %}" class="src">
+            </div>
+            <div class="welcome">
+                <p class="text-center"style="color:white;">
+                    Hey, there *Insert Name here* profile looking
+                    is looking spectacular!
+                </p>
+            <div>
+                <div class="textdisplay">
+                    <p class="about" id="aboutid" style="color: black;"></p>
+                </div>
+            <div class="vibes">
+                <p class="display" id="result" style="color: black;"></p>
+            </div>
+            <button onclick="location.href = '../homepage'" style="float: left; margin: 10px 0 0 10%;" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                Home
+            </button>
+            <button onclick="location.href = '../profiledit'" style="float: right; margin: 10px 10% 0 0;"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                EDIT
+            </button>
+    </center>
+    <Script>
+        document.getElementById("result").innerHTML=localStorage.getItem("textvalue");
+        document.getElementById("aboutid").innerHTML=localStorage.getItem("aboutvalue");
+    </SCript>
+
 </body>
 </html>
