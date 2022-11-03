@@ -1,0 +1,27 @@
+{% load static tailwind_tags %} {% tailwind_css %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Web Components</title>
+        <style>
+            h2 {
+                color: purple;
+            }
+        </style>
+    </head>
+    <body class="bg-black">
+        aaa
+        <h2>Employee Card Example</h2>
+        <div slot="id"><b>ID:</b> 238</div>
+        <div slot="job title"><b>Job Title:</b> Database Administrator</div>
+        <div slot="email"><b>Email:</b> lcrystal34@gmail.com</div>
+        <div slot="phone"><b>Phone:</b> 292-856-410</div>
+    </body>
+    <page-footer></page-footer>
+
+    <!-- scripts -->
+    <script src="../../static/js/friend_listing.js"></script>
+    <script src="../../static/js/footer.js"></script>
+    <script src="../../static/js/script.js"></script>
+</html>

@@ -1,14 +1,17 @@
+# from unittest.util import _MAX_LENGTH
 from django.db import models
+from django.contrib.auth.models import AbstractUser, User
 
 
-class Friend(models.Model):
-    username = models.CharField(max_length=256)
+class JMUser(AbstractUser):
     profile_picture = models.CharField(max_length=256)
 
+    top_tracks = models.ManyToManyField("Track", blank=True)
 
-class User(models.Model):
-    username = models.CharField(max_length=256)
-    password = models.CharField(max_length=256)
+    friends = models.ManyToManyField("JMUser", blank=True)
+
+    def __str__(self):
+        return self.username
 
 
 class Artist(models.Model):
@@ -26,13 +29,18 @@ class Album(models.Model):
 
 
 class Track(models.Model):
-    artist = models.ForeignKey(
-        Artist, on_delete=models.CASCADE, related_name='tracks')
-    album = models.ForeignKey(
-        Album, on_delete=models.CASCADE, related_name='tracks')
-    collaborators = models.ManyToManyField(
-        Artist, related_name='collaborations')
-
-    index = models.PositiveIntegerField()
     name = models.CharField(max_length=256)
-    audio = models.FileField()
+    uri = models.CharField(max_length=512)
+    # artist = models.ForeignKey(
+    #     Artist, on_delete=models.CASCADE, related_name='tracks')
+    # album = models.ForeignKey(
+    #     Album, on_delete=models.CASCADE, related_name='tracks')
+    # collaborators = models.ManyToManyField(
+    #     Artist, related_name='collaborations')
+
+    # index = models.PositiveIntegerField()
+    # name = models.CharField(max_length=256)
+    # audio = models.FileField()
+
+    def __str__(self):
+        return self.name

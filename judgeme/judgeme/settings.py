@@ -124,7 +124,8 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-NPM_BIN_PATH = r'/opt/homebrew/bin/npm'
+# NPM_BIN_PATH = r'/opt/homebrew/bin/npm'
+# NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -135,3 +136,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "judgeme.JMUser"

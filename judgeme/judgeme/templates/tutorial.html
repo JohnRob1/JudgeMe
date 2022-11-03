@@ -1,14 +1,8 @@
-{% load static tailwind_tags %} {% tailwind_css %}
-<!DOCTYPE html>
+{% extends "base.html" %}
 
 <html>
-    <body class="bg-[#322c3d]">
-        <div
-            class="fixed top-64 w-72 h-72 bg-[#8e3d81] rounded-full animate-blob"
-        ></div>
-        <div
-            class="fixed bottom-32 right-5 w-72 h-36 bg-[#8e3d81] rounded-full rotate-12 animate-blob animation-delay-1500"
-        ></div>
+    {% block content %}
+    <body>
         <div class="flex items-center justify-center h-screen">
             <div class="flex space-y-8 w-96 items-center flex-col">
                 <p
@@ -35,19 +29,5 @@
             </div>
         </div>
     </body>
-
-    <!-- Navbar -->
-    <header class="fixed bottom-0 px-6 py-4">
-        <div class="flex-col">
-            <a href="../">
-                <p class="text-4xl title">JudgeMe</p>
-            </a>
-
-            <div class="flex space-x-2">
-                <button onclick="location.href = '../about/'">about</button>
-                <!-- <p>terms</p> -->
-            </div>
-        </div>
-    </header>
-    <!-- Navbar -->
+    {% endblock %}
 </html>

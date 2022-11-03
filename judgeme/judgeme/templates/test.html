@@ -9,70 +9,45 @@
             <img src="{% static 'login/Logo.png' %}" alt="Logo" />
             <p class="mb-8 text-black">Test page.</p>
         </div>
-
-        <!-- Friend Overlay -->
-        <!-- Implement the overlay menu -->
-        <div
-            id="menu"
-            class="fixed z-90 w-0 h-0 flex justify-center items-center bg-gray-900 opacity-0 duration-700"
-        >
-            <a
-                href="javascript:void(0)"
-                class="fixed top-6 right-8 text-white hover:text-amber-500 text-7xl font-semibold duration-300"
-                onclick="closeMenu()"
-                >&times;</a
-            >
-            <div
-                class="flex flex-col text-white text-center text-xl font-light space-y-3"
-            >
-                <a class="hover:text-amber-500 duration-300" href="#"
-                    >KindaCode.com</a
-                >
-                <a class="hover:text-amber-500 duration-300" href="#"
-                    >About Us</a
-                >
-                <a class="hover:text-amber-500 duration-300" href="#"
-                    >Get In Touch</a
-                >
-                <a class="hover:text-amber-500 duration-300" href="#"
-                    >Privacy Policy</a
-                >
-                <a class="hover:text-amber-500 duration-300" href="#"
-                    >Terms of Use</a
-                >
-            </div>
-        </div>
-        <!-- Other elements -->
-        <div class="container p-20 space-y-8">
-            <h1 class="text-4xl font-light">Welcome to KindaCode.com</h1>
-            <h2 class="text-xl">Full-screen overlay navigation menu example</h2>
-            <p>
-                <a
-                    href="javascript:void(0)"
-                    onclick="openMenu()"
-                    class="px-5 py-3 bg-blue-500 hover:bg-blue-600 text-xl text-white duration-300"
-                >
-                    <span class="text-2xl">&#9776;</span>
-                    Menu
-                </a>
-            </p>
-        </div>
-
-        <!-- Javascript code -->
-        <script>
-            var menu = document.getElementById("menu");
-
-            // this function is used to open the menu
-            function openMenu() {
-                menu.classList.remove("w-0", "h-0", "opacity-0");
-                menu.classList.add("w-screen", "h-screen", "opacity-95");
-            }
-
-            // this function is used to close the menu
-            function closeMenu() {
-                menu.classList.remove("w-screen", "h-screen", "opactiy-95");
-                menu.classList.add("w-0", "h-0", "opacity-0");
-            }
-        </script>
     </body>
+    <div class="cursor absolute left-0 top-0 z-50">
+        <div
+            class="absolute rounded-full w-2 h-2 -left-1 -top-1 bg-white border-black border-2"
+        ></div>
+    </div>
+    <div class="cursor-blob fixed w-0 h-0 -left-0 -top-0 -z-50 origin-center">
+        <div
+            class="relative rounded-full w-20 h-20 -left-10 -top-10 bg-gray-500/50 animate-pulse mix-blend-difference"
+        ></div>
+    </div>
+    <!-- <div class="cursor-blob absolute left-0 top-0 -z-50">
+        <svg
+            viewBox="0 0 800 800"
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            width="100%"
+            id="blobSvg"
+            transform="translate(-150, -130)"
+        >
+            <g transform="translate(140.37767028808594, -1.3428421020507812)">
+                <path class="blob" fill="#d1d8e0" fill-opacity=".5">
+                    <animate
+                        attributeName="d"
+                        dur="5000ms"
+                        repeatCount="indefinite"
+                        values="
+                        M423.5,295.5Q392,341,370.5,403.5Q349,466,285,458Q221,450,159,438.5Q97,427,64,370.5Q31,314,54,256.5Q77,199,95,145.5Q113,92,168.5,81.5Q224,71,286.5,52Q349,33,395,80.5Q441,128,448,189Q455,250,423.5,295.5Z; 
+                        M434.5,307.5Q429,365,391,420.5Q353,476,286.5,467.5Q220,459,164,436.5Q108,414,71.5,363.5Q35,313,51,254.5Q67,196,95.5,150Q124,104,175.5,95.5Q227,87,275.5,87Q324,87,367,117Q410,147,425,198.5Q440,250,434.5,307.5Z;
+                        M463.5,311.5Q441,373,396,422Q351,471,287,455Q223,439,179,411Q135,383,79,350Q23,317,51.5,258.5Q80,200,94,143.5Q108,87,162,49.5Q216,12,281.5,24.5Q347,37,383.5,89Q420,141,453,195.5Q486,250,463.5,311.5Z;
+                        M417.43106,301.63263Q410.42001,353.26527,377.69895,406.12158Q344.97789,458.97789,282.96684,456.67684Q220.95579,454.37579,181.46684,414.69895Q141.97789,375.02211,91.42526,343.17684Q40.87262,311.33158,36.11315,248.72106Q31.35369,186.11053,81.47789,149.3121Q131.6021,112.51368,179.32316,100.92263Q227.04421,89.33158,281.93368,73.83158Q336.82316,58.33158,386.69052,94.30948Q436.55789,130.28737,430.5,190.14369Q424.44211,250,417.43106,301.63263Z;
+                        M460.5,310.5Q438,371,379,387.5Q320,404,267.5,448Q215,492,158,457Q101,422,58,370.5Q15,319,24.5,253Q34,187,72,137.5Q110,88,167.5,83.5Q225,79,272,89.5Q319,100,370,120Q421,140,452,195Q483,250,460.5,310.5Z;
+                        M423.5,295.5Q392,341,370.5,403.5Q349,466,285,458Q221,450,159,438.5Q97,427,64,370.5Q31,314,54,256.5Q77,199,95,145.5Q113,92,168.5,81.5Q224,71,286.5,52Q349,33,395,80.5Q441,128,448,189Q455,250,423.5,295.5Z;
+                        "
+                    ></animate>
+                </path>
+            </g>
+        </svg>
+    </div> -->
 </html>
+<script src="../../static/js/custom_mouse.js"></script>
