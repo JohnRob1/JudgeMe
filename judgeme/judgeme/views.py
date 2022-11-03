@@ -136,17 +136,17 @@ def homepage(request):
             
     friends = request.user.friends.all()
     if len(friends) >= 1:
-        friend1 = friends[0].profile_picture()
+        friend1 = friends[0].profile_picture
     else:
         friend1 = False
     
     if len(friends) >= 2:
-        friend2 = friends[1].profile_picture()
+        friend2 = friends[1].profile_picture
     else:
         friend2 = False
 
     if len(friends) >= 3:
-        friend3 = friends[2].profile_picture()
+        friend3 = friends[2].profile_picture
     else:
         friend3 = False
 
@@ -169,7 +169,10 @@ def generate(request):
     if 'next' in request.GET:
         print("hi")
 
-    return render(request, 'generate.html')
+    context = {}
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+    return render(request, 'generate.html', context)
 
 def artist(request):
     sp: spotipy.Spotify = get_spotify_object(request)

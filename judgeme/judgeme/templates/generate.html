@@ -24,19 +24,14 @@
           <!-- Dropdown menu -->
           <div id="dropdownDefaultCheckbox" class="hidden z-10 w-48 bg-white rounded divide-y divide-[#3d0c02] shadow dark:bg-[#3d0c02] dark:divide-[#3d0c02]">
             <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
+              {% if user %} {% if friends %} {% for friend in friends %}
               <li>
                 <div class="flex items-center">
                   <input id="checkbox-item-1" type="checkbox" value="" class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white">
-                  <label for="checkbox-item-1" class="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300">John Smith</label>
+                  <label for="checkbox-item-1" class="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300">{{friend.name}}</label>
                 </div>
               </li>
-              <li>
-                <div class="flex items-center">
-                  <input id="checkbox-item-1" type="checkbox" value="" class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white">
-                  <label for="checkbox-item-2" class="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300">Jane Doe</label>
-                </div>
-              </li>
-              <li>
+              {% endfor %} {% endif %} {% endif %}
             </ul>
           </div>
           <!-- End Dropdown Menu -->

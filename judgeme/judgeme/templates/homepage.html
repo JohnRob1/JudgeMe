@@ -186,17 +186,17 @@
             <div class="flex justify-center space-x-12 w-100 flex-row">
                 {% if user %}
                     {% if friend2 != False %}
-                        <img name="silver" src="{{friend2}}" alt="friend2" class="image"></img>
+                        <img name="silver" src="{{friend2}}" alt="friend2" class="animate-bounce animation-delay-300 image"></img>
                     {% else %}
                         <img name="silver" src="{% static '/icons/invite.png' %}" alt="friend2" class="animate-bounce animation-delay-300 image"></img>
                     {% endif %}
                     {% if friend1 != False %}
-                        <img name="gold" src="{{friend1}}" alt="friend1" class="image"></img>
+                        <img name="gold" src="{{friend1}}" alt="friend1" class="animate-bounce animation-delay-500 image"></img>
                     {% else %}
                         <img name="gold" src="{% static '/icons/invite.png' %}" alt="friend1" class="animate-bounce animation-delay-500 image"></img>
                     {% endif %}
                     {% if friend2 != False %}
-                        <img name="bronze" src="{{friend3}}" alt="friend3" class="image"></img>
+                        <img name="bronze" src="{{friend3}}" alt="friend3" class="animate-bounce animation-delay-100 image"></img>
                     {% else %}
                         <img name="bronze" src="{% static '/icons/invite.png' %}" alt="friend3" class="animate-bounce animation-delay-100 image"></img>
                     {% endif %}
