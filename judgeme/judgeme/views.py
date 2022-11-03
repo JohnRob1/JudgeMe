@@ -112,6 +112,13 @@ def homepage(request):
     sp = get_spotify_object(request)
     iterations = 0
     playlists = []
+    
+    if 'darkMode' in request.GET:
+        darkmode = True
+
+    if 'lightMode' in request.GET:
+        darkmode = False
+
     while(True):
         result = sp.current_user_playlists(limit=50, offset=iterations*50)
         items = result.get('items')
@@ -142,12 +149,6 @@ def artist(request):
 def generate(request):
     if 'next' in request.GET:
         print("hi")
-
-    if 'darkMode' in request.GET:
-        darkmode = True
-
-    if 'lightMode' in request.GET:
-        darkmode = False
 
     return render(request, 'generate.html')
 
