@@ -10,6 +10,9 @@ class JMUser(AbstractUser):
 
     friends = models.ManyToManyField("JMUser", blank=True)
 
+    about = models.CharField(max_length=256)
+    vibes = models.CharField(max_length=256)
+
     def __str__(self):
         return self.username
 

@@ -100,7 +100,14 @@ def profile(request):
 
     pprint(user.username)
 
-    context = {'user_to_display': user}
+    context = {}
+    context['user_to_display'] = user
+    context['is_owner'] = user == request.user
+    context['is_friend'] = user in request.user.friends.all()
+
+    context['bg_color'] = 'blue-400'
+    context['bubble_color'] = '[#7dd3fc]'
+
     return render(request, 'profile.html', context)
 
 
