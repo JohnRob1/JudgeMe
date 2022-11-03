@@ -5,7 +5,6 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
 from . import spotify_views
-from .forms import AddFriend
 import random
 
 from .util_auth import generate_url, create_token_info, check_token, login_django_user
@@ -72,28 +71,66 @@ def welcome(request):
 def judge(request):
     return render(request, 'judge.html')
 
-def result(request):
+def result(request): 
+
     # Implement Comparison Algorithm
-    # os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
-    # os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIPY_CLIENT_SECRET
-    # os.environ['SPOTIPY_REDIRECT_URI'] = SPOTIPY_REDIRECT_URI
+    MusicTaste = 0
 
-    # scope = "user-library-read user-top-read"
+    # Read in Correlation Factors into Hash
+    f = open('theme/static/genre_correlations', 'r')
+    lines = f.readlines()
+    genres_cf = {}
+    genres_amt = {}
+    for line in lines:
+        values = line.split(",")
+        values[1] = values[1].strip()
+        genres_cf[values[0].lower()] = values[1]
+    # Get genres of songs for weight
+    sp = get_spotify_object(request)
+    i = 0
+    genres = []
+    for track in sp.current_user_top_tracks(100).get("items"):
+        song_uri = track.get("uri")
+        artist_id = sp.track(song_uri).get("artists")[0].get("id")
+        artist = sp.artist(artist_id)
+        genres = artist.get("genres")
+        for genre in genres:
+            added_to_dict = False
+            if genres_cf.get(genre, None) != None: 
+                added_to_dict = True
+                if genres_amt.get(genre, None) == None: genres_amt[genre] = 0
+                else: genres_amt[genre] = genres_amt.get(genre) + 1
+            else:
+                # Check is the genre given is just the subtype of a genre in the correlation values
+                split = genre.split()
+                for word in split:
+                    if genres_cf.get(word, None) != None:
+                        added_to_dict = True
+                        if genres_amt.get(word, None) == None: genres_amt[word] = 0
+                        else: genres_amt[word] = genres_amt.get(word) + 1
+            # Genre has no personality correlation
+            # CF = 3/36
+            if added_to_dict is False: 
+                if genres_amt.get(genre, None) == None: genres_amt[genre] = 0
+                else: genres_amt[genre] = genres_amt.get(genre) + 1
+                genres_cf[genre] = 3/36
 
-    # sp: spotipy.Spotify = spotipy.Spotify(
-    #     auth_manager=SpotifyOAuth(scope=scope))
-
-    # topHunna = sp.current_user_top_tracks(100, 0, "medium_term")
-    # for track in topHunna['items']:
-    #     print(track)
-
+    # Calculate MusicTaste
+    for genre in genres_amt.keys():
+        MusicTaste = MusicTaste + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
+    print(MusicTaste)
 
     f = open('theme/static/light_mode_gifs/insults.txt', 'r')
     lines = f.readlines()
     r = random.randint(0, len(lines) - 1)
+    line = lines[r]
+    sh = line.split(", ")
 
     context = {
-        'gif' : lines[r].format,
+        'src': sh[0],
+        'height': sh[1],
+        'href': sh[2],
+        'MusicTaste': MusicTaste
     }
     return render(request, 'result.html', context)
 

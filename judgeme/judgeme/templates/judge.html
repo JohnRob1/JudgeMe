@@ -21,19 +21,17 @@
             onclick="list_choices('playlistPlaceholder', '<h3>Choose a Playlist</h3>', 'playlistMessage', 'playlist')"
             >Playlist vs Playlist</button>
 
-            <h3 class="text-white text-lg align-middle font-semibold" id="playlistMessage"></h3>
-            <h3 class="text-white text-lg align-middle font-semibold" id="friendsMessage"></h3>
-            <h3 class="text-white text-lg align-middle font-semibold" id="friendsPlaylistsMessage"></h3>
-            <h3 class="text-white text-lg align-middle font-semibold" id="graphsTypesMessage"></h3>
-            <button class="btn opacity-0 animate-fadeIn" name="fvf" onclick="location.href='./result/'">Friend vs Friend</button>
-            {% block content %}
-            {% endblock %}
+            <div class="text-white text-lg align-middle font-semibold" id="playlistMessage"></div>
+            <div class="text-white text-lg align-middle font-semibold" id="friendsMessage"></div>
+            <div class="text-white text-lg align-middle font-semibold" id="friendsPlaylistsMessage"></div>
+            <div class="text-white text-lg align-middle font-semibold" id="graphsTypesMessage"></div>
+
+            <button type="submit" class="btn opacity-0 animate-fadeIn" name="fvf" onclick="location.href='./result/'">Friend vs Friend</button>
             <script src="../../static/js/script.js"></script>
         </div>
     </body>
     <!-- Navbar -->
-    <header class="fixed bottom-0 px-6 py-4">
-        <div class="flex-col">
+        <div class="absolute bottom-0 left-0">
             <a href="../">
                 <img
                     class="w-48"
@@ -46,6 +44,5 @@
                 <!-- <p>terms</p> -->
             </div>
         </div>
-    </header>
     <!-- Navbar -->
 </html>
