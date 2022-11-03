@@ -1185,6 +1185,36 @@ html{
   -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+@-webkit-keyframes bounce{
+  0%, 100%{
+    transform: translateY(-25%);
+    -webkit-animation-timing-function: cubic-bezier(0.8,0,1,1);
+            animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+
+  50%{
+    transform: none;
+    -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
+            animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+@keyframes bounce{
+  0%, 100%{
+    transform: translateY(-25%);
+    -webkit-animation-timing-function: cubic-bezier(0.8,0,1,1);
+            animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+
+  50%{
+    transform: none;
+    -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
+            animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+.animate-bounce{
+  -webkit-animation: bounce 1s infinite;
+          animation: bounce 1s infinite;
+}
 .cursor-default{
   cursor: default;
 }
@@ -1787,6 +1817,18 @@ html{
 }
 .ease-out{
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+.animation-delay-100{
+  -webkit-animation-delay: 100ms;
+          animation-delay: 100ms;
+}
+.animation-delay-200{
+  -webkit-animation-delay: 200ms;
+          animation-delay: 200ms;
+}
+.animation-delay-300{
+  -webkit-animation-delay: 300ms;
+          animation-delay: 300ms;
 }
 .animation-delay-500{
   -webkit-animation-delay: 500ms;

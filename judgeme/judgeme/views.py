@@ -134,7 +134,26 @@ def homepage(request):
         if item.get('owner').get('id') == request.user.username:
             count += 1
             
+    friends = request.user.friends.all()
+    if len(friends) >= 1:
+        friend1 = friends[0].profile_picture()
+    else:
+        friend1 = False
+    
+    if len(friends) >= 2:
+        friend2 = friends[1].profile_picture()
+    else:
+        friend2 = False
+
+    if len(friends) >= 3:
+        friend3 = friends[2].profile_picture()
+    else:
+        friend3 = False
+
     context = {'user':request.user, 'friendcount':request.user.friends.count(), 'playlist_count':count}
+    context['friend1'] = friend1
+    context['friend2'] = friend2
+    context['friend3'] = friend3
     return render(request, 'homepage.html', context)
 
 def profiledit(request):
