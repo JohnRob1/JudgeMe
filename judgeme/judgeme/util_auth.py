@@ -81,7 +81,11 @@ def login_django_user(request):
     sp_user = sp.me()
     sp_id = sp_user.get("id")
     sp_email = sp_user.get("email")
-    sp_profile_picture = sp_user.get("images")[0].get("url")
+    images = sp_user.get("images")
+    if len(images) != 0:
+        sp_profile_picture = "https://static.vecteezy.com/system/resources/thumbnails/005/544/770/small/profile-icon-design-free-vector.jpg"
+    else:
+        sp_profile_picture = images[0].get("url")
 
     user = None
     try:

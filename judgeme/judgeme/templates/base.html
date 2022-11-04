@@ -1,7 +1,7 @@
 {% load static tailwind_tags %} {% load static %}
 <!DOCTYPE html>
 
-<link href="../../static/css/page_transitions.css" rel="stylesheet" />
+<!-- <link href="../../static/css/page_transitions.css" rel="stylesheet" /> -->
 
 <div class="absolute opacity-0">
     <div class="w-2 h-2 bg-[#355e3b]"></div>
@@ -31,7 +31,10 @@
     {% block page-footer %}
     <header class="fixed bottom-0 px-6 py-4">
         <div class="flex-col">
-            <button onclick="location.href = '../'" class="text-4xl title">
+            <button
+                onclick="location.href = '../homepage/'"
+                class="text-4xl title"
+            >
                 JudgeMe
             </button>
 
@@ -58,10 +61,7 @@
     <!-- Cursor -->
 </html>
 
-{% comment %}
-<script defer src="../../static/js/custom_mouse.js"></script>
-{% endcomment %}
 <script defer src="{% static 'js/custom_mouse.js' %}"></script>
 
-<script defer src="{% static 'swup/dist/swup.min.js' %}"></script>
-<script defer src="{% static 'js/page_transitions.js' %}"></script>
+<!-- <script defer src="{% static 'swup/dist/swup.min.js' %}"></script>
+<script defer src="{% static 'js/page_transitions.js' %}"></script> -->

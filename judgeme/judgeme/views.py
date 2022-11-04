@@ -90,7 +90,33 @@ def judge(request):
 
 
 def profile(request):
-    return render(request, 'profile.html')
+    sp = get_spotify_object(request)
+
+    user = request.user
+    if "user" in request.GET:
+        try:
+            user = JMUser.objects.get(username=request.GET.get('user'))
+        except:
+            user = None
+            pass
+
+    if "about" in request.GET:
+        user.about = request.GET['about']
+    if "vibes" in request.GET:
+        user.vibes = request.GET['vibes']
+    user.save()
+
+    pprint(user.username)
+
+    context = {}
+    context['user_to_display'] = user
+    context['is_owner'] = user == request.user
+    context['is_friend'] = user in request.user.friends.all()
+
+    context['bg_color'] = 'blue-400'
+    context['bubble_color'] = '[#7dd3fc]'
+
+    return render(request, 'profile.html', context)
 
 
 def playlist(request):
@@ -169,10 +195,24 @@ def temp(request):
 
 
 def generate(request):
-    if 'next' in request.GET:
-        print("hi")
+    sp = get_spotify_object(request)
 
-    return render(request, 'generate.html')
+    context = {}
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+    context['artists'] = sp.current_user_top_artists().get('items')
+
+    artists = sp.current_user_top_artists().get('items')
+    artistNames = []
+    for artist in artists:
+        artistNames.append(artist.get('name'))
+    
+    context['artistNames'] = artistNames
+
+    context['bg_color'] = '[#bc8f8f]'
+    context['bubble_color'] = '[#3d0c02]'
+
+    return render(request, 'generate.html', context)
 
 
 def artist(request):
@@ -370,6 +410,7 @@ def friends(request):
     context["bg_color"] = "[#322c3d]"
     context["bubble_color"] = "[#8e3d81]"
 
+    request_code = 0
     if 'add-friend' in request.GET:
         username = request.GET['add-friend']
         print("trying to add:", username)
@@ -378,9 +419,10 @@ def friends(request):
             user = JMUser.objects.get(username=username)
             request.user.friends.add(user)
             print("friend added.")
+            request_code = 1
         except ObjectDoesNotExist:
             print("doesn't exist!!")
-            pass
+            request_code = 2
 
     if 'remove-friend' in request.GET:
         username = request.GET['remove-friend']
@@ -389,8 +431,12 @@ def friends(request):
             user = JMUser.objects.get(username=username)
             request.user.friends.remove(user)
             print("friend removed.")
+            request_code = 3
         except ObjectDoesNotExist:
             print("doesn't exist!!")
+            request_code = 4
+
+    context['request_code'] = request_code
 
     return render(request, 'friends.html', context)
 

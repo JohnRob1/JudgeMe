@@ -1,171 +1,201 @@
 {% load static tailwind_tags %} {% tailwind_css %}
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Profile</title>
-</head>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-    *:focus{
-        outline: none;
-    }
-    .box{
-        box-sizing: border-box;
-        width: 600px;
-        height: 600px;
-        border: 2px solid green;   
-        border-radius: 40px;
-        background-color: black;
-        margin-top:  50px;
-        overflow: hidden;
-        transition: 00.3s;
-    }
-    
- 
-    .imgbx{
-        position: relative;
-        border: 1px solid red;
-        background-color: white;
-        background-size: 140px  140px;
-        background-repeat: no-repeat;
-        right: 200px;
-        top: 10px;
-        width: 150px;
-        height: 150px;
-        border-radius: 80px;
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
-    }
-    img{
-        box-sizing: border-box;
-        width: 149px;
-        height: 149px;
-        border-radius: 50%;
-        margin: 0;
-        border: 5px solid green;
-        padding: 3px;
-        background-color: white;
-    } 
-    .upload{
-        position: relative;
-        width: 20%;
-        Top: 20px;
-        right: 203px;
-    }
-    .text{
-        display: block;
-        margin-bottom: 30px;
-    }
-    .text .textarea{
-        resize: none;
-    }
-    input[type="vibes"]{
-        display: block;
-        box-sizing: border-box;
-        /*background: none;*/
-        color: blue;
-        margin-top: 70px;
-        margin-bottom: 80px;
-        padding: 10px;
-        width: 220px;
-        height: 50px;
-        border: none;
-        border-bottom: 1px solid #0082e6;
-    }
-    input[type="file"]{
-        display: none;
-    }
-    label{
-        height: 100px;
-        margin-top: 300px;
+    <head>
+        <title>Profile</title>
+    </head>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+        *:focus {
+            outline: none;
+        }
+        .box {
+            box-sizing: border-box;
+            width: 600px;
+            height: 600px;
+            border: 2px solid green;
+            border-radius: 40px;
+            background-color: black;
+            margin-top: 50px;
+            overflow: hidden;
+            transition: 00.3s;
+        }
 
-    }
-
-
-</style>
-<!--Figure this out: Some colors work like the ones that have been used and others don't work. Why is that?-->
-<body class="bg-blue-700" style="background-color: #1e3a8a;">
-    <div class="fixed top-32 right-5 w-72 h-36 bg-[#7dd3fc] rounded-full rotate-12 animate-blob animation-delay-1500"></div>
-    <div class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"></div>
-    <center>
-        <div class="box" id="boxid">
-            <!-- figure out how to get the chosen file to populate the template-->
-            <div class="imgbx" id="imgid">
-                <input type="file" id ="image-input", accept="image/png, image/jpg">
-            </div>
-            <div class="upload">
-                <label class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" for="image-input">EDIT PIC</label>
-            </div>
-            <div class="text">
-                <div class="center">
-                    <textarea name="textarea" style="resize: none; color: black;" id="input" cols="30" rows="5" placeholder="About me..."></textarea>
-                    <p id="counter">Character Limit: 0/250</p>
-                    <p id="name"></p>
+        .imgbx {
+            position: relative;
+            border: 1px solid red;
+            background-color: white;
+            background-size: 140px 140px;
+            background-repeat: no-repeat;
+            right: 200px;
+            top: 10px;
+            width: 150px;
+            height: 150px;
+            border-radius: 80px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
+        }
+        img {
+            box-sizing: border-box;
+            width: 149px;
+            height: 149px;
+            border-radius: 50%;
+            margin: 0;
+            border: 5px solid green;
+            padding: 3px;
+            background-color: white;
+        }
+        .upload {
+            position: relative;
+            width: 20%;
+            top: 20px;
+            right: 203px;
+        }
+        .text {
+            display: block;
+            margin-bottom: 30px;
+        }
+        .text .textarea {
+            resize: none;
+        }
+        input[type="vibes"] {
+            display: block;
+            box-sizing: border-box;
+            /*background: none;*/
+            color: blue;
+            margin-top: 70px;
+            margin-bottom: 80px;
+            padding: 10px;
+            width: 220px;
+            height: 50px;
+            border: none;
+            border-bottom: 1px solid #0082e6;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        label {
+            height: 100px;
+            margin-top: 300px;
+        }
+    </style>
+    <!--Figure this out: Some colors work like the ones that have been used and others don't work. Why is that?-->
+    <body class="bg-blue-700" style="background-color: #1e3a8a">
+        <div
+            class="fixed top-32 right-5 w-72 h-36 bg-[#7dd3fc] rounded-full rotate-12 animate-blob animation-delay-1500"
+        ></div>
+        <div
+            class="fixed bottom-32 w-48 h-48 bg-[#7dd3fc] rounded-full animate-blob"
+        ></div>
+        <center>
+            <div class="box" id="boxid">
+                <!-- figure out how to get the chosen file to populate the template-->
+                <div class="imgbx" id="imgid">
+                    <input
+                        type="file"
+                        id="image-input"
+                        ,
+                        accept="image/png, image/jpg"
+                    />
                 </div>
-                <input type="vibes" id="vibeid" name="" placeholder="My Vibes">
+                <div class="upload">
+                    <label
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                        for="image-input"
+                        >EDIT PIC</label
+                    >
+                </div>
+                <div class="text">
+                    <div class="center">
+                        <textarea
+                            name="textarea"
+                            style="resize: none; color: black"
+                            id="input"
+                            cols="30"
+                            rows="5"
+                            placeholder="About me..."
+                        ></textarea>
+                        <p id="counter">Character Limit: 0/250</p>
+                        <p id="name"></p>
+                    </div>
+                    <input
+                        type="vibes"
+                        id="vibeid"
+                        name=""
+                        placeholder="My Vibes"
+                    />
+                </div>
+                <div class="myaction" action="../profile">
+                    <button
+                        onclick="location.href='../profile'"
+                        style="float: left; margin: 10px 0 0 10%"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        onclick="profile();passvalues()"
+                        style="float: right; margin: 10px 10% 0 0"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    >
+                        Save
+                    </button>
+                </div>
             </div>
-            <div class="myaction" action="../profile">
-                <button onclick="location.href='../profile'" style="float: left; margin: 10px 0 0 10%;" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                    Cancel
-                </button>
-                <button onclick="profile();passvalues()" style="float: right; margin: 10px 10% 0 0;"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                    Save
-                </button>
-            </div>
-        </div>
-    </center>
-    <script>
+        </center>
+        <script>
+            const image_input = document.querySelector("#image-input");
+            var uploaded_image = "";
 
-        const image_input = document.querySelector("#image-input");
-        var uploaded_image = "";
-
-        image_input.addEventListener("change", function() {
-            const reader = new FileReader();
-            reader.addEventListener("load", ()=> {
-                const uploaded_image = reader.result;
-                let image = document.querySelector("#imgid").style.backgroundImage = `url(${uploaded_image})`;
+            image_input.addEventListener("change", function () {
+                const reader = new FileReader();
+                reader.addEventListener("load", () => {
+                    const uploaded_image = reader.result;
+                    let image = (document.querySelector(
+                        "#imgid"
+                    ).style.backgroundImage = `url(${uploaded_image})`);
+                });
+                reader.readAsDataURL(this.files[0]);
             });
-            reader.readAsDataURL(this.files[0]);
-        });
-        
-        function profile() {
-            location.href='../profile'
-        }
 
-        function passvalues(){
-            var vibes=document.getElementById("vibeid").value;
-            localStorage.setItem("textvalue", vibes);
-            var about=document.getElementById("input").value;
-            localStorage.setItem("aboutvalue", about);
-            var image=document.getElementById("imgid").value;
-            localStorage.setItem("imgvalue", image);
-            return false;
-        }
+            function profile() {
+                location.href = "../profile";
+            }
 
-        var textarea = document.getElementById('textarea')
-        var counter = document.getElementById("counter")
-        var name = document.getElementById('name')
-        input.addEventListener("input", ()=> {
-            var a = input.value.length;
-            var split = input.value.split(' ');
-            obj = {}
-            for(let i = 0; i < split.length; i++){
-                if(obj[split[i]] === undefined) {
-                    obj[split[i]] = 1;
-                } else {
-                    obj[split[i]]++;
+            function passvalues() {
+                var vibes = document.getElementById("vibeid").value;
+                localStorage.setItem("textvalue", vibes);
+                var about = document.getElementById("input").value;
+                localStorage.setItem("aboutvalue", about);
+                var image = document.getElementById("imgid").value;
+                localStorage.setItem("imgvalue", image);
+                return false;
+            }
+
+            var textarea = document.getElementById("textarea");
+            var counter = document.getElementById("counter");
+            var name = document.getElementById("name");
+            input.addEventListener("input", () => {
+                var a = input.value.length;
+                var split = input.value.split(" ");
+                obj = {};
+                for (let i = 0; i < split.length; i++) {
+                    if (obj[split[i]] === undefined) {
+                        obj[split[i]] = 1;
+                    } else {
+                        obj[split[i]]++;
+                    }
                 }
-            }
-            counter.textContent = "Character Limit: " +  input.value.length + '/250';
-            if (a >= 250) {
-                a = 1
-                counter.style.color = 'red';
-            } else if (a === 0) {
-                counter.style.color = 'white';
-            } else {
-                counter.style.color = 'green';
-            }
-        })
-
-    </script>
-</body>
+                counter.textContent =
+                    "Character Limit: " + input.value.length + "/250";
+                if (a >= 250) {
+                    a = 1;
+                    counter.style.color = "red";
+                } else if (a === 0) {
+                    counter.style.color = "white";
+                } else {
+                    counter.style.color = "green";
+                }
+            });
+        </script>
+    </body>
 </html>
