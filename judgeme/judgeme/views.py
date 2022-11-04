@@ -80,8 +80,8 @@ def welcome(request):
 def judge(request):
     context = {}
     context['friends'] = request.user.friends.all()
-    if "friend" in request.GET: 
-        friend = JMUser.objects.get(username = request.GET.get("friend"))
+    if "friend" in request.GET:
+        friend = JMUser.objects.get(username=request.GET.get("friend"))
         return result(request, friend)
     return render(request, 'judge.html', context)
 
@@ -137,7 +137,9 @@ def result(request, friend):
 
     # Calculate MusicTaste
     for genre in genres_amt.keys():
-        MusicTaste2 = MusicTaste2 + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
+        MusicTaste2 = MusicTaste2 + \
+            ((float(genres_amt.get(genre, 0) / 100))
+             * float(genres_cf.get(genre, 0)))
     friend.music_taste = round(MusicTaste2 * 100, 2)
 
     for track in sp.current_user_top_tracks(1).get("items"):
@@ -175,7 +177,9 @@ def result(request, friend):
 
     # Calculate MusicTaste
     for genre in genres_amt.keys():
-        MusicTaste = MusicTaste + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
+        MusicTaste = MusicTaste + \
+            ((float(genres_amt.get(genre, 0) / 100))
+             * float(genres_cf.get(genre, 0)))
     request.user.music_taste = round(MusicTaste * 100, 2)
 
     if abs(request.user.music_taste - friend.music_taste) < 20:
@@ -197,6 +201,7 @@ def result(request, friend):
         'friend_mt': friend.music_taste,
     }
     return render(request, 'result.html', context)
+
 
 def profile(request):
     sp = get_spotify_object(request)
@@ -415,7 +420,7 @@ def profiledit(request):
 
 
 def temp(request):
-    
+
     context = {}
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
@@ -507,7 +512,7 @@ def artist(request):
                     'album_titles': ['Album Premier', 'Album deux: Springtime', 'Jayanthas Etude', 'Album Premier', 'Album deux: Springtime', 'Jayanthas Etude'],
                     'image': image_artist,
                     'popularity': popularity,
-                    'name' : artist,
+                    'name': artist,
                 }
                 return render(request, 'artist.html', context)
             return render(request, 'artist.html', {'error': True})
@@ -693,5 +698,23 @@ def print_top_genres(request):
 
 
 def test(request):
-
+    api_test(request)
     return render(request, 'test.html')
+
+
+def api_test(request):
+    sp = get_spotify_object(request)
+
+    print("Trying user API call:")
+    pprint(sp.current_user())
+    print("")
+
+    print("Trying track API call: ")
+    pprint(sp.track("11dFghVXANMlKmJXsNCbNl"))
+    print("")
+
+    print("Trying artist API call: ")
+    pprint(sp.artist("0TnOYISbd1XYRBk9myaseg"))
+    print("")
+
+    pass
