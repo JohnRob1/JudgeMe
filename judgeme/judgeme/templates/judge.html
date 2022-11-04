@@ -2,19 +2,18 @@
 <!DOCTYPE html>
 <html>
 <title>Judge</title>
-    <body class="bg-emerald-900">
+
+    <body class="bg-emerald-900 columns-1 ">
         <!-- BUBBLES -->
         <div
-            class="fixed top-32 right-5 w-72 h-36 bg-emerald-300 rounded-full rotate-12 animate-blob animation-delay-1500"
+            class="fixed top-32 right-5 w-72 h-36 z-1 bg-emerald-300 rounded-full rotate-12 animate-blob animation-delay-1500"
         ></div>
         <div
-            class="fixed bottom-64 w-72 h-72 bg-emerald-300 rounded-full animate-blob"
+            class="fixed z-1 bottom-64 w-72 h-72 bg-emerald-300 rounded-full animate-blob"
         ></div>
         <!--END BUBBLES-->
-
-
-        <div class="flex justify-center container h-24 w-screen">
-            <h1 class="text-7xl text-bold pl-20 pt-20">Go Ahead, JudgeMe</h1>
+        <div class="relative h-24 w-full z-2">
+            <h1 class="relative text-7xl text-bold z-2 pl-20 pt-20 text-center">Go Ahead, JudgeMe</h1>
         </div>
         <div class="flex justify-center container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
             <button 
@@ -22,16 +21,28 @@
             onclick="list_choices('playlistPlaceholder', '<h3>Choose a Playlist</h3>', 'playlistMessage', 'playlist')"
             >Playlist vs Playlist</button>
 
-            <h3 class="text-white text-lg align-middle font-semibold" id="playlistMessage"></h3>
-            <h3 class="text-white text-lg align-middle font-semibold" id="friendsMessage"></h3>
-            <h3 class="text-white text-lg align-middle font-semibold" id="friendsPlaylistsMessage"></h3>
-            <h3 class="text-white text-lg align-middle font-semibold" id="graphsTypesMessage"></h3>
-            <button 
-            class="btn opacity-0 animate-fadeIn"
-            onclick="gif('light','bad')"
-            id="fvf"
-            >Friend vs Friend</button>
+            <div class="text-white text-lg align-middle font-semibold" id="playlistMessage"></div>
+            <div class="text-white text-lg align-middle font-semibold" id="friendsMessage"></div>
+            <div class="text-white text-lg align-middle font-semibold" id="friendsPlaylistsMessage"></div>
+            <div class="text-white text-lg align-middle font-semibold" id="graphsTypesMessage"></div>
+
+            <button type="submit" class="btn opacity-0 animate-fadeIn" name="fvf" onclick="location.href='./result/'">Friend vs Friend</button>
             <script src="../../static/js/script.js"></script>
         </div>
     </body>
+    <!-- Navbar -->
+        <div class="absolute bottom-0 left-0">
+            <a href="../">
+                <img
+                    class="w-48"
+                    src="{% static 'login/Logo White.png' %}"
+                    alt="Logo"
+                />
+            </a>
+            <div class="flex space-x-2">
+                <button onclick="location.href = '../about/'">about</button>
+                <!-- <p>terms</p> -->
+            </div>
+        </div>
+    <!-- Navbar -->
 </html>
