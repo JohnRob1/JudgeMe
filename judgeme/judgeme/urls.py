@@ -31,6 +31,7 @@ urlpatterns = [
     path('welcome/', views.welcome, name='welcome'),
     path('spotify/sign-in/', views.sign_in, name='sign-in'),
     path('judge/', views.judge, name='judge'),
+    path('judge/result/', views.result, name='result'),
     path('profile/', views.profile, name='profile'),
     path('playlist/', views.playlist, name='playlist'),
     path('judge/bar/', views.bar, name='bar'),
