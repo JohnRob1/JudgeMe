@@ -104,7 +104,7 @@ def result(request):
     # friend = JMUser.objects.get(username = "virtualkenny")
 
     # if "friend" in request.GET:
-        # friend = JMUser.objects.get(username = request.GET.get("friend"))
+    # friend = JMUser.objects.get(username = request.GET.get("friend"))
     #     for track in friend.top_tracks:
     #         artist_id = sp.track(track).get("artists")[0].get("id")
     #         artist = sp.artist(artist_id)
@@ -246,11 +246,11 @@ def playlist(request):
 
         songNames.append(song.get('track').get('name'))
         # songPictures.append(song.get('track')).get('images')[0]
-    
+
     pprint(tracks)
 
     random.shuffle(songNames)
-    
+
     context['songNames1'] = songNames[:20]
     context['songNames2'] = songNames[20:]
     return render(request, 'playlist.html', context)
@@ -258,6 +258,7 @@ def playlist(request):
 
 def bar(request):
     return render(request, 'bar.html')
+
 
 def playlistgenerate(request):
     context = {}
@@ -269,9 +270,10 @@ def playlistgenerate(request):
     name = []
     for item in playlists:
         name.append(item.get('name'))
-        
+
     context['playlists'] = name
     return render(request, 'playlistgenerate.html', context)
+
 
 def graph(request):
     return render(request, 'graph.html')
@@ -299,11 +301,8 @@ def get_user_playlists(request):
 
     return playlists
 
-def homepage(request):
-    sp = get_spotify_object(request)
-    iterations = 0
-    playlists = []
 
+def homepage(request):
     if 'darkMode' in request.GET:
         darkmode = True
 
@@ -336,21 +335,8 @@ def homepage(request):
             print("doesn't exist!!")
             request_code = 4
 
-    # while (True):
-    #     result = sp.current_user_playlists(limit=50, offset=iterations*50)
-    #     items = result.get('items')
-    #     if (len(items) == 0):
-    #         break
-    #     iterations += 1
-    #     for playlist in items:
-    #         playlists.append(playlist)
-
+    playlist_count = get_or_calculate_user_playlist_count(request)
     user_image = request.user.profile_picture
-
-    count = 0
-    for item in playlists:
-        if item.get('owner').get('id') == request.user.username:
-            count += 1
 
     friends = request.user.friends.all()
     if len(friends) >= 1:
@@ -369,7 +355,7 @@ def homepage(request):
         friend3 = False
 
     context = {'user': request.user,
-               'friendcount': request.user.friends.count(), 'playlist_count': count}
+               'friendcount': request.user.friends.count(), 'playlist_count': playlist_count}
 
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
@@ -381,9 +367,39 @@ def homepage(request):
     context["bg_color"] = "[#322c3d]"
     context["bubble_color"] = "[#8e3d81]"
     if user_image:
-        print("AJSDLKASJDKL")
         context["profile"] = user_image
     return render(request, 'homepage.html', context)
+
+
+def get_user_playlists(request):
+    sp = get_spotify_object(request)
+
+    all_playlists = []
+    iterations = 0
+    while (True):
+        result = sp.current_user_playlists(limit=50, offset=iterations*50)
+        items = result.get('items')
+        if (len(items) == 0):
+            break
+        iterations += 1
+        for playlist in items:
+            all_playlists.append(playlist)
+
+    user_playlists = []
+    for item in all_playlists:
+        if item.get('owner').get('id') == request.user.username:
+            user_playlists.append(item)
+
+    return user_playlists
+
+
+def get_or_calculate_user_playlist_count(request) -> int:
+    if request.user.playlist_count == -1:
+        request.user.playlist_count = len(get_user_playlists(request))
+        request.user.save()
+        print("Calculated playlists")
+
+    return request.user.playlist_count
 
 
 def profiledit(request):
@@ -400,7 +416,7 @@ def temp(request):
     name = []
     for item in playlists:
         name.append(item.get('name'))
-        
+
     context['playlists'] = name
     return render(request, 'temp.html', context)
 
@@ -605,12 +621,15 @@ def update_top_tracks(request):
         track = get_or_create_track_from_uri(request, song_uri)
         request.user.top_tracks.add(track)
 
+    request.user.save()
+
 
 def get_or_create_track_from_uri(request, uri) -> Track:
     sp = get_spotify_object(request)
     name = sp.track(uri).get("name")
     picture = sp.track(uri).get("images")[0]
-    track, created = Track.objects.get_or_create(uri=uri, name=name, picture=picture)
+    track, created = Track.objects.get_or_create(
+        uri=uri, name=name, picture=picture)
     print(track)
     return track
 
