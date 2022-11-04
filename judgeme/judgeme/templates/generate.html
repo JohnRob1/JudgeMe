@@ -1,79 +1,69 @@
-{% load static tailwind_tags %} {% tailwind_css %}
+{% extends 'base.html' %} {% load static tailwind_tags %} {% tailwind_css %}
 <!DOCTYPE html>
 <html>
+{% block content %}
 <title>Generate</title>
-<body class="bg-[#9f8170]">
+<body>
 
 
     <!-- BUBBLES -->
     <div
-        class="fixed top-50 w-72 h-72 bg-[#ffebcd] rounded-full animate-blob"
-    ></div>
-    <div
-        class="fixed bottom-10 right-20 w-80 h-40 bg-[#ffebcd] rounded-full rotate-12 animate-blob animation-delay-1500"
-    ></div>
-    <div
-        class="fixed top-50 right-10 w-20 h-72 bg-[#ffebcd] rounded-full rotate-12 animate-blob"
+        class="fixed top-50 right-10 w-20 h-72 bg-[#3d0c02] rounded-full rotate-12 animate-blob"
     ></div>
     <!--END BUBBLES-->
 
     <div class="flex items-center justify-center h-screen">
-        <div id="container" class="flex space-y-80 w-200 items-center flex-col">
+        <div id="container" class="flex space-y-20 w-200 items-center flex-col">
           <button id="dropdownCheckboxButton" data-dropdown-toggle="dropdownDefaultCheckbox" class="z-10 w-48 text-white bg-[#3d0c02] hover:bg-[#3d0c02] focus:ring-5 focus:outline-none focus:ring-[#3d0c02] font-medium rounded-lg text-4xl px-4 py-2.5 text-center inline-flex items-center dark:bg-[#3d0c02] dark:hover:bg-[#3d0c02] dark:focus:ring-[#3d0c02]" type="button">Friends <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
           
-          <!-- Dropdown menu -->
+          
           <div id="dropdownDefaultCheckbox" class="hidden z-10 w-48 bg-white rounded divide-y divide-[#3d0c02] shadow dark:bg-[#3d0c02] dark:divide-[#3d0c02]">
             <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
               {% if user %} {% if friends %} {% for friend in friends %}
               <li>
                 <div class="flex items-center">
-                  <input id="checkbox-item-1" type="checkbox" value="" class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white">
-                  <label for="checkbox-item-1" class="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300">{{friend.name}}</label>
+                  <input id="{{friend.username}}" type="checkbox" value="" class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white">
+                  <label for="{{friend.username}}" class="ml-2 text-lg font-medium text-white">{{friend.username}}</label>
                 </div>
               </li>
               {% endfor %} {% endif %} {% endif %}
             </ul>
           </div>
-          <!-- End Dropdown Menu -->
-          <button class="bg-[#3d0c02] text-white text-lg font-medium py-2 px-10 rounded-full" onclick="next(dropdownCheckboxButton, dropdownDefaultCheckbox, this)" id="next" name="next">
+
+          <button class="bg-[#3d0c02] text-white text-lg font-medium py-2 px-10 rounded-full" id="next" name="next" onclick="saveFriends({friends})">
+            Save
+          </button>
+          <script src="../../static/js/generate.js"></script>
+          
+
+          <button id="dropdownCheckboxButton2" data-dropdown-toggle="dropdownDefaultCheckbox2" class="z-10 w-48 text-white bg-[#3d0c02] hover:bg-[#3d0c02] focus:ring-5 focus:outline-none focus:ring-[#3d0c02] font-medium rounded-lg text-4xl px-4 py-2.5 text-center inline-flex items-center dark:bg-[#3d0c02] dark:hover:bg-[#3d0c02] dark:focus:ring-[#3d0c02]" type="button">Artists <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+          
+          <div id="dropdownDefaultCheckbox2" class="hidden z-10 w-48 bg-white rounded divide-y divide-[#3d0c02] shadow dark:bg-[#3d0c02] dark:divide-[#3d0c02]">
+            <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
+              {% if user %} {% if artistNames %} {% for artistName in artistNames %}
+              <li>
+                <div class="flex items-center">
+                  <input id="{{artistName}}" type="checkbox" value="" class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white">
+                  <label for="{{artistName}}" class="ml-2 text-lg font-medium text-white">{{artistName}}</label>
+                </div>
+              </li>
+              {% endfor %} {% endif %} {% endif %}
+            </ul>
+          </div>
+
+          <button class="bg-[#3d0c02] text-white text-lg font-medium py-2 px-10 rounded-full" id="next" name="next" onclick="saveArtists({artistNames})">
+            Save
+          </button>
+          <script src="../../static/js/generate.js"></script>
+          
+          <button onclick="location.href='../temp/'" class="bg-transparent hover:bg-[#3d0c02] text-[#3d0c02] font-semibold hover:text-white py-2 px-4 border border-[#3d0c02] hover:border-transparent rounded">
             Next
           </button>
+
           <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
 
         </div>
-        <script src="../../static/js/generate.js"></script>
     </div>
-
+{% endblock %}
 </body>
-<head>
-    <style type="text/css">
-        .footer1 {
-            position: fixed;
-            text-align: right;
-            bottom: 20px;
-            width: 100%;
-        }
-        .footer2 {
-            position: fixed;
-            text-align: right;
-            bottom: 0px;
-            width: 100%;
-        }
-    </style>
-</head>
-     <!-- Navbar -->
-     <header class="fixed bottom-0 px-6 py-4">
-        <div class="flex-col">
-            <a href="../">
-                <p class="text-4xl title">JudgeMe</p>
-            </a>
-
-            <div class="flex space-x-2">
-
-            <button onclick="location.href = '../about/'">about</button>
-            <!-- <p>terms</p> -->
-          </div>
-        </div>
-    </header>
-    <!-- Navbar -->
 </html>

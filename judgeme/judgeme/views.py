@@ -166,12 +166,23 @@ def artist(request):
     return render(request, 'artist.html')
 
 def generate(request):
-    if 'next' in request.GET:
-        print("hi")
+    sp = get_spotify_object(request)
 
     context = {}
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
+    context['artists'] = sp.current_user_top_artists().get('items')
+
+    artists = sp.current_user_top_artists().get('items')
+    artistNames = []
+    for artist in artists:
+        artistNames.append(artist.get('name'))
+    
+    context['artistNames'] = artistNames
+
+    context['bg_color'] = '[#bc8f8f]'
+    context['bubble_color'] = '[#3d0c02]'
+
     return render(request, 'generate.html', context)
 
 def artist(request):
