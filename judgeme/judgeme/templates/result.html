@@ -28,8 +28,70 @@
         </h1>
       </div>
       <!--Graph, base from https://flowbite.com/docs/forms/range/-->
-      <label for="Masic Taste" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Music Taste: <span id="counter"></span></label>
-      <input id="Music Taste" type="range" value={{ me_mt }} class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-emerald-300">
+      <style>
+        .slidecontainer {
+          width: 100%;
+        }
+        
+        .slider {
+          -webkit-appearance: none;
+          width: 100%;
+          height: 25px;
+          background: #d3d3d3;
+          outline: none;
+          opacity: 0.7;
+          -webkit-transition: .2s;
+          transition: opacity .2s;
+        }
+        
+        .slider:hover {
+          opacity: 1;
+        }
+        
+        .slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 25px;
+          height: 25px;
+          background: #04AA6D;
+          cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+          width: 25px;
+          height: 25px;
+          background: #04AA6D;
+          cursor: pointer;
+        }
+      </style>
+      
+      <div class="slidecontainer">
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+        <p>Music Taste Value: <span id="demo"></span></p>
+      </div>
+
+      <script>
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+        
+        slider.oninput = function() {
+          output.innerHTML = this.value;
+          console.log(this.value)
+          console.log(document.getElementById('me_pp').getAttribute('value'))
+           if (this.value == Math.floor(document.getElementById('me_pp').getAttribute('value'))) {
+            document.getElementById('me_pp').setAttribute('class', 'relative w-28 h-28 m-auto')
+          } else {
+            document.getElementById('me_pp').setAttribute('class', 'relative w-28 h-28 m-auto blur')
+          }
+          if (this.value == Math.floor(document.getElementById('friend_pp').getAttribute('value'))) {
+            document.getElementById('friend_pp').setAttribute('class', 'relative w-28 h-28 m-auto')
+          } else {
+            document.getElementById('friend_pp').setAttribute('class', 'relative w-28 h-28 m-auto blur')
+          }
+        }
+      </script>
+        
       <div class="relative grid grid-cols-2 gap-4">
         <figure class="grid grid-cols-1 justify-items-center">
           <img 
@@ -51,7 +113,7 @@
         </figure>
       </div>
       <!--Gif-->
-      <div class="relative grid grid-cols-2 gap 14">
+      <div class="relative grid grid-cols-1 justify-items-center">
         <iframe
           class="relative z-2"
           src={{ src }}
@@ -59,21 +121,7 @@
           height={{ height }}
           frameborder="0"
         ></iframe>
-        <p>Share 
       </div>
-      <script>
-        var slider = document.getElementById('Music Taste');
-        var output = document.getElementById('counter');
-        slider.oninput = function() {
-          output.innterHTML = this.value;
-          if (slider.value == document.getElementById('me_pp').getAttribute('value')) {
-            document.getElementById('me_pp').setAttribute('value', 'w-28 h-28 m-auto')
-          }
-          if (slider.value == document.getElementById('friend_pp').getAttribute('value')) {
-            document.getElementById('friend_pp').setAttribute('value', 'w-28 h-28 m-auto')
-          }
-        }
-      </script>
     </div>
   </body>
 </html>
