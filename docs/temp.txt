@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 <html>
@@ -32,11 +33,6 @@
     </body>
     {% endblock %}
     <script>
-
-        let btnshow = document.querySelector('')
-        let result = document.querySelector('')
-        
-        
     
         /*
         const playlist = [
@@ -45,7 +41,7 @@
             "Playlist 3",
             "Playlist 4",
             "Playlist 5"
-        ]; 
+        ]; */
     
         playlist.forEach(function(playlist) {
             let newOption = document.createElement("option");
@@ -56,7 +52,7 @@
         playlistOption.onchange = writeToScreen;
         function writeToScreen() {
             result.innerText = this.value;
-        }; */
+        };
     
     
     </script>

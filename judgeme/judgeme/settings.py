@@ -138,6 +138,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# NPM_BIN_PATH = "/usr/local/bin/npm"
-
 AUTH_USER_MODEL = "judgeme.JMUser"
