@@ -91,9 +91,12 @@
 
             <div class="flex w-max space-x-4 p-4">
                 <img
+                    id="profile-image"
                     src="{{user_to_display.profile_picture}}"
                     class="w-28 h-28 m-auto"
+                    onclick="selectProfilePicture()"
                 />
+
                 <div
                     class="flex flex-col text-left py-2 align-middle h-auto m-auto"
                 >
@@ -104,13 +107,16 @@
                     {% endif %}
                 </div>
             </div>
-            <form>
+
+            <form id="profile-form">
                 <fieldset
-                    disabled="{{editing}}"
+                    id="form-field-set"
+                    disabled
                     class="flex flex-col px-4 py-2 w-full"
                 >
                     <label class="text-xs text-left">about</label>
                     <input
+                        name="about"
                         type="text"
                         class="text-black rounded-lg border-0 disabled:bg-blue-200"
                         value="{{user_to_display.about}}"
@@ -118,6 +124,7 @@
                     <br />
                     <label class="text-xs text-left">vibes</label>
                     <input
+                        name="vibes"
                         type="text"
                         class="text-black rounded-lg border-0 disabled:bg-blue-200"
                         value="{{user_to_display.vibes}}"
@@ -133,22 +140,105 @@
                     home
                 </button>
                 {% if is_owner %}
-
-                <button
-                    onclick="location.href = '../profiledit'"
-                    class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-full"
-                >
-                    edit
-                </button>
+                <div id="editing-choices" class="space-x-2">
+                    <button
+                        onclick="enableEditing()"
+                        id="edit-button"
+                        class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-full"
+                    >
+                        edit profile
+                    </button>
+                    <input
+                        type="file"
+                        id="image-input"
+                        accept="image/png, image/jpg"
+                        class="hidden"
+                    />
+                    <label
+                        class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-full"
+                        for="image-input"
+                        >edit picture</label
+                    >
+                </div>
+                <div id="editing-buttons" class="hidden space-x-2">
+                    <button
+                        onclick="reloadPage()"
+                        class="bg-blue-500 hover:bg-red-700 text-white text-sm font-bold py-2 px-4 rounded-full"
+                    >
+                        cancel
+                    </button>
+                    <button
+                        onclick="submitForm()"
+                        class="bg-blue-500 hover:bg-green-700 text-white text-sm font-bold py-2 px-4 rounded-full"
+                    >
+                        save
+                    </button>
+                </div>
                 {% endif %}
             </div>
         </div>
     </center>
     <script>
-        {% comment %} document.getElementById("result").innerHTML =
-            localStorage.getItem("textvalue");
-        document.getElementById("aboutid").innerHTML =
-            localStorage.getItem("aboutvalue"); {% endcomment %}
+        var editing = false;
+
+        function enableEditing() {
+            editing = true;
+            document
+                .getElementById("form-field-set")
+                .removeAttribute("disabled");
+            document.getElementById("editing-choices").style.display = "none";
+
+            document.getElementById("editing-buttons").style.display = "flex";
+        }
+
+        function reloadPage() {
+            window.location.reload(true);
+        }
+
+        function submitForm() {
+            console.log("aaa");
+            document.getElementById("profile-form").submit();
+        }
+
+        const image_input = document.getElementById("image-input");
+        var uploaded_image = "";
+        image_input.addEventListener("change", function () {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                const uploaded_image = reader.result;
+                var url = uploaded_image;
+                document
+                    .getElementById("profile-image")
+                    .setAttribute("src", url);
+            });
+            reader.readAsDataURL(this.files[0]);
+        });
+
+        document
+            .getElementById("image-input")
+            .addEventListener("change", selectProfilePicture());
+
+        function selectProfilePicture() {
+            return;
+            const reader = new FileReader();
+            const uploaded_image = reader.result;
+            let image = (document.querySelector(
+                "#imgid"
+            ).style.backgroundImage = `url(${uploaded_image})`);
+
+            reader.readAsDataURL(this.files[0]);
+
+            console.log("AAWADWAD");
+
+            $.ajax({
+                type: "GET",
+                url: "/profile/",
+                data: {
+                    url: result,
+                },
+                /* dataType: "json", */
+            });
+        }
     </script>
     {% endblock %}
 </html>

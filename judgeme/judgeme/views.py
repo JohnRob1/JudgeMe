@@ -90,6 +90,8 @@ def judge(request):
 
 
 def profile(request):
+    sp = get_spotify_object(request)
+
     user = request.user
     if "user" in request.GET:
         try:
@@ -97,6 +99,12 @@ def profile(request):
         except:
             user = None
             pass
+
+    if "about" in request.GET:
+        user.about = request.GET['about']
+    if "vibes" in request.GET:
+        user.vibes = request.GET['vibes']
+    user.save()
 
     pprint(user.username)
 
