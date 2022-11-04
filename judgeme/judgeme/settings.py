@@ -125,7 +125,8 @@ INTERNAL_IPS = [
 ]
 
 # NPM_BIN_PATH = r'/opt/homebrew/bin/npm'
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+# NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+NPM_BIN_PATH = "/usr/local/bin/npm"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
