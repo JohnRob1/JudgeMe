@@ -1,0 +1,141 @@
+
+{% extends "base.html" %}
+
+<html>
+    {% block content %}
+    <style>
+
+    </style>
+
+    <body>
+        <div
+        class="fixed top-50 right-10 w-20 h-72 bg-[#ffebcd] rounded-full rotate-12 animate-blob"
+        ></div>
+        <div class="absolute m-auto left-0 right-0 top-0 bottom-0 text-center" style="position: absolute; margin: 300px;">
+            <!---->
+            <button id="dropdownBgHoverButton" data-dropdown-toggle="dropdownBgHover" style="background-color: #3d0c02;" class="text-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">Select Playlists <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+
+            <!-- Dropdown menu -->
+            <div id="dropdownBgHover" style="background-color: #3d0c02; " class="hidden z-10 w-48 bg-white rounded divide-y divide-[#3d0c02] shadow dark:bg-[#3d0c02] dark:divide-[#3d0c02]">
+                <ul class="p-3 space-y-1 text-sm" aria-labelledby="dropdownBgHoverButton">
+                {% for playlist in playlists %}
+                <li>
+                    <div class="flex items-center p-2 dark:hover:bg-[#A67B5B]">
+                    <input id="playlist-id" type="checkbox" value="" class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white">
+                    <label for="checkbox-item-4" class="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">{{playlist}}</label>
+                    </div>
+                </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+        </div>
+    </body>
+    {% endblock %}
+    <script>
+    
+        /*
+        const playlist = [
+            "Playlist 1",
+            "Playlist 2",
+            "Playlist 3",
+            "Playlist 4",
+            "Playlist 5"
+        ]; */
+    
+        playlist.forEach(function(playlist) {
+            let newOption = document.createElement("option");
+            newOption.text = playlist;
+            newOption.value = playlist;
+            playlistOption.appendChild(newOption);
+        });
+        playlistOption.onchange = writeToScreen;
+        function writeToScreen() {
+            result.innerText = this.value;
+        };
+    
+    
+    </script>
+    
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
+
+
+
+            <button type="button" id="generateid" class="bg-[#3d0c02] hover:bg-[#A67B5B] text-white font-bold py-2 px-4 rounded-full">
+                Click me to generate!
+            </button> 
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <select id="playlistOption">
+        <option value="">Choose from the list of Playlists</option>
+    </select>
+    <span id="result"></span>
+    <div class="relative flex flex-row w-80 h-16 p-2 my-1 rounded-lg border-0 space-x-2 bg-indigo-600 hover:bg-[{{bubble_color}}]">
+        {% for playlist in playlists %}
+        <p> {{playlist}} </p>
+        {% endfor %}
+    </div>
+</body>
+
+<script>
+    
+    /*
+    const playlist = [
+        "Playlist 1",
+        "Playlist 2",
+        "Playlist 3",
+        "Playlist 4",
+        "Playlist 5"
+    ]; */
+
+    playlist.forEach(function(playlist) {
+        let newOption = document.createElement("option");
+        newOption.text = playlist;
+        newOption.value = playlist;
+        playlistOption.appendChild(newOption);
+    });
+    playlistOption.onchange = writeToScreen;
+    function writeToScreen() {
+        result.innerText = this.value;
+    };
+
+
+</script>
+
+</html> -->

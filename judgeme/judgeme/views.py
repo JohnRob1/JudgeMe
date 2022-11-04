@@ -4,6 +4,7 @@ from urllib.request import HTTPRedirectHandler
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
+import random
 
 from .util_auth import generate_url, create_token_info, check_token, login_django_user
 
@@ -190,12 +191,48 @@ def profile(request):
 
 
 def playlist(request):
-    return render(request, 'playlist.html')
+    context = {}
+    context['bg_color'] = '[#674846]'
+    context['bubble_color'] = '[#fdbcb4]'
+    sp = get_spotify_object(request)
+    playlist = sp.current_user_recently_played(limit=40).get('items')
+    tracks = []
+
+    songNames = []
+    songPictures = []
+    for song in playlist:
+        # uri = song.get('track').get('uri')
+        # track = get_or_create_track_from_uri(request, uri)
+        # tracks.append(track)
+
+        songNames.append(song.get('track').get('name'))
+        # songPictures.append(song.get('track')).get('images')[0]
+    
+    pprint(tracks)
+
+    random.shuffle(songNames)
+    
+    context['songNames1'] = songNames[:20]
+    context['songNames2'] = songNames[20:]
+    return render(request, 'playlist.html', context)
 
 
 def bar(request):
     return render(request, 'bar.html')
 
+def playlistgenerate(request):
+    context = {}
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+    context["bg_color"] = "[#9f8170]"
+    context["bubble_color"] = "[#ffebcd]"
+    playlists = get_user_playlists(request)
+    name = []
+    for item in playlists:
+        name.append(item.get('name'))
+        
+    context['playlists'] = name
+    return render(request, 'playlistgenerate.html', context)
 
 def graph(request):
     return render(request, 'graph.html')
@@ -204,6 +241,24 @@ def graph(request):
 def tutorial(request):
     return render(request, 'tutorial.html')
 
+
+def get_user_playlists(request):
+
+    sp = get_spotify_object(request)
+    iterations = 0
+    playlists = []
+
+    while (True):
+        result = sp.current_user_playlists(limit=50, offset=iterations*50)
+        items = result.get('items')
+        if (len(items) == 0):
+            break
+        iterations += 1
+        for playlist in items:
+            if playlist.get('owner').get('id') == request.user.username:
+                playlists.append(playlist)
+
+    return playlists
 
 def homepage(request):
     sp = get_spotify_object(request)
@@ -297,7 +352,18 @@ def profiledit(request):
 
 
 def temp(request):
-    return render(request, 'temp.html')
+    context = {}
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+    context["bg_color"] = "[#9f8170]"
+    context["bubble_color"] = "[#ffebcd]"
+    playlists = get_user_playlists(request)
+    name = []
+    for item in playlists:
+        name.append(item.get('name'))
+        
+    context['playlists'] = name
+    return render(request, 'temp.html', context)
 
 
 def generate(request):
@@ -504,7 +570,8 @@ def update_top_tracks(request):
 def get_or_create_track_from_uri(request, uri) -> Track:
     sp = get_spotify_object(request)
     name = sp.track(uri).get("name")
-    track, created = Track.objects.get_or_create(uri=uri, name=name)
+    picture = sp.track(uri).get("images")[0]
+    track, created = Track.objects.get_or_create(uri=uri, name=name, picture=picture)
     print(track)
     return track
 
