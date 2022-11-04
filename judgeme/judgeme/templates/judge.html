@@ -1,9 +1,9 @@
 {% load static tailwind_tags %} {% tailwind_css %}
 <!DOCTYPE html>
 <html>
-<title>Judge</title>
+    <title>Judge</title>
 
-    <body class="bg-emerald-900 columns-1 ">
+    <body class="bg-emerald-900 columns-1">
         <!-- BUBBLES -->
         <div
             class="fixed top-32 right-5 w-72 h-36 z-1 bg-emerald-300 rounded-full rotate-12 animate-blob animation-delay-1500"
@@ -13,36 +13,97 @@
         ></div>
         <!--END BUBBLES-->
         <div class="relative h-24 w-full z-2">
-            <h1 class="relative text-7xl text-bold z-2 pl-20 pt-20 text-center">Go Ahead, JudgeMe</h1>
+            <h1 class="relative text-7xl text-bold z-2 pl-20 pt-20 text-center">
+                Go Ahead, JudgeMe
+            </h1>
         </div>
-        <div class="flex justify-center container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
-            <button 
-            class="btn opacity-0 animate-fadeIn"
-            onclick="list_choices('playlistPlaceholder', '<h3>Choose a Playlist</h3>', 'playlistMessage', 'playlist')"
-            >Playlist vs Playlist</button>
+        <div
+            class="flex justify-center container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2"
+        >
+            <button
+                class="btn opacity-0 animate-fadeIn"
+                onclick="list_choices('playlistPlaceholder', '<h3>Choose a Playlist</h3>', 'playlistMessage', 'playlist')"
+            >
+                Playlist vs Playlist
+            </button>
 
-            <div class="text-white text-lg align-middle font-semibold" id="playlistMessage"></div>
-            <div class="text-white text-lg align-middle font-semibold" id="friendsMessage"></div>
-            <div class="text-white text-lg align-middle font-semibold" id="friendsPlaylistsMessage"></div>
-            <div class="text-white text-lg align-middle font-semibold" id="graphsTypesMessage"></div>
+            <div
+                class="text-white text-lg align-middle font-semibold"
+                id="playlistMessage"
+            ></div>
+            <div
+                class="text-white text-lg align-middle font-semibold"
+                id="friendsMessage"
+            ></div>
+            <div
+                class="text-white text-lg align-middle font-semibold"
+                id="friendsPlaylistsMessage"
+            ></div>
+            <div
+                class="text-white text-lg align-middle font-semibold"
+                id="graphsTypesMessage"
+            ></div>
 
-            <button type="submit" class="btn opacity-0 animate-fadeIn" name="fvf" onclick="location.href='./result/'">Friend vs Friend</button>
+            <button
+                type="submit"
+                class="btn opacity-0 animate-fadeIn"
+                name="fvf"
+                onclick="showFriends()"
+            >
+                Friend vs Friend
+            </button>
             <script src="../../static/js/script.js"></script>
-        </div>
-    </body>
-    <!-- Navbar -->
-        <div class="absolute bottom-0 left-0">
-            <a href="../">
-                <img
-                    class="w-48"
-                    src="{% static 'login/Logo White.png' %}"
-                    alt="Logo"
-                />
-            </a>
-            <div class="flex space-x-2">
-                <button onclick="location.href = '../about/'">about</button>
-                <!-- <p>terms</p> -->
+            <div id="friend-list" class="hidden flex-col">
+                {% for friend in friends %}
+                <form id="{{friend}}">
+                    <div
+                        class="relative flex flex-row w-72 h-16 p-2 my-1 rounded-lg border-0 space-x-2 bg-green-300 hover:bg-green-400]"
+                        onclick="selectFriend(`{{friend.username}}`)"
+                    >
+                        <input
+                            name="friend"
+                            value="{{friend}}"
+                            class="hidden"
+                        />
+                        <img
+                            src="{{friend.profile_picture}}"
+                            class="w-12 h-12 rounded-full hover:opacity-60"
+                        />
+                        <div class="flex flex-col text-left">
+                            <p class="text-white text-base">{{friend}}</p>
+                            <p class="text-indigo-200 text-xs">
+                                Joined {{friend.date_joined}}
+                            </p>
+                        </div>
+                    </div>
+                </form>
+                {% endfor %}
             </div>
         </div>
+    </body>
+    <script>
+        function showFriends() {
+            document.getElementById("friend-list").style.display = "flex";
+        }
+
+        function selectFriend(name) {
+            console.log(name);
+            document.getElementById(name).submit();
+        }
+    </script>
+    <!-- Navbar -->
+    <div class="absolute bottom-0 left-0">
+        <a href="../">
+            <img
+                class="w-48"
+                src="{% static 'login/Logo White.png' %}"
+                alt="Logo"
+            />
+        </a>
+        <div class="flex space-x-2">
+            <button onclick="location.href = '../about/'">about</button>
+            <!-- <p>terms</p> -->
+        </div>
+    </div>
     <!-- Navbar -->
 </html>

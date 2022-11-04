@@ -17,7 +17,7 @@
     }
 
     html {
-        @apply text-white overflow-clip;
+        @apply text-white;
 
         
     }
