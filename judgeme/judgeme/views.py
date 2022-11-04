@@ -179,7 +179,7 @@ def result(request, friend):
     #     MusicTaste = MusicTaste + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
     request.user.music_taste = round(MusicTaste * 100, 2)
 
-    if abs((MusicTaste * 100) - (MusicTaste2 * 100)) < 20:
+    if abs(request.user.music_taste - (friend.music_taste * 100)) < 20:
         f = open('theme/static/light_mode_gifs/comps.txt', 'r')
     else:
         f = open('theme/static/light_mode_gifs/insults.txt', 'r')
