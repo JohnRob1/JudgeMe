@@ -1,60 +1,85 @@
 {% extends "base.html" %}
 
 <html>
-    {% block content %}
-    <style>
+  {% block content %}
+  <style></style>
 
-    </style>
+  <body>
+    <div
+      class="fixed top-50 right-10 w-20 h-72 bg-[#ffebcd] rounded-full rotate-12 animate-blob"
+    ></div>
+    <div
+      class="absolute m-auto left-0 right-0 top-0 bottom-0 text-center"
+      style="position: absolute; margin: 300px"
+    >
+      <button
+        onclick="location.href='../playlist/'"
+        id="generate"
+        class="relative m-auto bg-[#3d0c02] hover:bg-[#9f8170] text-white text-lg font-medium py-2 px-10 rounded-full"
+      >
+        Save to library!
+      </button>
+      <!---->
+      <button
+        id="dropdownBgHoverButton"
+        data-dropdown-toggle="dropdownBgHover"
+        style="background-color: #3d0c02"
+        class="text-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center"
+        type="button"
+      >
+        Select Playlists
+        <svg
+          class="ml-2 w-4 h-4"
+          aria-hidden="true"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
+        </svg>
+      </button>
 
-    <body>
-        <div
-        class="fixed top-50 right-10 w-20 h-72 bg-[#ffebcd] rounded-full rotate-12 animate-blob"
-        ></div>
-        <div class="absolute m-auto left-0 right-0 top-0 bottom-0 text-center" style="position: absolute; margin: 300px;">
-            <button id="generate" class="relative m-auto bg-[#3d0c02] hover:bg-[#9f8170] text-white text-lg font-medium py-2 px-10 rounded-full">
-                Save to library!
-              </button>
-            <!---->
-            <button id="dropdownBgHoverButton" data-dropdown-toggle="dropdownBgHover" style="background-color: #3d0c02;" class="text-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">Select Playlists <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
-
-            <!-- Dropdown menu -->
-            <div id="dropdownBgHover" style="background-color: #3d0c02; " class="hidden z-10 w-48 bg-white rounded divide-y divide-[#3d0c02] shadow dark:bg-[#3d0c02] dark:divide-[#3d0c02]">
-                <ul class="p-3 space-y-1 text-sm" aria-labelledby="dropdownBgHoverButton">
-                {% for playlist in playlists %}
-                <li>
-                    <div class="flex items-center p-2 dark:hover:bg-[#A67B5B]">
-                    <input id="playlist-id" type="checkbox" value="" class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white">
-                    <label for="checkbox-item-4" class="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">{{playlist}}</label>
-                    </div>
-                </li>
-                {% endfor %}
-                </ul>
+      <!-- Dropdown menu -->
+      <div
+        id="dropdownBgHover"
+        style="background-color: #3d0c02"
+        class="hidden z-10 w-48 bg-white rounded divide-y divide-[#3d0c02] shadow dark:bg-[#3d0c02] dark:divide-[#3d0c02]"
+      >
+        <ul
+          class="p-3 space-y-1 text-sm"
+          aria-labelledby="dropdownBgHoverButton"
+        >
+          {% for playlist in playlists %}
+          <li>
+            <div class="flex items-center p-2 dark:hover:bg-[#A67B5B]">
+              <input
+                id="playlist-id"
+                type="checkbox"
+                value=""
+                class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white"
+              />
+              <label
+                for="checkbox-item-4"
+                class="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                >{{playlist}}</label
+              >
             </div>
-            <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
-        </div>
-    </body>
-    {% endblock %}
-    <script>
-    </script>
-    
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+    </div>
+  </body>
+  {% endblock %}
+  <script></script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!--
 
