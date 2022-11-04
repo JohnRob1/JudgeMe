@@ -1,0 +1,165 @@
+{% load static tailwind_tags %} {% tailwind_css %}
+<!DOCTYPE html>
+
+<html>
+    <body class="bg-[#257a30]">
+        <div
+            class="fixed bottom-32 right-5 w-72 h-36 -z-50 bg-[#39ab50] rounded-full animate-blob"
+        ></div>
+        <div
+            class="fixed top-64 w-72 h-72 -z-50 bg-[rgb(22,174,75)] rounded-full rotate-12 animate-blob animation-delay-1500"
+        ></div>
+        <div class='grid grid-cols-2'>
+            <div class='flex items-center justify-center h-screen'>
+                    <div class="flex space-y-8 w-80% items-center flex-col">
+                        {% if error %}
+                        
+                        {% elif top_songs %}
+                        <div class="flex space-y-4 w-96 items-center flex-col">
+                            <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onclick="location.href = '../homepage/'">
+                                Return Home
+                            </button>               
+                        </div> 
+                        <!--  START OF THE FIRST GRAPH  -->
+                        <div>
+                            <div class="shadow-lg rounded-lg overflow-hidden bg-white relative m-auto w-1/4 h-auto" style="position: relative; height:40vh; width:35vw ">
+                                <div class="bg-transparent py-3 px-5">
+                                    <p class="text-lg text-[#257a30]">Most Common Artists Behind Your Top Tracks</p>
+                                </div>
+                                <canvas class="p-10 w-full h-full bg-white" id="chartBar"></canvas>
+                              </div>
+                              
+                              <!-- Required chart.js -->
+                              <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                              
+                              <!-- Chart bar -->
+                              <script>
+                              
+
+                                const dataBarChart = {
+                                  labels: {{ sorted_artist_names|safe }},
+                                  datasets: [{
+                                    label: 'Number of your favorite songs made by an artist',
+                                    backgroundColor: '#257a30',
+                                    borderColor: '#257a30',
+                                    color: '#257a30',
+                                    data: {{ sorted_artist_freq|safe }},
+                                  }]
+                                };
+                              
+                                const configBarChart = {
+                                    type: 'bar',
+                                    data: dataBarChart,
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: true,
+                                    }
+                                };
+                              
+                                var chartBar = new Chart(
+                                  document.getElementById('chartBar'),
+                                  configBarChart
+                                );
+
+                                function DownloadCanvasAsImage(){
+                                    let downloadLink = document.createElement('a');
+                                    downloadLink.setAttribute('download', 'CanvasAsImage.png');
+                                    let canvas = document.getElementById('chartBar');
+
+                                    var ctx = canvas.getContext("2d");
+                                    // Add behind elements.
+                                    ctx.globalCompositeOperation = 'destination-over'
+                                    // Now draw!
+                                    ctx.fillStyle = "white";
+                                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                                    let dataURL = canvas.toDataURL('image/png');
+                                    let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
+                                    downloadLink.setAttribute('href', url);
+                                    downloadLink.click();
+                                }
+
+                            </script>
+                            <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onclick="DownloadCanvasAsImage()">Download as PNG</button>
+                            <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" id-"save">Download as PDF</button>
+                        </div>            
+                        {% endif %}        
+                    </div>
+            </div>
+        <div class="flex items-center justify-center h-screen">
+            <div class="flex space-y-8 w-96 items-center flex-col">
+                
+                <div class="flex items-center justify-center h-screen">
+                    <div class="flex space-y-8 w-80% items-center flex-col">
+                        {% if error %}
+                        <p class="text-center opacity-0 animate-fadeIn animation-delay-800">
+                            There was an error in loading your information
+                            We're sorry
+                        </p>
+                        {% elif top_songs %}
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class='col-span-2'>
+                            <table class="table-fixed">
+                                <thead>
+                                        <th>Favorite Songs</th>                            </tr>
+                                </thead>
+                                <tbody>
+                                    {% for song in top_songs %}
+                                        <tr><td>{{ song }}</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class='col-span-2'>
+                            <table class="table-fixed">
+                                <thead>
+                                        <th>Favorite Artists</th>                            </tr>
+                                </thead>
+                                <tbody>
+                                    {% for artist in top_artists %}
+                                        <tr><td>{{ artist }}</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class='col-span-2'>
+
+                        <div class='col-span-2'>
+                            <p class="text-2xl">Your Music Traits</p>
+                        </div>
+
+                        </div class='col-span-1'>
+                            <p class="text-lg">Danceability:<br>{{ danceability }}%</p>
+                            <p class="text-lg">Energy:<br>{{ energy }}%</p>
+                            <p class="text-lg">Instrumentalness:<br>{{ instrumentalness }}%</p>
+                            <p class="text-lg">Speechiness:<br>{{ speechiness }}%</p>
+                        </div>
+                        
+                        {% endif %}
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+    </body>
+ 
+   
+    <!-- Navbar -->
+    <header class="fixed bottom-0 px-6 py-4">
+        <div class="flex-col">
+            <a href="../homepage/">
+                <img
+                    class="w-48"
+                    src="{% static 'login/Logo White.png' %}"
+                    alt="Logo"
+                />
+            </a>
+            <div class="flex space-x-2">
+                <button onclick="location.href = '../about/'">about</button>
+                <!-- <p>terms</p> -->
+            </div>
+        </div>
+    </header> 
+    <!-- Navbar -->
+</html>

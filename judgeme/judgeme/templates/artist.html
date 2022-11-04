@@ -1,5 +1,4 @@
-{% load static tailwind_tags %} {% tailwind_css %}
-<!DOCTYPE html>
+{% extends 'base.html' %} {% load static tailwind_tags %} {% tailwind_css %}
 
 <html>
     <body class="bg-[#595169]">
@@ -23,31 +22,39 @@
                     Lets explore any artists best songs, albums, and statistics
                 </p>
                 {% elif top_tracks %}
-                <div class="grid grid-cols-2">
+                <p class="text-xxl">{{ name }}</p>
+                <div class="grid gap-14 grid-cols-2">
+                    <div class="">
+                        <table class="table-auto">
+                            <thead>
+                                <th>Top Songs</th>                           
+                            </thead>
+                            <tbody>
+                                {% for song in top_tracks %}
+                                    <tr><td>{{ song }}&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+                                {% endfor %}
+                                    <tr><td> &#8203; </td></tr>
+                                    <tr><td> &#8203; </td></tr>
+                            </tbody>
+                        </table>
+                        <div class="py-20">
+                            <img src={{ image }} class="object-contain h-48 w-48 py-20...">
+                            <p class="text-lg">Artist Compatability Score:<br>{{ popularity }}%</p>
+                        </div> 
+                    </div>
+                    
                     <div>
-                    <table class="table-auto">
-                        <thead>
-                                <th>Top Songs</th>                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for song in top_tracks %}
-                                <tr><td>{{ song }}</td></tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div>
-                    <table class="table-auto">
-                        <thead>
+                        <table class="table-auto">
+                            <thead>
                                 <th>List of Albums</th>                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for album in album_titles %}
-                                <tr><td>{{ album }}</td></tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {% for album in album_titles %}
+                                    <tr><td>{{ album }}&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 
                 {% endif %}
@@ -64,14 +71,7 @@
                              </div>               
                     </form> 
                 </div>
-                {% comment %} <a href="/tutorial/?1">
-                    <button>
-                        type="submit"
-                        class="btn opacity-0 animate-fadeIn animation-delay-5000"
-                    >
-                        Cool, show me this artist
-                    </button>
-                </a> {% endcomment %}
+
             </div>
         </div>
     </body>
@@ -80,7 +80,7 @@
     <!-- Navbar -->
     <header class="fixed bottom-0 px-6 py-4">
         <div class="flex-col">
-            <a href="../">
+            <a href="../homepage/">
                 <img
                     class="w-48"
                     src="{% static 'login/Logo White.png' %}"
