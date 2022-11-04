@@ -24,20 +24,56 @@
       <!--Title-->
       <div class="relative h-24 w-full z-2">
         <h1 class="text-7xl text-bold z-2 pl-20 pt-20">
-          Your Sentence is Final!
+          The Results Are In!
         </h1>
       </div>
       <!--Graph, base from https://flowbite.com/docs/forms/range/-->
-      <label for="Masic Taste" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Music Taste</label>
+      <label for="Masic Taste" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Music Taste: <span id="counter"></span></label>
       <input id="Music Taste" type="range" value={{ MusicTaste }} class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-emerald-300">
+      <div class="relative grid grid-cols-2 gap-4">
+        <figure class="grid grid-cols-1 justify-items-center">
+          <img 
+            id="me_pp"
+            value={{ MusicTaste }}
+            src="{{me_pp}}"
+            class="relative w-28 h-28 m-auto blur"
+            />
+            <figcaption class="items-center">Music Taste: {{ me_mt }}</figcaption>
+        </figure>
+        <figure class="grid grid-cols-1 justify-items-center">
+          <img 
+            id="friend_pp"
+            value={{ MusicTaste2 }}
+            src="{{friend_pp}}"
+            class="relative w-28 h-28 m-auto blur"
+            />
+            <figcaption class="items-center">Music Taste: {{ friend_mt }}</figcaption>
+        </figure>
+      </div>
       <!--Gif-->
-      <iframe
-        class="relative z-2"
-        src={{ src }}
-        width="480"
-        height={{ height }}
-        frameborder="0"
-      ></iframe>
+      <div class="relative grid grid-cols-2 gap 14">
+        <iframe
+          class="relative z-2"
+          src={{ src }}
+          width="480"
+          height={{ height }}
+          frameborder="0"
+        ></iframe>
+        <p>Share 
+      </div>
+      <script>
+        var slider = document.getElementById('Music Taste');
+        var output = document.getElementById('counter');
+        slider.oninput = function() {
+          output.innterHTML = this.value;
+          if (slider.value == document.getElementById('me_pp').getAttribute('value')) {
+            document.getElementById('me_pp').setAttribute('value', 'w-28 h-28 m-auto')
+          }
+          if (slider.value == document.getElementById('friend_pp').getAttribute('value')) {
+            document.getElementById('friend_pp').setAttribute('value', 'w-28 h-28 m-auto')
+          }
+        }
+      </script>
     </div>
   </body>
 </html>
