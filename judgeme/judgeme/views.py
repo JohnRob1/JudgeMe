@@ -100,6 +100,19 @@ def playlist(request):
 def bar(request):
     return render(request, 'bar.html')
 
+def playlistgenerate(request):
+    context = {}
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+    context["bg_color"] = "[#9f8170]"
+    context["bubble_color"] = "[#ffebcd]"
+    playlists = get_user_playlists(request)
+    name = []
+    for item in playlists:
+        name.append(item.get('name'))
+        
+    context['playlists'] = name
+    return render(request, 'playlistgenerate.html', context)
 
 def graph(request):
     return render(request, 'graph.html')
@@ -108,17 +121,11 @@ def tutorial(request):
     return render(request, 'tutorial.html')
 
 
-def homepage(request):
+def get_user_playlists(request):
+
     sp = get_spotify_object(request)
     iterations = 0
     playlists = []
-    
-    if 'darkMode' in request.GET:
-        darkmode = True
-
-    if 'lightMode' in request.GET:
-        darkmode = False
-
     while(True):
         result = sp.current_user_playlists(limit=50, offset=iterations*50)
         items = result.get('items')
@@ -126,9 +133,21 @@ def homepage(request):
             break
         iterations += 1
         for playlist in items:
-            playlists.append(playlist)
-    
+            if playlist.get('owner').get('id') == request.user.username:
+                playlists.append(playlist)
 
+    return playlists
+
+def homepage(request):
+
+    
+    if 'darkMode' in request.GET:
+        darkmode = True
+
+    if 'lightMode' in request.GET:
+        darkmode = False
+
+    playlists = get_user_playlists(request)
     count = 0
     for item in playlists:
         if item.get('owner').get('id') == request.user.username:
@@ -141,7 +160,18 @@ def profiledit(request):
     return render(request, 'profiledit.html')
 
 def temp(request):
-    return render(request, 'temp.html')
+    context = {}
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+    context["bg_color"] = "[#9f8170]"
+    context["bubble_color"] = "[#ffebcd]"
+    playlists = get_user_playlists(request)
+    name = []
+    for item in playlists:
+        name.append(item.get('name'))
+        
+    context['playlists'] = name
+    return render(request, 'temp.html', context)
 
 def artist(request):
     return render(request, 'artist.html')

@@ -42,6 +42,7 @@ urlpatterns = [
     path('breakdown/', views.breakdown, name='breakdown'),
     path('test/', views.test, name='test'),
     path('generate/', views.generate, name='generate'),
+    path('playlistgenerate/', views.playlistgenerate, name='playlistgenerate'),
     path('base/', views.base, name='base'),
     path('friends/', views.friends, name='friends'),
     path('spotify-test/', spotipy_test.test, name='test'),

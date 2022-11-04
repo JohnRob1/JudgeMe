@@ -11,6 +11,9 @@
         class="fixed top-50 right-10 w-20 h-72 bg-[#ffebcd] rounded-full rotate-12 animate-blob"
         ></div>
         <div class="absolute m-auto left-0 right-0 top-0 bottom-0 text-center" style="position: absolute; margin: 300px;">
+            <button id="generate" class="relative m-auto bg-[#3d0c02] hover:bg-[#9f8170] text-white text-lg font-medium py-2 px-10 rounded-full">
+                Save to library!
+              </button>
             <!---->
             <button id="dropdownBgHoverButton" data-dropdown-toggle="dropdownBgHover" style="background-color: #3d0c02;" class="text-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">Select Playlists <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
 
@@ -23,7 +26,6 @@
                     <input id="playlist-id" type="checkbox" value="" class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white">
                     <label for="checkbox-item-4" class="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">{{playlist}}</label>
                     </div>
-                    <button>generate</button>
                 </li>
                 {% endfor %}
                 </ul>
@@ -33,33 +35,6 @@
     </body>
     {% endblock %}
     <script>
-
-        let btnshow = document.querySelector('')
-        let result = document.querySelector('')
-        
-        
-    
-        /*
-        const playlist = [
-            "Playlist 1",
-            "Playlist 2",
-            "Playlist 3",
-            "Playlist 4",
-            "Playlist 5"
-        ]; 
-    
-        playlist.forEach(function(playlist) {
-            let newOption = document.createElement("option");
-            newOption.text = playlist;
-            newOption.value = playlist;
-            playlistOption.appendChild(newOption);
-        });
-        playlistOption.onchange = writeToScreen;
-        function writeToScreen() {
-            result.innerText = this.value;
-        }; */
-    
-    
     </script>
     
 </html>
