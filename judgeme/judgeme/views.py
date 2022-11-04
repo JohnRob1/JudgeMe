@@ -224,33 +224,79 @@ def artist(request):
 def breakdown(request):
 
     sp: spotipy.Spotify = get_spotify_object()
-    print(sp)
 
     # ranges = ['short_term', 'medium_term', 'long_term']
     ranges = ['medium_term']
     top_song_ids = []
-    all_artists = []
-    all_genres = []
+    all_artists = {}
+    top_artists = []
+    top_songs = []
+    total_danceability = 0
+    total_energy = 0
+    total_instrumentalness = 0
+    total_speechiness = 0
+    num_songs = 0
+
+    # if request.GET.get('quitting'):
+    #     print('quitting')
 
     for sp_range in ranges:
-        print("range:", sp_range)
         results = sp.current_user_top_tracks(time_range=sp_range, limit=50)
         for i, item in enumerate(results['items']):
             #print(i, item['name'], '//', item['artists'][0]['name'])
             top_song_ids.append(item['id'])
-            all_artists.append(item['artists'][0]['name'])
-            album = sp.album(item["album"]["external_urls"]["spotify"])
-            all_genres.append(album["genres"])
-            print(album["genres"])
-            print()
-        print()
+            top_songs.append(item['name'])
 
-    print(all_artists)
-    print()
-    print(all_genres)
-    print()
-    print(top_song_ids)
-    return render(request, 'breakdown.html')
+            artist_uri = item["artists"][0]['uri']
+            # artist_info = sp.artist(artist_uri)
+
+            # print(artist_info['genres'])
+
+            if (item['artists'][0]['name'] in all_artists):
+                all_artists[(item['artists'][0]['name'])] += 1
+            else:
+                all_artists[(item['artists'][0]['name'])] = 1
+
+            artists_name_sorted = []
+            artists_freq_sorted = []
+            all_artists_sorted = sorted(all_artists, key=all_artists.get, reverse=True)
+            for i in all_artists_sorted:
+                artists_name_sorted.append(i)
+                artists_freq_sorted.append(all_artists[i])
+
+            # album = sp.album(item["album"]["external_urls"]["spotify"])
+            # all_genres.append(album["genres"])
+            
+            metadata = sp.audio_features(item['uri'])[0]
+            total_instrumentalness = total_instrumentalness + metadata['instrumentalness']
+            total_danceability = total_danceability + metadata['danceability']
+            total_energy = total_energy + metadata['energy']
+            total_speechiness = total_speechiness + metadata['speechiness']
+            num_songs = num_songs + 1
+        
+        artists_fav = sp.current_user_top_artists(time_range=sp_range, limit=10)
+        for i, item in enumerate(artists_fav['items']):
+            top_artists.append(item['name'])
+
+        total_instrumentalness = str(round((total_instrumentalness * 100)/num_songs, 2))
+        total_danceability = str(round((total_danceability * 100)/num_songs, 2))
+        total_energy = str(round((total_energy * 100)/num_songs, 2))
+        total_speechiness = str(round((total_speechiness * 100)/num_songs, 2))
+
+        context = {
+            'top_songs' : top_songs[:10],
+            'top_artists' : top_artists[:10],
+            'sorted_artist_names' : artists_name_sorted[:6],
+            'sorted_artist_freq' : artists_freq_sorted[:6],               
+            'instrumentalness' : total_instrumentalness,
+            'danceability' : total_danceability,
+            'energy' : total_energy,
+            'speechiness' : total_speechiness
+        }
+        print()
+        return render(request, 'breakdown.html', context)
+
+    return render(request, 'breakdown.html', context={'error':True})
 
 
 def base(request):
