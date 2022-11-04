@@ -12,14 +12,14 @@
         <div class="flex items-center justify-center h-screen">
             <div class="flex space-y-8 w-50% items-center flex-col">
                 {% if error %}
-                <p class="text-center opacity-0 animate-fadeIn animation-delay-800">
+                <p class="text-center opacity-0 animate-fadeIn animation-delay-80">
                     We couldn't find any artist like that. Try again
                 </p>
                 {% elif dontrun %}
-                <p class="text-center opacity-0 animate-fadeIn animation-delay-1500">
+                <p class="text-center opacity-0 animate-fadeIn animation-delay-150">
                     Here you can learn more about your favorite artists
                 </p>
-                <p class="text-center opacity-0 animate-fadeIn animation-delay-3000">
+                <p class="text-center opacity-0 animate-fadeIn animation-delay-300">
                     Lets explore any artists best songs, albums, and statistics
                 </p>
                 {% elif top_tracks %}
@@ -70,6 +70,9 @@
                                 <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                              </div>               
                     </form> 
+                    <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onclick="location.href = '../homepage/'">
+                        Return Home
+                    </button>
                 </div>
 
             </div>
