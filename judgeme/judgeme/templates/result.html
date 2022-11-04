@@ -1,0 +1,43 @@
+{% load static tailwind_tags %} {% tailwind_css %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Results</title>
+  </head>
+
+  <!-- BUBBLES -->
+  <div
+    class="fixed top-32 right-5 w-72 h-36 z-1 bg-emerald-300 rounded-full rotate-12 animate-blob animation-delay-1500"
+  ></div>
+  <div
+    class="fixed z-1 bottom-64 w-72 h-72 bg-emerald-300 rounded-full animate-blob"
+  ></div>
+  <!--END BUBBLES-->
+
+  <body class="bg-emerald-900 rows-3">
+    <div
+      class="grid grid-rows gap-4 justify-center mx-auto my-auto w-screen h-screen items-center z-1"
+    >
+      <!--Title-->
+      <div class="relative h-24 w-full z-2">
+        <h1 class="text-7xl text-bold z-2 pl-20 pt-20">
+          Your Sentence is Final!
+        </h1>
+      </div>
+      <!--Graph, base from https://flowbite.com/docs/forms/range/-->
+      <label for="Masic Taste" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Music Taste</label>
+      <input id="Music Taste" type="range" value={{ MusicTaste }} class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-emerald-300">
+      <!--Gif-->
+      <iframe
+        class="relative z-2"
+        src={{ src }}
+        width="480"
+        height={{ height }}
+        frameborder="0"
+      ></iframe>
+    </div>
+  </body>
+</html>

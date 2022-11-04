@@ -13,6 +13,8 @@ class JMUser(AbstractUser):
     about = models.CharField(max_length=256)
     vibes = models.CharField(max_length=256)
 
+    music_taste = models.FloatField()
+
     def __str__(self):
         return self.username
 
