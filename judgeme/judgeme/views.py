@@ -4,6 +4,7 @@ from urllib.request import HTTPRedirectHandler
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
+import random
 
 from .util_auth import generate_url, create_token_info, check_token, login_django_user
 
@@ -124,7 +125,25 @@ def playlist(request):
     context['bg_color'] = '[#674846]'
     context['bubble_color'] = '[#fdbcb4]'
     sp = get_spotify_object(request)
-    context['playlist'] = request.user.top_tracks
+    playlist = sp.current_user_recently_played(limit=40).get('items')
+    tracks = []
+
+    songNames = []
+    songPictures = []
+    for song in playlist:
+        # uri = song.get('track').get('uri')
+        # track = get_or_create_track_from_uri(request, uri)
+        # tracks.append(track)
+
+        songNames.append(song.get('track').get('name'))
+        # songPictures.append(song.get('track')).get('images')[0]
+    
+    pprint(tracks)
+
+    random.shuffle(songNames)
+    
+    context['songNames1'] = songNames[:20]
+    context['songNames2'] = songNames[20:]
     return render(request, 'playlist.html', context)
 
 
@@ -428,7 +447,8 @@ def update_top_tracks(request):
 def get_or_create_track_from_uri(request, uri) -> Track:
     sp = get_spotify_object(request)
     name = sp.track(uri).get("name")
-    track, created = Track.objects.get_or_create(uri=uri, name=name)
+    picture = sp.track(uri).get("images")[0]
+    track, created = Track.objects.get_or_create(uri=uri, name=name, picture=picture)
     print(track)
     return track
 
