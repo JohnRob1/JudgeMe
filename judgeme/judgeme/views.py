@@ -82,6 +82,7 @@ def judge(request):
     context['friends'] = request.user.friends.all()
     return render(request, 'judge.html', context)
 
+
 def result(request):
 
     # Implement Comparison Algorithm
@@ -96,51 +97,10 @@ def result(request):
         values = line.split(",")
         values[1] = values[1].strip()
         genres_cf[values[0].lower()] = values[1]
-    
     # Get genres of songs for weight
-    sp = get_spotify_object(request)
+    # sp = get_spotify_object(request)
 
-    if "friend" in request.GET:
-        friend = JMUser.objects.get(username = request.GET.get("friend"))
-        for track in friend.top_tracks:
-            artist_id = sp.track(track).get("artists")[0].get("id")
-            artist = sp.artist(artist_id)
-            genres = artist.get("genres")
-            for genre in genres:
-                added_to_dict = False
-                if genres_cf.get(genre, None) != None:
-                    added_to_dict = True
-                    if genres_amt.get(genre, None) == None:
-                        genres_amt[genre] = 0
-                    else:
-                        genres_amt[genre] = genres_amt.get(genre) + 1
-                else:
-                    # Check is the genre given is just the subtype of a genre in the correlation values
-                    split = genre.split()
-                    for word in split:
-                        if genres_cf.get(word, None) != None:
-                            added_to_dict = True
-                            if genres_amt.get(word, None) == None:
-                                genres_amt[word] = 0
-                            else:
-                                genres_amt[word] = genres_amt.get(word) + 1
-                # Genre has no personality correlation
-                # CF = 3/36
-                if added_to_dict is False:
-                    if genres_amt.get(genre, None) == None:
-                        genres_amt[genre] = 0
-                    else:
-                        genres_amt[genre] = genres_amt.get(genre) + 1
-                    genres_cf[genre] = 3/36
-
-        # Calculate MusicTaste
-        for genre in genres_amt.keys():
-            MusicTaste2 = MusicTaste2 + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
-        request.friend.music_taste = MusicTaste2
-
-    profiles = []
-    for pic in request.user.friends.all():
-        profiles.append(pic)
+    # genres = []
     # for track in sp.current_user_top_tracks(1).get("items"):
     #     song_uri = track.get("uri")
     #     artist_id = sp.track(song_uri).get("artists")[0].get("id")
@@ -182,7 +142,6 @@ def result(request):
     # request.user.music_taste = MusicTaste
 
     MusicTaste = 0.46
-    MusicTaste2 = 0.53
     print(MusicTaste)
     request.user.music_taste = MusicTaste
 
@@ -196,9 +155,7 @@ def result(request):
         'src': sh[0],
         'height': sh[1],
         'href': sh[2],
-        'MyMusicTaste': MusicTaste * 100,
-        'FriendMusicTaste': MusicTaste2 * 100,
-        'profiles': profiles,
+        'MusicTaste': MusicTaste * 100
     }
     return render(request, 'result.html', context)
 

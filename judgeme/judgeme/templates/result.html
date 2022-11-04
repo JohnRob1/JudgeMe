@@ -30,8 +30,6 @@
       <!--Graph, base from https://flowbite.com/docs/forms/range/-->
       <label for="Masic Taste" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Music Taste</label>
       <input id="Music Taste" type="range" value={{ MusicTaste }} class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-emerald-300">
-      {% for pic in profiles %}
-      {% endfor %}
       <!--Gif-->
       <iframe
         class="relative z-2"
@@ -40,10 +38,6 @@
         height={{ height }}
         frameborder="0"
       ></iframe>
-      <script>
-        var slider = document.getElementById("Music Taste");
-
-      </script>
     </div>
   </body>
 </html>
