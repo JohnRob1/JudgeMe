@@ -104,6 +104,7 @@ def bar(request):
 def graph(request):
     return render(request, 'graph.html')
 
+
 def tutorial(request):
     return render(request, 'tutorial.html')
 
@@ -112,14 +113,14 @@ def homepage(request):
     sp = get_spotify_object(request)
     iterations = 0
     playlists = []
-    
+
     if 'darkMode' in request.GET:
         darkmode = True
 
     if 'lightMode' in request.GET:
         darkmode = False
 
-    while(True):
+    while (True):
         result = sp.current_user_playlists(limit=50, offset=iterations*50)
         items = result.get('items')
         if (len(items) == 0):
@@ -127,40 +128,45 @@ def homepage(request):
         iterations += 1
         for playlist in items:
             playlists.append(playlist)
-    
 
     count = 0
     for item in playlists:
         if item.get('owner').get('id') == request.user.username:
             count += 1
-            
+
     friends = request.user.friends.all()
     if len(friends) >= 1:
-        friend1 = friends[0].profile_picture()
+        friend1 = friends[0].profile_picture
     else:
         friend1 = False
-    
+
     if len(friends) >= 2:
-        friend2 = friends[1].profile_picture()
+        friend2 = friends[1].profile_picture
     else:
         friend2 = False
 
     if len(friends) >= 3:
-        friend3 = friends[2].profile_picture()
+        friend3 = friends[2].profile_picture
     else:
         friend3 = False
 
-    context = {'user':request.user, 'friendcount':request.user.friends.count(), 'playlist_count':count}
+    context = {'user': request.user,
+               'friendcount': request.user.friends.count(), 'playlist_count': count}
     context['friend1'] = friend1
     context['friend2'] = friend2
     context['friend3'] = friend3
+    context["bg_color"] = "[#322c3d]"
+    context["bubble_color"] = "[#8e3d81]"
     return render(request, 'homepage.html', context)
+
 
 def profiledit(request):
     return render(request, 'profiledit.html')
 
+
 def temp(request):
     return render(request, 'temp.html')
+
 
 def generate(request):
     if 'next' in request.GET:
@@ -168,16 +174,17 @@ def generate(request):
 
     return render(request, 'generate.html')
 
+
 def artist(request):
-    sp: spotipy.Spotify = get_spotify_object()
+    sp: spotipy.Spotify = get_spotify_object(request)
 
     artist = '  '
     if 'aname' in request.POST:
         artist = request.POST['aname']
         if 'aname' in request.POST:
-            #print(sp)
+            # print(sp)
             result = sp.search(q=artist, limit=1, type='artist')
-            for i,t in enumerate(result['artists']['items']):
+            for i, t in enumerate(result['artists']['items']):
                 name = t['name']
                 artistId = t['id']
                 uri = t['uri']
@@ -195,8 +202,7 @@ def artist(request):
                     if len(tempname) > 40:
                         tempname = tempname.split('-')[0]
                     holder.append(tempname)
-                
-                
+
                 results = sp.artist_albums(uri, album_type='album')
                 albums = results['items']
 
@@ -208,28 +214,32 @@ def artist(request):
 
                 seen = set()
                 seen_add = seen.add
-                album_titles = [x for x in album_titles if not (x in seen or seen_add(x))]
+                album_titles = [x for x in album_titles if not (
+                    x in seen or seen_add(x))]
 
                 context = {
-                    'render_intro' : False,
-                    'top_tracks' : holder,
-                    'album_titles' : album_titles,
-                    'image' : image_artist,
-                    'popularity' : popularity,
+                    'render_intro': False,
+                    'top_tracks': holder,
+                    'album_titles': album_titles,
+                    'image': image_artist,
+                    'popularity': popularity,
                 }
                 return render(request, 'artist.html', context)
             return render(request, 'artist.html', {'error': True})
     context = {
-        'render_intro' : True,
+        'render_intro': True,
         'dontrun': True,
     }
+
+    context['bg_color'] = "[#595169]"
+    context['bubble_color'] = "[#273ba9]"
 
     return render(request, 'artist.html', context)
 
 
 def breakdown(request):
 
-    sp: spotipy.Spotify = get_spotify_object()
+    sp: spotipy.Spotify = get_spotify_object(request)
 
     # ranges = ['short_term', 'medium_term', 'long_term']
     ranges = ['medium_term']
@@ -265,44 +275,49 @@ def breakdown(request):
 
             artists_name_sorted = []
             artists_freq_sorted = []
-            all_artists_sorted = sorted(all_artists, key=all_artists.get, reverse=True)
+            all_artists_sorted = sorted(
+                all_artists, key=all_artists.get, reverse=True)
             for i in all_artists_sorted:
                 artists_name_sorted.append(i)
                 artists_freq_sorted.append(all_artists[i])
 
             # album = sp.album(item["album"]["external_urls"]["spotify"])
             # all_genres.append(album["genres"])
-            
+
             metadata = sp.audio_features(item['uri'])[0]
-            total_instrumentalness = total_instrumentalness + metadata['instrumentalness']
+            total_instrumentalness = total_instrumentalness + \
+                metadata['instrumentalness']
             total_danceability = total_danceability + metadata['danceability']
             total_energy = total_energy + metadata['energy']
             total_speechiness = total_speechiness + metadata['speechiness']
             num_songs = num_songs + 1
-        
-        artists_fav = sp.current_user_top_artists(time_range=sp_range, limit=10)
+
+        artists_fav = sp.current_user_top_artists(
+            time_range=sp_range, limit=10)
         for i, item in enumerate(artists_fav['items']):
             top_artists.append(item['name'])
 
-        total_instrumentalness = str(round((total_instrumentalness * 100)/num_songs, 2))
-        total_danceability = str(round((total_danceability * 100)/num_songs, 2))
+        total_instrumentalness = str(
+            round((total_instrumentalness * 100)/num_songs, 2))
+        total_danceability = str(
+            round((total_danceability * 100)/num_songs, 2))
         total_energy = str(round((total_energy * 100)/num_songs, 2))
         total_speechiness = str(round((total_speechiness * 100)/num_songs, 2))
 
         context = {
-            'top_songs' : top_songs[:10],
-            'top_artists' : top_artists[:10],
-            'sorted_artist_names' : artists_name_sorted[:6],
-            'sorted_artist_freq' : artists_freq_sorted[:6],               
-            'instrumentalness' : total_instrumentalness,
-            'danceability' : total_danceability,
-            'energy' : total_energy,
-            'speechiness' : total_speechiness
+            'top_songs': top_songs[:10],
+            'top_artists': top_artists[:10],
+            'sorted_artist_names': artists_name_sorted[:6],
+            'sorted_artist_freq': artists_freq_sorted[:6],
+            'instrumentalness': total_instrumentalness,
+            'danceability': total_danceability,
+            'energy': total_energy,
+            'speechiness': total_speechiness
         }
         print()
         return render(request, 'breakdown.html', context)
 
-    return render(request, 'breakdown.html', context={'error':True})
+    return render(request, 'breakdown.html', context={'error': True})
 
 
 def base(request):
