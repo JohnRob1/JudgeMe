@@ -162,9 +162,6 @@ def profiledit(request):
 def temp(request):
     return render(request, 'temp.html')
 
-def artist(request):
-    return render(request, 'artist.html')
-
 def generate(request):
     if 'next' in request.GET:
         print("hi")
@@ -172,49 +169,58 @@ def generate(request):
     return render(request, 'generate.html')
 
 def artist(request):
-    sp: spotipy.Spotify = get_spotify_object(request)
-    print(sp)
+    sp: spotipy.Spotify = get_spotify_object()
 
     artist = '  '
     if 'aname' in request.POST:
         artist = request.POST['aname']
         if 'aname' in request.POST:
+            #print(sp)
             result = sp.search(q=artist, limit=1, type='artist')
-            for i, t in enumerate(result['artists']['items']):
+            for i,t in enumerate(result['artists']['items']):
                 name = t['name']
-                print(name)
                 artistId = t['id']
                 uri = t['uri']
+                popularity = t['popularity']
+                image_artist = t['images'][0]['url']
 
                 holder = []
+                print("yep")
                 top_tracks = sp.artist_top_tracks(uri)
+                print('nope')
                 for track in top_tracks['tracks'][:5]:
-                    print('track    : ' + track['name'])
-                    print()
-                    holder.append(track['name'])
-
+                    # print('track    : ' + track['name'])
+                    # print()
+                    tempname = track['name']
+                    if len(tempname) > 40:
+                        tempname = tempname.split('-')[0]
+                    holder.append(tempname)
+                
+                
                 results = sp.artist_albums(uri, album_type='album')
                 albums = results['items']
-                while results['next']:
-                    results = spotify.next(results)
-                    albums.extend(results['items'])
 
                 album_titles = []
 
                 for album in albums:
-                    album_titles.append(album['name'])
+                    if len(album['name']) < 75:
+                        album_titles.append(album['name'])
 
-                print(album_titles)
+                seen = set()
+                seen_add = seen.add
+                album_titles = [x for x in album_titles if not (x in seen or seen_add(x))]
 
                 context = {
-                    'render_intro': False,
-                    'top_tracks': holder,
-                    'album_titles': album_titles,
+                    'render_intro' : False,
+                    'top_tracks' : holder,
+                    'album_titles' : album_titles,
+                    'image' : image_artist,
+                    'popularity' : popularity,
                 }
                 return render(request, 'artist.html', context)
             return render(request, 'artist.html', {'error': True})
     context = {
-        'render_intro': True,
+        'render_intro' : True,
         'dontrun': True,
     }
 
