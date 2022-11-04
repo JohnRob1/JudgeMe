@@ -120,7 +120,12 @@ def profile(request):
 
 
 def playlist(request):
-    return render(request, 'playlist.html')
+    context = {}
+    context['bg_color'] = '[#674846]'
+    context['bubble_color'] = '[#fdbcb4]'
+    sp = get_spotify_object(request)
+    context['playlist'] = request.user.top_tracks
+    return render(request, 'playlist.html', context)
 
 
 def bar(request):
