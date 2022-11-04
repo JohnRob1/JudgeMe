@@ -146,6 +146,9 @@ def homepage(request):
     if 'lightMode' in request.GET:
         darkmode = False
 
+    user_image = request.user.profile_picture
+    print("+++++\n", user_image, "\n++++++")
+
     while (True):
         result = sp.current_user_playlists(limit=50, offset=iterations*50)
         items = result.get('items')
@@ -183,6 +186,9 @@ def homepage(request):
     context['friend3'] = friend3
     context["bg_color"] = "[#322c3d]"
     context["bubble_color"] = "[#8e3d81]"
+    if user_image:
+        print("AJSDLKASJDKL")
+        context["profile"] = user_image
     return render(request, 'homepage.html', context)
 
 
