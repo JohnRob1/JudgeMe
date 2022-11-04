@@ -29,12 +29,12 @@
       </div>
       <!--Graph, base from https://flowbite.com/docs/forms/range/-->
       <label for="Masic Taste" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Music Taste: <span id="counter"></span></label>
-      <input id="Music Taste" type="range" value={{ MusicTaste }} class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-emerald-300">
+      <input id="Music Taste" type="range" value={{ me_mt }} class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-emerald-300">
       <div class="relative grid grid-cols-2 gap-4">
         <figure class="grid grid-cols-1 justify-items-center">
           <img 
             id="me_pp"
-            value={{ MusicTaste }}
+            value={{ me_mt }}
             src="{{me_pp}}"
             class="relative w-28 h-28 m-auto blur"
             />
@@ -43,7 +43,7 @@
         <figure class="grid grid-cols-1 justify-items-center">
           <img 
             id="friend_pp"
-            value={{ MusicTaste2 }}
+            value={{ friend_mt }}
             src="{{friend_pp}}"
             class="relative w-28 h-28 m-auto blur"
             />

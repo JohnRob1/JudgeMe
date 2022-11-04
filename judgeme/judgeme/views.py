@@ -80,10 +80,13 @@ def welcome(request):
 def judge(request):
     context = {}
     context['friends'] = request.user.friends.all()
+    if "friend" in request.GET: 
+        friend = JMUser.objects.get(username = request.GET.get("friend"))
+        return result(request, friend)
     return render(request, 'judge.html', context)
 
 
-def result(request):
+def result(request, friend):
 
     # Implement Comparison Algorithm
     MusicTaste = 0
@@ -92,54 +95,51 @@ def result(request):
     MusicTaste2 = 0.53
     # Read in Correlation Factors into Hash
     f = open('theme/static/genre_correlations', 'r')
-    lines = f.readlines()
+    glines = f.readlines()
     genres_cf = {}
     genres_amt = {}
-    for line in lines:
+    for line in glines:
         values = line.split(",")
         values[1] = values[1].strip()
         genres_cf[values[0].lower()] = values[1]
     # Get genres of songs for weight
-    sp = get_spotify_object(request)
+    # sp = get_spotify_object(request)
 
-    # if "friend" in request.GET:
-    friend = JMUser.objects.get(username = request.GET.get("friend"))
-    print(friend)
-    #     for track in friend.top_tracks:
-    #         artist_id = sp.track(track).get("artists")[0].get("id")
-    #         artist = sp.artist(artist_id)
-    #         genres = artist.get("genres")
-    #         for genre in genres:
-    #             added_to_dict = False
-    #             if genres_cf.get(genre, None) != None:
-    #                 added_to_dict = True
-    #                 if genres_amt.get(genre, None) == None:
-    #                     genres_amt[genre] = 0
-    #                 else:
-    #                     genres_amt[genre] = genres_amt.get(genre) + 1
+    # for track in friend.top_tracks:
+    #     artist_id = sp.track(track).get("artists")[0].get("id")
+    #     artist = sp.artist(artist_id)
+    #     genres = artist.get("genres")
+    #     for genre in genres:
+    #         added_to_dict = False
+    #         if genres_cf.get(genre, None) != None:
+    #             added_to_dict = True
+    #             if genres_amt.get(genre, None) == None:
+    #                 genres_amt[genre] = 0
     #             else:
-    #                 # Check is the genre given is just the subtype of a genre in the correlation values
-    #                 split = genre.split()
-    #                 for word in split:
-    #                     if genres_cf.get(word, None) != None:
-    #                         added_to_dict = True
-    #                         if genres_amt.get(word, None) == None:
-    #                             genres_amt[word] = 0
-    #                         else:
-    #                             genres_amt[word] = genres_amt.get(word) + 1
-    #             # Genre has no personality correlation
-    #             # CF = 3/36
-    #             if added_to_dict is False:
-    #                 if genres_amt.get(genre, None) == None:
-    #                     genres_amt[genre] = 0
-    #                 else:
-    #                     genres_amt[genre] = genres_amt.get(genre) + 1
-    #                 genres_cf[genre] = 3/36
+    #                 genres_amt[genre] = genres_amt.get(genre) + 1
+    #         else:
+    #             # Check is the genre given is just the subtype of a genre in the correlation values
+    #             split = genre.split()
+    #             for word in split:
+    #                 if genres_cf.get(word, None) != None:
+    #                     added_to_dict = True
+    #                     if genres_amt.get(word, None) == None:
+    #                         genres_amt[word] = 0
+    #                     else:
+    #                         genres_amt[word] = genres_amt.get(word) + 1
+    #         # Genre has no personality correlation
+    #         # CF = 3/36
+    #         if added_to_dict is False:
+    #             if genres_amt.get(genre, None) == None:
+    #                 genres_amt[genre] = 0
+    #             else:
+    #                 genres_amt[genre] = genres_amt.get(genre) + 1
+    #             genres_cf[genre] = 3/36
 
-    #     # Calculate MusicTaste
-    #     for genre in genres_amt.keys():
-    #         MusicTaste2 = MusicTaste2 + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
-    request.friend.music_taste = MusicTaste2 * 100
+    # # Calculate MusicTaste
+    # for genre in genres_amt.keys():
+    #     MusicTaste2 = MusicTaste2 + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
+    friend.music_taste = round(MusicTaste2 * 100, 2)
 
     # for track in sp.current_user_top_tracks(1).get("items"):
     #     song_uri = track.get("uri")
@@ -177,9 +177,9 @@ def result(request):
     # # Calculate MusicTaste
     # for genre in genres_amt.keys():
     #     MusicTaste = MusicTaste + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
-    request.user.music_taste = MusicTaste * 100
+    request.user.music_taste = round(MusicTaste * 100, 2)
 
-    if abs((MusicTaste * 100) - (MusicTaste2)) < 20:
+    if abs((MusicTaste * 100) - (MusicTaste2 * 100)) < 20:
         f = open('theme/static/light_mode_gifs/comps.txt', 'r')
     else:
         f = open('theme/static/light_mode_gifs/insults.txt', 'r')
@@ -191,16 +191,13 @@ def result(request):
     context = {
         'src': sh[0],
         'height': sh[1],
-        'href': sh[2],
+        'href': sh[2].strip("\n"),
         'me_pp': request.user.profile_picture,
         'me_mt': request.user.music_taste,
-        # 'friend_pp': request.friend.profile_picture,
-        # 'friend_mt': request.friend.music_taste,
-        'MusicTaste': MusicTaste * 100,
-        'MusicTaste2': MusicTaste2 * 100
+        'friend_pp': friend.profile_picture,
+        'friend_mt': friend.music_taste,
     }
     return render(request, 'result.html', context)
-
 
 def profile(request):
     sp = get_spotify_object(request)
