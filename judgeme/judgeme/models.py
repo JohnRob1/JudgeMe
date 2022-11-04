@@ -10,6 +10,7 @@ class JMUser(AbstractUser):
 
     friends = models.ManyToManyField("JMUser", blank=True)
 
+    music_taste = models.FloatField((""))
     def __str__(self):
         return self.username
 
