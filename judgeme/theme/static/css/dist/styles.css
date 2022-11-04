@@ -501,7 +501,6 @@ button {
   cursor: url(https://i.ibb.co/TRfYCpL/cursor.png) 16 16, auto !important;
 }
 html{
-  overflow: clip;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
@@ -1257,6 +1256,9 @@ html{
 .grid-cols-2{
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
+.grid-cols-1{
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
 .grid-cols-4{
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -1289,6 +1291,9 @@ html{
 }
 .justify-between{
   justify-content: space-between;
+}
+.justify-items-center{
+  justify-items: center;
 }
 .gap-14{
   gap: 3.5rem;
@@ -1445,6 +1450,10 @@ html{
   --tw-border-opacity: 1;
   border-color: rgb(243 244 246 / var(--tw-border-opacity));
 }
+.border-blue-500{
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity));
+}
 .bg-slate-500{
   --tw-bg-opacity: 1;
   background-color: rgb(100 116 139 / var(--tw-bg-opacity));
@@ -1567,6 +1576,10 @@ html{
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
+.bg-green-300{
+  --tw-bg-opacity: 1;
+  background-color: rgb(134 239 172 / var(--tw-bg-opacity));
+}
 .bg-zinc-900{
   --tw-bg-opacity: 1;
   background-color: rgb(24 24 27 / var(--tw-bg-opacity));
@@ -1680,6 +1693,22 @@ html{
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
+.py-10{
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+.px-20{
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+.py-7{
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+}
+.px-0{
+  padding-left: 0px;
+  padding-right: 0px;
+}
 .pl-3{
   padding-left: 0.75rem;
 }
@@ -1694,6 +1723,12 @@ html{
 }
 .pt-2{
   padding-top: 0.5rem;
+}
+.pt-5{
+  padding-top: 1.25rem;
+}
+.pb-5{
+  padding-bottom: 1.25rem;
 }
 .text-left{
   text-align: left;
@@ -1922,6 +1957,10 @@ html{
   -webkit-animation-delay: 800ms;
           animation-delay: 800ms;
 }
+.animation-delay-1000{
+  -webkit-animation-delay: 1000ms;
+          animation-delay: 1000ms;
+}
 .animation-delay-1500{
   -webkit-animation-delay: 1500ms;
           animation-delay: 1500ms;
@@ -1983,6 +2022,10 @@ html{
   --tw-bg-opacity: 1;
   background-color: rgb(245 222 179 / var(--tw-bg-opacity));
 }
+.hover\:bg-green-400:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(74 222 128 / var(--tw-bg-opacity));
+}
 .hover\:bg-\[\#9f8170\]:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(159 129 112 / var(--tw-bg-opacity));
@@ -2002,6 +2045,9 @@ html{
 .hover\:bg-white:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+.hover\:bg-transparent:hover{
+  background-color: transparent;
 }
 .hover\:text-blue-500:hover{
   --tw-text-opacity: 1;

@@ -7,6 +7,7 @@ class JMUser(AbstractUser):
     profile_picture = models.CharField(max_length=256)
 
     top_tracks = models.ManyToManyField("Track", blank=True)
+    playlist_count = models.SmallIntegerField(default=-1)
 
     friends = models.ManyToManyField("JMUser", blank=True)
 
