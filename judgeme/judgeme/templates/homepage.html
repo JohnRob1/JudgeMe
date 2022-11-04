@@ -186,14 +186,18 @@
     <div class="nav">
       <div class="prof-container">
         <div class="imgbox">
-          <img src="{% static '/icons/ProfilePic.png' %}" class="src" />
+            {% if profile %}
+                <img src={{profile}} class="src" />
+            {% else %}
+                <img src="{% static '/icons/ProfilePic.png' %}" class="src" />
+            {% endif %}
         </div>
         <button
           onclick="location.href = '../profile/'"
           id="btnid"
           class="btn opacity-0 animate-fadeIn animation-delay-2000"
         >
-          View
+          View Profile
         </button>
       </div>
       <div class="info">

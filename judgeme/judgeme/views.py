@@ -225,6 +225,8 @@ def homepage(request):
     #     for playlist in items:
     #         playlists.append(playlist)
 
+    user_image = request.user.profile_picture
+
     count = 0
     for item in playlists:
         if item.get('owner').get('id') == request.user.username:
@@ -253,6 +255,9 @@ def homepage(request):
     context['friend3'] = friend3
     context["bg_color"] = "[#322c3d]"
     context["bubble_color"] = "[#8e3d81]"
+    if user_image:
+        print("AJSDLKASJDKL")
+        context["profile"] = user_image
     return render(request, 'homepage.html', context)
 
 
