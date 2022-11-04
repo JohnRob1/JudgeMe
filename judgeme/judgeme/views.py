@@ -409,6 +409,7 @@ def profiledit(request):
 
 
 def temp(request):
+    
     context = {}
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
