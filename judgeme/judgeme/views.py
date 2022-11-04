@@ -223,7 +223,16 @@ def artist(request):
                     'album_titles': album_titles,
                     'image': image_artist,
                     'popularity': popularity,
+                    'name' : name,
                 }
+                # context = {
+                #     'render_intro': False,
+                #     'top_tracks': ['Jane\'s song', 'Cupids Arrow', 'Fake Song 3', 'No Ideas', 'John Robinson is the best'],
+                #     'album_titles': ['Album Premier', 'Album deux: Springtime', 'Jayanthas Etude'],
+                #     'image': image_artist,
+                #     'popularity': popularity,
+                #     'name' : artist,
+                # }
                 return render(request, 'artist.html', context)
             return render(request, 'artist.html', {'error': True})
     context = {
