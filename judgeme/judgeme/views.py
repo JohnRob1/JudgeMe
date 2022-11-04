@@ -216,6 +216,32 @@ def homepage(request):
     if 'lightMode' in request.GET:
         darkmode = False
 
+    request_code = 0
+    if 'add-friend' in request.GET:
+        username = request.GET['add-friend']
+        print("trying to add:", username)
+
+        try:
+            user = JMUser.objects.get(username=username)
+            request.user.friends.add(user)
+            print("friend added.")
+            request_code = 1
+        except ObjectDoesNotExist:
+            print("doesn't exist!!")
+            request_code = 2
+
+    if 'remove-friend' in request.GET:
+        username = request.GET['remove-friend']
+        print("trying to remove:", username)
+        try:
+            user = JMUser.objects.get(username=username)
+            request.user.friends.remove(user)
+            print("friend removed.")
+            request_code = 3
+        except ObjectDoesNotExist:
+            print("doesn't exist!!")
+            request_code = 4
+
     # while (True):
     #     result = sp.current_user_playlists(limit=50, offset=iterations*50)
     #     items = result.get('items')
@@ -250,6 +276,11 @@ def homepage(request):
 
     context = {'user': request.user,
                'friendcount': request.user.friends.count(), 'playlist_count': count}
+
+    context['user'] = request.user
+    context['friends'] = request.user.friends.all()
+    context['request_code'] = request_code
+
     context['friend1'] = friend1
     context['friend2'] = friend2
     context['friend3'] = friend3
