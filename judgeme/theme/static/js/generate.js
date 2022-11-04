@@ -1,12 +1,12 @@
-function next(button, checkbox, triggerButton) {
-  var buttonElement = button;
-  buttonElement.remove();
-
-  var checkboxElement = checkbox;
-  checkboxElement.remove();
-
-  var triggerButtonElement = triggerButton;
-  triggerButtonElement.innerHTML = "Generate";
+function saveFriends(friends) {
+  for (var i = 0; i < friends.length; i++) {
+    console.log(friends[i]);
+  }
 }
 
-function generate() {}
+function saveArtists(artistNames) {
+  document.write("hi\n");
+  for (var i = 0; i < artistNames.length; i++) {
+    console.log(artistNames[i]);
+  }
+}

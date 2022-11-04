@@ -998,9 +998,6 @@ html{
 .h-9{
   height: 2.25rem;
 }
-.h-40{
-  height: 10rem;
-}
 .max-h-20{
   max-height: 5rem;
 }
@@ -1568,18 +1565,6 @@ html{
   --tw-bg-opacity: 1;
   background-color: rgb(188 143 143 / var(--tw-bg-opacity));
 }
-.bg-slate-50{
-  --tw-bg-opacity: 1;
-  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
-}
-.bg-\[\#9f8170\]{
-  --tw-bg-opacity: 1;
-  background-color: rgb(159 129 112 / var(--tw-bg-opacity));
-}
-.bg-\[\#ffebcd\]{
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 235 205 / var(--tw-bg-opacity));
-}
 .bg-opacity-50{
   --tw-bg-opacity: 0.5;
 }
@@ -1666,10 +1651,6 @@ html{
 .py-1{
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-}
-.py-14{
-  padding-top: 3.5rem;
-  padding-bottom: 3.5rem;
 }
 .pl-3{
   padding-left: 0.75rem;
