@@ -13,9 +13,9 @@
       style="position: absolute; margin: 300px"
     >
       <button
-        onclick="location.href='../playlist/'"
         id="generate"
         class="relative m-auto bg-[#3d0c02] hover:bg-[#9f8170] text-white text-lg font-medium py-2 px-10 rounded-full"
+        onclick="location.href='../playlist/'"
       >
         Save to library!
       </button>
@@ -26,6 +26,7 @@
         style="background-color: #3d0c02"
         class="text-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center"
         type="button"
+        onclick=""
       >
         Select Playlists
         <svg
@@ -55,30 +56,72 @@
           class="p-3 space-y-1 text-sm"
           aria-labelledby="dropdownBgHoverButton"
         >
-          {% for playlist in playlists %}
-          <li>
-            <div class="flex items-center p-2 dark:hover:bg-[#A67B5B]">
-              <input
-                id="playlist-id"
-                type="checkbox"
-                value=""
-                class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white"
-              />
-              <label
-                for="checkbox-item-4"
-                class="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                >{{playlist}}</label
+          <form name="form1" action="../playlistgenerate" method="post">
+            {% for playlist, i in playlists %}
+            <li>
+              <div
+                class="flex items-center p-2 dark:hover:bg-[#A67B5B]"
+                style="color: white"
               >
-            </div>
-          </li>
-          {% endfor %}
+                <input
+                  name="chk"
+                  id="playlist-{{i}}"
+                  type="checkbox"
+                  value=""
+                  onclick="chkcontrol(`{{i}}`)"
+                  class="w-4 h-4 text-[#9f8170] bg-white rounded border-white focus:ring-[#9f8170] dark:focus:ring-[#9f8170] dark:ring-offset-white focus:ring-2 dark:bg-white dark:border-white"
+                />
+                <label
+                  for="chk"
+                  style="color: white"
+                  class="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                  >{{playlist}}</label
+                >
+              </div>
+            </li>
+            {% endfor %}
+          </form>
         </ul>
       </div>
       <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+      <script>
+        /*
+        function numclicked(inputid) {
+            var temp = document.getElementById(inputid);
+            if (temp.checked == false) {
+                if (clicked.includes(temp)) {
+                    clicked.pop(temp);
+                }  
+            } else {
+                if (clicked.length == 3) {
+                    alert("You can only select 3!") 
+                    temp.checked = false;
+                } else {
+                    clicked.push(temp);
+                }
+            }
+        }; */
+
+        var clicked = new Array();
+        function chkcontrol(j) {
+          var temp = document.getElementById("playlist-" + j);
+          if (temp.checked == false) {
+            if (clicked.includes(temp)) {
+              clicked.pop(temp);
+            }
+          } else {
+            if (clicked.length == 3) {
+              alert("You can only select 3!");
+              temp.checked = false;
+            } else {
+              clicked.push(temp);
+            }
+          }
+        }
+      </script>
     </div>
   </body>
   {% endblock %}
-  <script></script>
 </html>
 
 <!--

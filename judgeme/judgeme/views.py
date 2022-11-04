@@ -270,7 +270,14 @@ def playlistgenerate(request):
     for item in playlists:
         name.append(item.get('name'))
 
-    context['playlists'] = name
+    dummy = []
+    for i in range(len(name)):
+        dummy.append(i)
+
+    random.shuffle(name) 
+    pcounter = zip(name, dummy)
+
+    context['playlists'] = pcounter
     return render(request, 'playlistgenerate.html', context)
 
 
