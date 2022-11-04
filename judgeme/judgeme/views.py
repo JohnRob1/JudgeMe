@@ -225,6 +225,8 @@ def homepage(request):
     #     for playlist in items:
     #         playlists.append(playlist)
 
+    user_image = request.user.profile_picture
+
     count = 0
     for item in playlists:
         if item.get('owner').get('id') == request.user.username:
