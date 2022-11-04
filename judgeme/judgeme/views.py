@@ -173,7 +173,6 @@ def get_user_playlists(request):
 
 def homepage(request):
 
-    
     if 'darkMode' in request.GET:
         darkmode = True
 
