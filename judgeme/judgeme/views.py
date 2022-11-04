@@ -101,10 +101,10 @@ def result(request):
         genres_cf[values[0].lower()] = values[1]
     # Get genres of songs for weight
     sp = get_spotify_object(request)
-    # friend = JMUser.objects.get(username = "virtualkenny")
 
     # if "friend" in request.GET:
-        # friend = JMUser.objects.get(username = request.GET.get("friend"))
+    friend = JMUser.objects.get(username = request.GET.get("friend"))
+    print(friend)
     #     for track in friend.top_tracks:
     #         artist_id = sp.track(track).get("artists")[0].get("id")
     #         artist = sp.artist(artist_id)
@@ -139,7 +139,7 @@ def result(request):
     #     # Calculate MusicTaste
     #     for genre in genres_amt.keys():
     #         MusicTaste2 = MusicTaste2 + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
-    # request.friend.music_taste = MusicTaste2 * 100
+    request.friend.music_taste = MusicTaste2 * 100
 
     # for track in sp.current_user_top_tracks(1).get("items"):
     #     song_uri = track.get("uri")
@@ -179,12 +179,14 @@ def result(request):
     #     MusicTaste = MusicTaste + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
     request.user.music_taste = MusicTaste * 100
 
-    if abs(MusicTaste - MusicTaste2)
+    if abs((MusicTaste * 100) - (MusicTaste2)) < 20:
+        f = open('theme/static/light_mode_gifs/comps.txt', 'r')
+    else:
         f = open('theme/static/light_mode_gifs/insults.txt', 'r')
-        lines = f.readlines()
-        r = random.randint(0, len(lines) - 1)
-        line = lines[r]
-        sh = line.split(", ")
+    lines = f.readlines()
+    r = random.randint(0, len(lines) - 1)
+    line = lines[r]
+    sh = line.split(", ")
 
     context = {
         'src': sh[0],
