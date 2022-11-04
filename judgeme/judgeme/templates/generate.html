@@ -38,7 +38,7 @@
 
         <div
           id="dropdownDefaultCheckbox"
-          class="hidden z-10 w-48 bg-white rounded divide-y divide-[#3d0c02] shadow dark:bg-[#3d0c02] dark:divide-[#3d0c02]"
+          class="hidden z-10 w-48 rounded divide-y divide-[#3d0c02] bg-[#3d0c02] shadow dark:bg-[#3d0c02] dark:divide-[#3d0c02]"
         >
           <ul
             class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200"
@@ -100,14 +100,13 @@
 
         <div
           id="dropdownDefaultCheckbox2"
-          class="hidden z-10 w-48 bg-white rounded divide-y divide-[#3d0c02] shadow dark:bg-[#3d0c02] dark:divide-[#3d0c02]"
+          class="hidden z-10 w-48 bg-[#3d0c02] rounded divide-y divide-[#3d0c02] shadow dark:bg-[#3d0c02] dark:divide-[#3d0c02]"
         >
           <ul
             class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownCheckboxButton"
           >
-            {% if user %} {% if artistNames %} {% for artistName in artistNames
-            %}
+            {% if user %} {% if artistNames %} {% for artistName in artistNames %}
             <li>
               <div class="flex items-center">
                 <input
