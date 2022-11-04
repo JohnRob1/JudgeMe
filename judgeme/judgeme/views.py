@@ -145,11 +145,12 @@ def result(request):
     print(MusicTaste)
     request.user.music_taste = MusicTaste
 
-    f = open('theme/static/light_mode_gifs/insults.txt', 'r')
-    lines = f.readlines()
-    r = random.randint(0, len(lines) - 1)
-    line = lines[r]
-    sh = line.split(", ")
+    if abs(MusicTaste - MusicTaste2)
+        f = open('theme/static/light_mode_gifs/insults.txt', 'r')
+        lines = f.readlines()
+        r = random.randint(0, len(lines) - 1)
+        line = lines[r]
+        sh = line.split(", ")
 
     context = {
         'src': sh[0],
