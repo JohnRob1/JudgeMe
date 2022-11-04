@@ -462,47 +462,47 @@ def artist(request):
                 image_artist = t['images'][0]['url']
 
                 holder = []
-                print("yep")
-                top_tracks = sp.artist_top_tracks(uri)
-                print('nope')
-                for track in top_tracks['tracks'][:5]:
-                    # print('track    : ' + track['name'])
-                    # print()
-                    tempname = track['name']
-                    if len(tempname) > 40:
-                        tempname = tempname.split('-')[0]
-                    holder.append(tempname)
+                # print("yep")
+                # top_tracks = sp.artist_top_tracks(uri)
+                # print('nope')
+                # for track in top_tracks['tracks'][:5]:
+                #     # print('track    : ' + track['name'])
+                #     # print()
+                #     tempname = track['name']
+                #     if len(tempname) > 40:
+                #         tempname = tempname.split('-')[0]
+                #     holder.append(tempname)
 
-                results = sp.artist_albums(uri, album_type='album')
-                albums = results['items']
+                # results = sp.artist_albums(uri, album_type='album')
+                # albums = results['items']
 
-                album_titles = []
+                # album_titles = []
 
-                for album in albums:
-                    if len(album['name']) < 75:
-                        album_titles.append(album['name'])
+                # for album in albums:
+                #     if len(album['name']) < 75:
+                #         album_titles.append(album['name'])
 
-                seen = set()
-                seen_add = seen.add
-                album_titles = [x for x in album_titles if not (
-                    x in seen or seen_add(x))]
+                # seen = set()
+                # seen_add = seen.add
+                # album_titles = [x for x in album_titles if not (
+                #     x in seen or seen_add(x))]
 
-                context = {
-                    'render_intro': False,
-                    'top_tracks': holder,
-                    'album_titles': album_titles,
-                    'image': image_artist,
-                    'popularity': popularity,
-                    'name': name,
-                }
                 # context = {
                 #     'render_intro': False,
-                #     'top_tracks': ['Jane\'s song', 'Cupids Arrow', 'Fake Song 3', 'No Ideas', 'John Robinson is the best'],
-                #     'album_titles': ['Album Premier', 'Album deux: Springtime', 'Jayanthas Etude'],
+                #     'top_tracks': holder,
+                #     'album_titles': album_titles,
                 #     'image': image_artist,
                 #     'popularity': popularity,
-                #     'name' : artist,
+                #     'name': name,
                 # }
+                context = {
+                    'render_intro': False,
+                    'top_tracks': ['Jane\'s song', 'Cupids Arrow', 'Fake Song 3', 'No Ideas', 'John Robinson is the best'],
+                    'album_titles': ['Album Premier', 'Album deux: Springtime', 'Jayanthas Etude', 'Album Premier', 'Album deux: Springtime', 'Jayanthas Etude'],
+                    'image': image_artist,
+                    'popularity': popularity,
+                    'name' : artist,
+                }
                 return render(request, 'artist.html', context)
             return render(request, 'artist.html', {'error': True})
     context = {

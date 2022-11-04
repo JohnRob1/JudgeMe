@@ -1,119 +1,97 @@
-{% extends 'base.html' %} {% load static tailwind_tags %} {% tailwind_css %}
+{% load static tailwind_tags %} {% tailwind_css %}
+<!DOCTYPE html>
 
 <html>
-    {% block content %}
-    <div class="flex items-center justify-center h-screen">
-        <div class="flex space-y-8 w-50% items-center flex-col">
-            {% if error %}
-            <p class="text-center opacity-0 animate-fadeIn animation-delay-80">
-                We couldn't find any artist like that. Try again
-            </p>
-            {% elif dontrun %}
-            <p class="text-center opacity-0 animate-fadeIn animation-delay-150">
-                Here you can learn more about your favorite artists
-            </p>
-            <p class="text-center opacity-0 animate-fadeIn animation-delay-300">
-                Lets explore any artists best songs, albums, and statistics
-            </p>
-            {% elif top_tracks %}
-            <div class="grid gap-14 grid-cols-2">
-                <div class="">
-                    <table class="table-auto">
-                        <thead>
-                            <th>Top Songs</th>
-                        </thead>
-                        <tbody>
-                            {% for song in top_tracks %}
-                            <tr>
-                                <td>{{ song }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            </tr>
-                            {% endfor %}
-                            <tr>
-                                <td>&#8203;</td>
-                            </tr>
-                            <tr>
-                                <td>&#8203;</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="bg-cyan-100 py-20">
-                        <img
-                            src="{{image}}"
-                            class="object-contain h-48 w-48 py-20..."
-                        />
-                        <p class="text-lg">
-                            Artist Popularity Score:<br />{{ popularity }}%
-                        </p>
+    <body class="bg-[#595169]">
+        <div
+            class="fixed top-64 w-72 h-72 -z-50 bg-[#273ba9] rounded-full animate-blob"
+        ></div>
+        <div
+            class="fixed bottom-32 right-5 w-72 h-36 -z-50 bg-[#2a3eab] rounded-full rotate-12 animate-blob animation-delay-1500"
+        ></div>
+        <div class="flex items-center justify-center h-screen">
+            <div class="flex space-y-8 w-50% items-center flex-col">
+                {% if error %}
+                <p class="text-center opacity-0 animate-fadeIn animation-delay-800">
+                    We couldn't find any artist like that. Try again
+                </p>
+                {% elif dontrun %}
+                <p class="text-center opacity-0 animate-fadeIn animation-delay-1500">
+                    Here you can learn more about your favorite artists
+                </p>
+                <p class="text-center opacity-0 animate-fadeIn animation-delay-3000">
+                    Lets explore any artists best songs, albums, and statistics
+                </p>
+                {% elif top_tracks %}
+                <div class="grid gap-14 grid-cols-2">
+                    <div class="">
+                        <table class="table-auto">
+                            <thead>
+                                <th>Top Songs</th>                           
+                            </thead>
+                            <tbody>
+                                {% for song in top_tracks %}
+                                    <tr><td>{{ song }}&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+                                {% endfor %}
+                                    <tr><td> &#8203; </td></tr>
+                                    <tr><td> &#8203; </td></tr>
+                            </tbody>
+                        </table>
+                        <div class="py-20">
+                            <img src={{ image }} class="object-contain h-48 w-48 py-20...">
+                            <p class="text-lg">Artist Popularity Score:<br>{{ popularity }}%</p>
+                        </div> 
+                    </div>
+                    
+                    <div>
+                        <table class="table-auto">
+                            <thead>
+                                <th>List of Albums</th>                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for album in album_titles %}
+                                    <tr><td>{{ album }}&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <div>
-                    <table class="table-auto">
-                        <thead>
-                            <th>List of Albums</th>
-                        </thead>
-                        <tbody>
-                            {% for album in album_titles %}
-                            <tr>
-                                <td>{{ album }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            {% endif %}
-            <div class="flex space-y-4 w-96 items-center flex-col">
-                <form method="POST">
-                    {% csrf_token %}
-                    <label
-                        for="default-search"
-                        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300"
-                        >Search</label
-                    >
-                    <div class="relative">
-                        <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                            <svg
-                                aria-hidden="true"
-                                class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                ></path>
-                            </svg>
-                        </div>
-                        <input
-                            type="search"
-                            name="aname"
-                            id="aname"
-                            class="block p-4 pl-10 w-96 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Enter Artist"
-                            required
-                        />
-                        <button
-                            type="submit"
-                            class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        >
-                            Search
-                        </button> 
-                    </div>
-                </form>
+                
+                {% endif %}
                 <div class="flex space-y-4 w-96 items-center flex-col">
-                    <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onclick="location.href = '../homepage/'">
-                        Return Home
-                    </button>               
+                    <form method="POST">
+                        {% csrf_token %} 
+                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
+                            <div class="relative">
+                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                 </div>
+                                <input type="search" name='aname' id="aname" class="block p-4 pl-10 w-96 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Artist" required>
+                                <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                             </div>               
+                    </form> 
                 </div>
+
             </div>
         </div>
-    </div>
+    </body>
 
-    {% endblock %}
+    
+    <!-- Navbar -->
+    <header class="fixed bottom-0 px-6 py-4">
+        <div class="flex-col">
+            <a href="../homepage/">
+                <img
+                    class="w-48"
+                    src="{% static 'login/Logo White.png' %}"
+                    alt="Logo"
+                />
+            </a>
+            <div class="flex space-x-2">
+                <button onclick="location.href = '../about/'">about</button>
+                <!-- <p>terms</p> -->
+            </div>
+        </div>
+    </header>
+    <!-- Navbar -->
 </html>
