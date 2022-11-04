@@ -1235,22 +1235,17 @@ html{
   -webkit-animation: bounce 1s infinite;
           animation: bounce 1s infinite;
 }
-.cursor-pointer{
-  cursor: pointer;
-}
 .cursor-default{
   cursor: default;
 }
 .cursor-not-allowed{
   cursor: not-allowed;
 }
+.cursor-pointer{
+  cursor: pointer;
+}
 .resize{
   resize: both;
-}
-.appearance-none{
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
 }
 .columns-1{
   -moz-columns: 1;
@@ -1950,17 +1945,9 @@ html{
   -webkit-animation-delay: 800ms;
           animation-delay: 800ms;
 }
-.animation-delay-1000{
-  -webkit-animation-delay: 1000ms;
-          animation-delay: 1000ms;
-}
 .animation-delay-1500{
   -webkit-animation-delay: 1500ms;
           animation-delay: 1500ms;
-}
-.animation-delay-2000{
-  -webkit-animation-delay: 2000ms;
-          animation-delay: 2000ms;
 }
 .animation-delay-3000{
   -webkit-animation-delay: 3000ms;
@@ -2176,11 +2163,6 @@ html{
   .dark\:bg-white{
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  }
-
-  .dark\:bg-emerald-300{
-    --tw-bg-opacity: 1;
-    background-color: rgb(110 231 183 / var(--tw-bg-opacity));
   }
 
   .dark\:bg-gray-600{
