@@ -77,7 +77,9 @@ def welcome(request):
 
 
 def judge(request):
-    return render(request, 'judge.html')
+    context = {}
+    context['friends'] = request.user.friends.all()
+    return render(request, 'judge.html', context)
 
 
 def result(request):
