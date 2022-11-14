@@ -240,11 +240,11 @@ def playlist(request):
     if darkmode == False:
         context['bg_color'] = '[#674846]'
         context['bubble_color'] = '[#fdbcb4]'
-        context['darkmode'] = darkmode
+        context['darkmode'] = False
     else:
         context['bg_color'] = '[#002147]'
         context['bubble_color'] = '[#b0c4de]'
-        context['darkmode'] = darkmode
+        context['darkmode'] = True
 
     sp = get_spotify_object(request)
     playlist = sp.current_user_recently_played(limit=40).get('items')
@@ -264,8 +264,7 @@ def playlist(request):
 
     random.shuffle(songNames)
 
-    context['songNames1'] = songNames[:20]
-    context['songNames2'] = songNames[20:]
+    context['songNames'] = songNames
     return render(request, 'playlist.html', context)
 
 

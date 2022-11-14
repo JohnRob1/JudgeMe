@@ -10,30 +10,32 @@
 </head>
 <body class="bg-zinc-900">
     <div class="flex container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
-        {% if darkmode == false %}
+        {% if darkmode == False %}
             <img class="max-w-md m-4 shadow-white" src="{% static '/icons/music.jpeg' %}"></img>
         {% else %}
-        <img class="max-w-md m-4 shadow-white" src="{% static '/icons/musicdark.jpeg' %}"></img>
+            <img class="max-w-md m-4 shadow-white" src="{% static '/icons/musicdark.jpeg' %}"></img>
         {% endif %}
         <div class="flex justify-center space-x-12 w-200 flex-row">
             <div class="flex justify-center space-y-10 w-100 flex-col">
-                {% if darkmode == false %}
+                {% if darkmode == False %}
                     <h1 class="text-white grow text-4xl text-lg mt-4 w-80">Sunny Days</h1>
                     <h1 class="text-[#fdbcb4] grow text-2xl text-bold mt-4 w-80">Friends and Artists</h1>
                 {% else %}
                     <h1 class="text-white grow text-4xl text-lg mt-4 w-80">Messy Midnights</h1>
                     <h1 class="text-[#b0c4de] grow text-2xl text-bold mt-4 w-80">Friends and Artists</h1>
                 {% endif %}
-                {% for name in songNames1 %}
-                <button class="flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20">
-                    {% if darkmode == false %} 
+                {% for name in songNames %}
+                {% if darkmode == False %} 
+                    <button class="flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20">
                         <img class="m-2 rounded-sm w-12 h-12" src="{% static '/icons/musics.png' %}">
                         <h1 class="text-[#fdbcb4] grow text-lg text-bold mt-4 w-fit">{{name}}</h1>
-                    {% else %} 
+                    </button>
+                {% else %}
+                    <button class="flex w-80 rounded-lg border-[#b0c4de] border-2 max-h-20">
                         <img class="m-2 rounded-sm w-12 h-12" src="{% static '/icons/musicsdark.png' %}">
                         <h1 class="text-[#b0c4de] grow text-lg text-bold mt-4 w-fit">{{name}}</h1>
-                    {% endif %}
-                </button>
+                    </button>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
