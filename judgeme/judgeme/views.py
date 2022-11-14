@@ -14,6 +14,8 @@ import spotipy
 import os
 import random
 
+darkmode = False
+
 
 def sign_in(request):
     url = generate_url()
@@ -235,8 +237,15 @@ def profile(request):
 
 def playlist(request):
     context = {}
-    context['bg_color'] = '[#674846]'
-    context['bubble_color'] = '[#fdbcb4]'
+    if darkmode == False:
+        context['bg_color'] = '[#674846]'
+        context['bubble_color'] = '[#fdbcb4]'
+        context['darkmode'] = darkmode
+    else:
+        context['bg_color'] = '[#002147]'
+        context['bubble_color'] = '[#b0c4de]'
+        context['darkmode'] = darkmode
+
     sp = get_spotify_object(request)
     playlist = sp.current_user_recently_played(limit=40).get('items')
     tracks = []
