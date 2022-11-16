@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import JMUserCreationForm, JMUserChangeForm
-from .models import JMUser, Track
+from .models import JMUser, Track, Artist
 
 
 # class JMUserAdmin(UserAdmin):
@@ -16,3 +16,4 @@ from .models import JMUser, Track
 
 admin.site.register(JMUser)
 admin.site.register(Track)
+admin.site.register(Artist)
