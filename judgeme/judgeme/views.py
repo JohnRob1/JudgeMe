@@ -238,7 +238,7 @@ def playlist(request):
         context['darkmode'] = True
 
     sp = get_spotify_object(request)
-    playlist = sp.current_user_recently_played(limit=40).get('items')
+    playlist = sp.current_user_recently_played(limit=20).get('items')
     tracks = []
 
     songNames = []
