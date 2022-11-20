@@ -84,11 +84,9 @@
             width: 100%;
         }
     </style>
-    <!--Figure this out: Some colors work like the ones that have been used and others don't work. Why is that?-->
     <center>
         <div class="box h-auto bg-black/30 rounded-lg flex flex-col p-4">
-            <!-- figure out how to get the chosen file to populate the template-->
-
+            <!-- Top row -->
             <div class="flex w-max space-x-4 p-4">
                 <img
                     id="profile-image"
@@ -100,14 +98,31 @@
                 <div
                     class="flex flex-col text-left py-2 align-middle h-auto m-auto"
                 >
-                    <p class="title text-lg">{{user_to_display.username}}</p>
+                    <p class="title text-lg">
+                        {{user_to_display.display_name}}
+                    </p>
                     <p class="">Joined {{user_to_display.date_joined}}</p>
                     {% if is_friend %}
                     <p class="text-xs text-blue-200">You are friends!</p>
                     {% endif %}
                 </div>
             </div>
+            <!-- Top row -->
 
+            <!-- Statistics row -->
+            <div
+                class="text-blue-200 justify-start text-left w-full flex flex-col px-4"
+            >
+                <p class="text-xs text-white">stats</p>
+                <p>top genre: {{top_genre}}</p>
+                <p>top artist: {{top_artist}}</p>
+                <p>top song: {{top_song}}</p>
+                <p>friends: {{num_friends}}</p>
+                <p>playlists: {{num_playlists}}</p>
+            </div>
+            <!-- Statistics row -->
+
+            <!-- Description field row -->
             <form id="profile-form">
                 <fieldset
                     id="form-field-set"
@@ -131,11 +146,13 @@
                     />
                 </fieldset>
             </form>
+            <!-- Description field row -->
 
+            <!-- Button row -->
             <div class="justify-end w-full flex flex-row space-x-2">
                 <button
                     onclick="location.href = '../homepage'"
-                    class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-full"
+                    class="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-full"
                 >
                     home
                 </button>
@@ -144,7 +161,7 @@
                     <button
                         onclick="enableEditing()"
                         id="edit-button"
-                        class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-full"
+                        class="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-full"
                     >
                         edit profile
                     </button>
@@ -155,7 +172,7 @@
                         class="hidden"
                     />
                     <label
-                        class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-full"
+                        class="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-full"
                         for="image-input"
                         >edit picture</label
                     >
@@ -163,19 +180,20 @@
                 <div id="editing-buttons" class="hidden space-x-2">
                     <button
                         onclick="reloadPage()"
-                        class="bg-blue-500 hover:bg-red-700 text-white text-sm font-bold py-2 px-4 rounded-full"
+                        class="bg-blue-500 hover:bg-red-700 text-white text-sm py-2 px-4 rounded-full"
                     >
                         cancel
                     </button>
                     <button
                         onclick="submitForm()"
-                        class="bg-blue-500 hover:bg-green-700 text-white text-sm font-bold py-2 px-4 rounded-full"
+                        class="bg-blue-500 hover:bg-green-700 text-white text-sm py-2 px-4 rounded-full"
                     >
                         save
                     </button>
                 </div>
                 {% endif %}
             </div>
+            <!-- Button row -->
         </div>
     </center>
     <script>

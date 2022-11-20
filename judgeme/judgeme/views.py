@@ -6,9 +6,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
 import random
 
-from .util_auth import generate_url, create_token_info, check_token, login_django_user
+from .util_auth import generate_url, create_token_info, login_django_user, get_spotify_object
 
 from .models import JMUser, Track
+from .profile_stats import update_user_stats, get_top_artist, get_top_genre, get_top_song, get_num_friends, get_num_playlists
 
 import spotipy
 import os
@@ -32,7 +33,7 @@ def spotify_callback(request):
 
     request.session['code'] = code
     request.session['token'] = token
-    request.session.set_expiry(0)
+    print("AWDAA", request.session['token'])
 
     return redirect('login')
 
@@ -43,15 +44,6 @@ def create_token(code):
         return None
 
     return token_info['access_token']
-
-
-def get_spotify_object(request) -> spotipy.Spotify:
-    token = request.session.get('token')
-    if token == None:
-        code = request.session.get('code')
-        create_token(code)
-
-    return spotipy.Spotify(auth=token)
 
 
 def index(request):
@@ -106,7 +98,7 @@ def result(request, friend):
     # Get genres of songs for weight
     sp = get_spotify_object(request)
 
-    for track in friend.top_tracks:
+    for track in friend.top_tracks.all():
         artist_id = sp.track(track).get("artists")[0].get("id")
         artist = sp.artist(artist_id)
         genres = artist.get("genres")
@@ -139,9 +131,7 @@ def result(request, friend):
 
     # Calculate MusicTaste
     for genre in genres_amt.keys():
-        MusicTaste2 = MusicTaste2 + \
-            ((float(genres_amt.get(genre, 0) / 100))
-             * float(genres_cf.get(genre, 0)))
+        MusicTaste2 = MusicTaste2 + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
     friend.music_taste = round(MusicTaste2 * 100, 2)
 
     for track in sp.current_user_top_tracks(1).get("items"):
@@ -179,9 +169,7 @@ def result(request, friend):
 
     # Calculate MusicTaste
     for genre in genres_amt.keys():
-        MusicTaste = MusicTaste + \
-            ((float(genres_amt.get(genre, 0) / 100))
-             * float(genres_cf.get(genre, 0)))
+        MusicTaste = MusicTaste + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
     request.user.music_taste = round(MusicTaste * 100, 2)
 
     if abs(request.user.music_taste - friend.music_taste) < 20:
@@ -222,12 +210,16 @@ def profile(request):
         user.vibes = request.GET['vibes']
     user.save()
 
-    pprint(user.username)
-
     context = {}
     context['user_to_display'] = user
     context['is_owner'] = user == request.user
     context['is_friend'] = user in request.user.friends.all()
+
+    context['top_genre'] = get_top_genre(request, user)
+    context['top_artist'] = get_top_artist(request, user)
+    context['top_song'] = get_top_song(request, user)
+    context['num_friends'] = get_num_friends(request, user)
+    context['num_playlists'] = get_num_playlists(request, user)
 
     context['bg_color'] = 'blue-400'
     context['bubble_color'] = '[#7dd3fc]'
@@ -287,7 +279,7 @@ def playlistgenerate(request):
     for i in range(len(name)):
         dummy.append(i)
 
-    random.shuffle(name) 
+    random.shuffle(name)
     pcounter = zip(name, dummy)
 
     context['playlists'] = pcounter
@@ -356,9 +348,6 @@ def homepage(request):
             print("doesn't exist!!")
             request_code = 4
 
-    playlist_count = get_or_calculate_user_playlist_count(request)
-    user_image = request.user.profile_picture
-
     friends = request.user.friends.all()
     if len(friends) >= 1:
         friend1 = friends[0].profile_picture
@@ -375,8 +364,7 @@ def homepage(request):
     else:
         friend3 = False
 
-    context = {'user': request.user,
-               'friendcount': request.user.friends.count(), 'playlist_count': playlist_count}
+    context = {}
 
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
@@ -387,40 +375,7 @@ def homepage(request):
     context['friend3'] = friend3
     context["bg_color"] = "[#322c3d]"
     context["bubble_color"] = "[#8e3d81]"
-    if user_image:
-        context["profile"] = user_image
     return render(request, 'homepage.html', context)
-
-
-def get_user_playlists(request):
-    sp = get_spotify_object(request)
-
-    all_playlists = []
-    iterations = 0
-    while (True):
-        result = sp.current_user_playlists(limit=50, offset=iterations*50)
-        items = result.get('items')
-        if (len(items) == 0):
-            break
-        iterations += 1
-        for playlist in items:
-            all_playlists.append(playlist)
-
-    user_playlists = []
-    for item in all_playlists:
-        if item.get('owner').get('id') == request.user.username:
-            user_playlists.append(item)
-
-    return user_playlists
-
-
-def get_or_calculate_user_playlist_count(request) -> int:
-    if request.user.playlist_count == -1:
-        request.user.playlist_count = len(get_user_playlists(request))
-        request.user.save()
-        print("Calculated playlists")
-
-    return request.user.playlist_count
 
 
 def profiledit(request):
@@ -481,47 +436,47 @@ def artist(request):
                 image_artist = t['images'][0]['url']
 
                 holder = []
-                # print("yep")
-                # top_tracks = sp.artist_top_tracks(uri)
-                # print('nope')
-                # for track in top_tracks['tracks'][:5]:
-                #     # print('track    : ' + track['name'])
-                #     # print()
-                #     tempname = track['name']
-                #     if len(tempname) > 40:
-                #         tempname = tempname.split('-')[0]
-                #     holder.append(tempname)
+                print("yep")
+                top_tracks = sp.artist_top_tracks(uri)
+                print('nope')
+                for track in top_tracks['tracks'][:5]:
+                    # print('track    : ' + track['name'])
+                    # print()
+                    tempname = track['name']
+                    if len(tempname) > 40:
+                        tempname = tempname.split('-')[0]
+                    holder.append(tempname)
 
-                # results = sp.artist_albums(uri, album_type='album')
-                # albums = results['items']
+                results = sp.artist_albums(uri, album_type='album')
+                albums = results['items']
 
-                # album_titles = []
+                album_titles = []
 
-                # for album in albums:
-                #     if len(album['name']) < 75:
-                #         album_titles.append(album['name'])
+                for album in albums:
+                    if len(album['name']) < 75:
+                        album_titles.append(album['name'])
 
-                # seen = set()
-                # seen_add = seen.add
-                # album_titles = [x for x in album_titles if not (
-                #     x in seen or seen_add(x))]
+                seen = set()
+                seen_add = seen.add
+                album_titles = [x for x in album_titles if not (
+                    x in seen or seen_add(x))]
 
-                # context = {
-                #     'render_intro': False,
-                #     'top_tracks': holder,
-                #     'album_titles': album_titles,
-                #     'image': image_artist,
-                #     'popularity': popularity,
-                #     'name': name,
-                # }
                 context = {
                     'render_intro': False,
-                    'top_tracks': ['Jane\'s song', 'Cupids Arrow', 'Fake Song 3', 'No Ideas', 'John Robinson is the best'],
-                    'album_titles': ['Album Premier', 'Album deux: Springtime', 'Jayanthas Etude', 'Album Premier', 'Album deux: Springtime', 'Jayanthas Etude'],
+                    'top_tracks': holder,
+                    'album_titles': album_titles,
                     'image': image_artist,
                     'popularity': popularity,
-                    'name': artist,
+                    'name': name,
                 }
+                # context = {
+                #     'render_intro': False,
+                #     'top_tracks': ['Jane\'s song', 'Cupids Arrow', 'Fake Song 3', 'No Ideas', 'John Robinson is the best'],
+                #     'album_titles': ['Album Premier', 'Album deux: Springtime', 'Jayanthas Etude', 'Album Premier', 'Album deux: Springtime', 'Jayanthas Etude'],
+                #     'image': image_artist,
+                #     'popularity': popularity,
+                #     'name': artist,
+                # }
                 return render(request, 'artist.html', context)
             return render(request, 'artist.html', {'error': True})
     context = {
@@ -626,34 +581,10 @@ def login_user(request):
 
     login_django_user(request)
 
-    context = {}
-    context['user'] = request.user
-    context['friends'] = request.user.friends.all()
+    update_user_stats(request)
 
     return redirect('welcome')
     # return render(request, "friends.html")
-
-
-def update_top_tracks(request):
-    request.user.top_tracks.clear()
-
-    sp = get_spotify_object(request)
-    for track in sp.current_user_top_tracks(50).get("items"):
-        song_uri = track.get("uri")
-        track = get_or_create_track_from_uri(request, song_uri)
-        request.user.top_tracks.add(track)
-
-    request.user.save()
-
-
-def get_or_create_track_from_uri(request, uri) -> Track:
-    sp = get_spotify_object(request)
-    name = sp.track(uri).get("name")
-    picture = sp.track(uri).get("images")[0]
-    track, created = Track.objects.get_or_create(
-        uri=uri, name=name, picture=picture)
-    print(track)
-    return track
 
 
 def friends(request):

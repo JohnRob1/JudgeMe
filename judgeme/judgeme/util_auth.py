@@ -80,6 +80,7 @@ def login_django_user(request):
 
     sp_user = sp.me()
     sp_id = sp_user.get("id")
+    sp_display_name = sp_user.get("display_name")
     sp_email = sp_user.get("email")
     images = sp_user.get("images")
     if len(images) == 0:
@@ -93,9 +94,20 @@ def login_django_user(request):
     except ObjectDoesNotExist:
         user = JMUser.objects.create_user(sp_id, sp_email, 'password')
         user.profile_picture = sp_profile_picture
+        user.display_name = sp_display_name
         user.is_superuser = True
         user.is_staff = True
         user.save()
         print("user created.")
 
     login(request, user)
+
+
+def get_spotify_object(request) -> spotipy.Spotify:
+    token = request.session.get('token')
+    # if token == None:
+    #     code = request.session.get('code')
+    #     create_token(code)
+    #     token_info = create_token_info(code=code)
+
+    return spotipy.Spotify(auth=token)

@@ -5,8 +5,11 @@ from django.contrib.auth.models import AbstractUser, User
 
 class JMUser(AbstractUser):
     profile_picture = models.CharField(max_length=256)
+    display_name = models.CharField(max_length=256)
 
     top_tracks = models.ManyToManyField("Track", blank=True)
+    top_artists = models.ManyToManyField("Artist", blank=True)
+
     playlist_count = models.SmallIntegerField(default=-1)
 
     friends = models.ManyToManyField("JMUser", blank=True)
@@ -14,15 +17,21 @@ class JMUser(AbstractUser):
     about = models.CharField(max_length=256)
     vibes = models.CharField(max_length=256)
 
-    music_taste = models.FloatField(default = -1)
+    music_taste = models.FloatField(default=-1)
 
     def __str__(self):
-        return self.username
+        return self.display_name
 
 
 class Artist(models.Model):
     name = models.CharField(max_length=256)
-    location = models.CharField(max_length=256)
+    uri = models.CharField(max_length=512)
+    top_genre = models.CharField(max_length=256)
+    picture = models.CharField(max_length=256)
+    # location = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
 
 
 class Album(models.Model):
