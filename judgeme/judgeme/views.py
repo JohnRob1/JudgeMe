@@ -97,7 +97,7 @@ def result(request, friend):
     sp = get_spotify_object(request)
 
     for track in friend.top_tracks.all():
-        artist_id = sp.track(track.uri).get("artists")[0].get("uri")
+        artist_id = sp.track(track).get("artists")[0].get("id")
         artist = sp.artist(artist_id)
         genres = artist.get("genres")
         for genre in genres:
@@ -129,9 +129,7 @@ def result(request, friend):
 
     # Calculate MusicTaste
     for genre in genres_amt.keys():
-        MusicTaste2 = MusicTaste2 + \
-            ((float(genres_amt.get(genre, 0) / 100))
-             * float(genres_cf.get(genre, 0)))
+        MusicTaste2 = MusicTaste2 + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
     friend.music_taste = round(MusicTaste2 * 100, 2)
 
     for track in sp.current_user_top_tracks(1).get("items"):
@@ -169,9 +167,7 @@ def result(request, friend):
 
     # Calculate MusicTaste
     for genre in genres_amt.keys():
-        MusicTaste = MusicTaste + \
-            ((float(genres_amt.get(genre, 0) / 100))
-             * float(genres_cf.get(genre, 0)))
+        MusicTaste = MusicTaste + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
     request.user.music_taste = round(MusicTaste * 100, 2)
 
     if abs(request.user.music_taste - friend.music_taste) < 20:
