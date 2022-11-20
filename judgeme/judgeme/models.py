@@ -45,6 +45,7 @@ class Album(models.Model):
 
 class Track(models.Model):
     name = models.CharField(max_length=256)
+    artist_name = models.CharField(max_length=256)
     uri = models.CharField(max_length=512)
     picture = models.CharField(max_length=256)
     # artist = models.ForeignKey(

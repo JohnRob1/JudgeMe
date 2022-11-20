@@ -40,20 +40,33 @@ def get_num_playlists(request, user) -> int:
 
 
 def get_or_create_track_from_uri(request, uri) -> Track:
+    # If the track exists, return it.
+    track = Track.objects.filter(uri=uri).first()
+    if track != None:
+        return track
+
     sp = get_spotify_object(request)
+
+    # If no track exists with this uri, return None.
     track = sp.track(uri)
     if track == None:
         return None
 
     name = track.get("name")
+    artist_name = track.get("artists")[0].get("name")
     images = track.get("album").get("images")
-    picture = images[0] if images != None else "None"
+    picture = images[0].get("url") if images != None else "None"
     track, created = Track.objects.get_or_create(
-        uri=uri, name=name, picture=picture)
+        uri=uri, name=name, artist_name=artist_name, picture=picture)
     return track
 
 
 def get_or_create_artist_from_uri(request, uri) -> Artist:
+    # If the artist exists, return it.
+    artist = Artist.objects.filter(uri=uri).first()
+    if artist != None:
+        return artist
+
     sp = get_spotify_object(request)
     artist = sp.artist(uri)
     if artist == None:
