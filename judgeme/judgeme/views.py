@@ -4,6 +4,7 @@ from urllib.request import HTTPRedirectHandler
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
+from django.conf import settings
 import random
 
 from .util_auth import generate_url, create_token_info, login_django_user, get_spotify_object
@@ -14,8 +15,6 @@ from .profile_stats import update_user_stats, get_top_artist, get_top_genre, get
 import spotipy
 import os
 import random
-
-darkmode = False
 
 
 def sign_in(request):
@@ -229,7 +228,7 @@ def profile(request):
 
 def playlist(request):
     context = {}
-    if darkmode == False:
+    if settings.DARKMODE == False:
         context['bg_color'] = '[#674846]'
         context['bubble_color'] = '[#fdbcb4]'
         context['darkmode'] = False
@@ -315,12 +314,10 @@ def get_user_playlists(request):
 
 def homepage(request):
     if 'darkMode' in request.GET:
-        darkmode = True
-        pprint(darkmode)
+        settings.DARKMODE = True
 
     if 'lightMode' in request.GET:
-        darkmode = False
-        pprint(darkmode)
+        settings.DARKMODE = False
 
     request_code = 0
     if 'add-friend' in request.GET:

@@ -39,9 +39,15 @@
                 {% endfor %}
             </div>
         </div>
+        {% if darkmode == False %}
         <button onclick="location.href='../homepage/'" class="bg-[#fdbcb4] hover:bg-transparent border border-[#fdbcb4] text-white font-bold py-7 px-20 rounded">
             Home
         </button>
+        {% else %}
+        <button onclick="location.href='../homepage/'" class="bg-[#b0c4de] hover:bg-transparent border border-[#b0c4de] text-black font-bold py-7 px-20 rounded">
+            Home
+        </button>
+        {% endif %}
     </div>
 </body>
 {% endblock %}
