@@ -74,7 +74,7 @@ def get_or_create_artist_from_uri(request, uri) -> Artist:
 
     name = artist.get("name")
     picture = artist.get("images")[0]
-    genre = None
+    genre = "No genre"
     genres = artist.get("genres")
     if len(genres) > 0:
         genre = genres[0]
