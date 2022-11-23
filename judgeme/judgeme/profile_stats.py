@@ -55,9 +55,10 @@ def get_or_create_track_from_uri(request, uri) -> Track:
     name = track.get("name")
     artist_name = track.get("artists")[0].get("name")
     images = track.get("album").get("images")
+    audio_preview = track.get("preview_url")
     picture = images[0].get("url") if images != None else "None"
     track, created = Track.objects.get_or_create(
-        uri=uri, name=name, artist_name=artist_name, picture=picture)
+        uri=uri, name=name, artist_name=artist_name, picture=picture, audio_preview=audio_preview)
     return track
 
 

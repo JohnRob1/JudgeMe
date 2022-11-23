@@ -46,7 +46,8 @@ class Album(models.Model):
 class Track(models.Model):
     name = models.CharField(max_length=256)
     artist_name = models.CharField(max_length=256)
-    uri = models.CharField(max_length=512)
+    uri = models.CharField(max_length=256)
+    audio_preview = models.CharField(max_length=256)
     picture = models.CharField(max_length=256)
     # artist = models.ForeignKey(
     #     Artist, on_delete=models.CASCADE, related_name='tracks')
