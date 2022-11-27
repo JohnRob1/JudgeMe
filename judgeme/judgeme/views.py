@@ -242,21 +242,15 @@ def playlist(request):
     items = sp.current_user_recently_played(limit=20).get('items')
     tracks = []
 
-    # songNames = []
-    # songPictures = []
     for item in items:
         uri = item.get('track').get('uri')
         track = get_or_create_track_from_uri(request, uri)
         tracks.append(track)
 
-        # songNames.append(item.get('track').get('name'))
-        # songPictures.append(item.get("track").get('album').get('images')[0])
-
 
     random.shuffle(tracks)
 
-    context['songNames1'] = songNames[:20]
-    context['songNames2'] = songNames[20:]
+    context['tracks'] = tracks
     return render(request, 'playlist.html', context)
 
 
