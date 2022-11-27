@@ -59,6 +59,9 @@ const moveCursor = (e) => {
 
     var element = document.elementFromPoint(e.clientX, e.clientY);
 
+    if(element == null)
+        return
+    
     var rect = element.getBoundingClientRect();
 
     hovering = element.nodeName == "BUTTON";

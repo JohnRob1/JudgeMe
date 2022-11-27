@@ -8,6 +8,7 @@ from django.conf import settings
 import random
 
 from .util_auth import generate_url, create_token_info, login_django_user, get_spotify_object
+from .profile_stats import get_or_create_track_from_uri
 
 from .models import JMUser, Track
 from .profile_stats import update_user_stats, get_top_artist, get_top_genre, get_top_song, get_num_friends, get_num_playlists
@@ -238,24 +239,24 @@ def playlist(request):
         context['darkmode'] = True
 
     sp = get_spotify_object(request)
-    playlist = sp.current_user_recently_played(limit=20).get('items')
+    items = sp.current_user_recently_played(limit=20).get('items')
     tracks = []
 
-    songNames = []
-    songPictures = []
-    for song in playlist:
-        # uri = song.get('track').get('uri')
-        # track = get_or_create_track_from_uri(request, uri)
-        # tracks.append(track)
+    # songNames = []
+    # songPictures = []
+    for item in items:
+        uri = item.get('track').get('uri')
+        track = get_or_create_track_from_uri(request, uri)
+        tracks.append(track)
 
-        songNames.append(song.get('track').get('name'))
-        # songPictures.append(song.get('track')).get('images')[0]
+        # songNames.append(item.get('track').get('name'))
+        # songPictures.append(item.get("track").get('album').get('images')[0])
 
-    pprint(tracks)
 
-    random.shuffle(songNames)
+    random.shuffle(tracks)
 
-    context['songNames'] = songNames
+    context['songNames1'] = songNames[:20]
+    context['songNames2'] = songNames[20:]
     return render(request, 'playlist.html', context)
 
 

@@ -20,6 +20,7 @@ from django.urls import include, path
 from . import views
 from . import spotify_views
 from . import spotipy_test
+from . import audio_player
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -47,6 +48,7 @@ urlpatterns = [
     path('base/', views.base, name='base'),
     path('friends/', views.friends, name='friends'),
     path('spotify-test/', spotipy_test.test, name='test'),
+    path('audio-test/', audio_player.audio_test, name='test'),
     # path('spotify/sign-in/', views.sign_in),
     # path('', include('login.urls')),
     # path('spotify/', include('spotify.urls')),

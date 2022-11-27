@@ -80,7 +80,9 @@ module.exports = {
   },
   variants: {
     // animation: ["motion-safe"],
-    extend: {},
+    extend: {
+      visibility: ["group-hover"],
+    },
   },
   plugins: [
     /**
