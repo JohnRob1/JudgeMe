@@ -247,7 +247,6 @@ def playlist(request):
         track = get_or_create_track_from_uri(request, uri)
         tracks.append(track)
 
-
     random.shuffle(tracks)
 
     context['tracks'] = tracks
