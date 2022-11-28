@@ -1,12 +1,11 @@
-function saveFriends(friends) {
-  for (var i = 0; i < friends.length; i++) {
-    console.log(friends[i]);
-  }
+function saveNumbers() {
+  console.log("hi\n");
 }
 
-function saveArtists(artistNames) {
-  document.write("hi\n");
-  for (var i = 0; i < artistNames.length; i++) {
-    console.log(artistNames[i]);
-  }
+function saveFriends() {
+  console.log("hi\n");
+}
+
+function saveArtists() {
+  console.log("hi\n");
 }
