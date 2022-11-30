@@ -88,13 +88,31 @@
         <div class="box h-auto bg-black/30 rounded-lg flex flex-col p-4">
             <!-- Top row -->
             <div class="flex w-max space-x-4 p-4">
+                {% if obj %}
                 <img
                     id="profile-image"
+                    name="upload_picture"
+                    src="{{obj.image.url}}"
+                    class="w-28 h-28 m-auto"
+                    onclick="selectProfilePicture()"
+                />
+                {% elif latest %}
+                <img
+                    id="profile-image"
+                    name="upload_picture"
+                    src="{{latest.image.url}}"
+                    class="w-28 h-28 m-auto"
+                    onclick="selectProfilePicture()"
+                />
+                {% else %}
+                <img
+                    id="profile-image"
+                    name="upload_picture"
                     src="{{user_to_display.profile_picture}}"
                     class="w-28 h-28 m-auto"
                     onclick="selectProfilePicture()"
                 />
-
+                {% endif %}
                 <div
                     class="flex flex-col text-left py-2 align-middle h-auto m-auto"
                 >
@@ -165,32 +183,36 @@
                     >
                         edit profile
                     </button>
-                    <input
-                        type="file"
-                        id="image-input"
-                        accept="image/png, image/jpg"
-                        class="hidden"
-                    />
-                    <label
-                        class="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-full"
-                        for="image-input"
-                        >edit picture</label
-                    >
                 </div>
-                <div id="editing-buttons" class="hidden space-x-2">
+                <div id="editing-buttons" class="hidden space-x-2">                    
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label
+                            class="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-full"
+                            for="id_image"
+                            >edit picture</label
+                        >
+                        <input type="file" name="image" accept="image/png" id="id_image" class="hidden">
+                        <button
+                            onclick="this.disabled=true, this.form.submit();"
+                            class="bg-blue-500 hover:bg-green-700 text-white text-sm py-2 px-4 rounded-full"
+                            >
+                            Upload
+                        </button>
+                    </form>
                     <button
                         onclick="reloadPage()"
                         class="bg-blue-500 hover:bg-red-700 text-white text-sm py-2 px-4 rounded-full"
                     >
                         cancel
                     </button>
-                    <button
-                        onclick="submitForm()"
-                        class="bg-blue-500 hover:bg-green-700 text-white text-sm py-2 px-4 rounded-full"
-                    >
-                        save
-                    </button>
-                </div>
+                        <button
+                            onclick="submitForm(), this.disabled=true,this.form.submit();"
+                            class="bg-blue-500 hover:bg-green-700 text-white text-sm py-2 px-4 rounded-full"
+                            >
+                            save
+                        </button>
+                    </div>
                 {% endif %}
             </div>
             <!-- Button row -->
@@ -198,14 +220,12 @@
     </center>
     <script>
         var editing = false;
-
         function enableEditing() {
             editing = true;
             document
                 .getElementById("form-field-set")
                 .removeAttribute("disabled");
             document.getElementById("editing-choices").style.display = "none";
-
             document.getElementById("editing-buttons").style.display = "flex";
         }
 
@@ -217,6 +237,8 @@
             console.log("aaa");
             document.getElementById("profile-form").submit();
         }
+
+        console.log("The checkpoint")
 
         const image_input = document.getElementById("image-input");
         var uploaded_image = "";
@@ -232,18 +254,22 @@
             reader.readAsDataURL(this.files[0]);
         });
 
+        
         document
             .getElementById("image-input")
             .addEventListener("change", selectProfilePicture());
 
         function selectProfilePicture() {
+            console.log("You are in selectProfilePicture addEventListener area before return area")
             return;
+            console.log("You are in selectProfilePicture addEventListener after return area")
             const reader = new FileReader();
             const uploaded_image = reader.result;
             let image = (document.querySelector(
                 "#imgid"
-            ).style.backgroundImage = `url(${uploaded_image})`);
+            ).style.backgroundImage = `url(${uploaded_image})`); 
 
+            
             reader.readAsDataURL(this.files[0]);
 
             console.log("AAWADWAD");
@@ -254,9 +280,9 @@
                 data: {
                     url: result,
                 },
-                /* dataType: "json", */
-            });
-        }
+                dataType: "json", 
+            }); 
+        } 
     </script>
     {% endblock %}
 </html>

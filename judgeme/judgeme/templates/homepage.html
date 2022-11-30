@@ -193,11 +193,19 @@
         <!-- welcome -->
         <div class="flex w-max m-auto space-x-4 p-4 pt-16">
             <button onclick="location.href='../profile/'">
+                {% if latest_image %}
+                <img
+                id="profile-image"
+                src="{{latest_image.image.url}}"
+                class="w-28 h-28 m-auto rounded-full pointer-events-none"
+                />
+                {% else %}
                 <img
                     id="profile-image"
                     src="{{user.profile_picture}}"
                     class="w-28 h-28 m-auto rounded-full pointer-events-none"
                 />
+                {% endif %}
             </button>
 
             <div

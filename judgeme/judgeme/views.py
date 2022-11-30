@@ -5,11 +5,15 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
 import random
+from django.core.files import File
+from django.core.files.images import ImageFile
+
+from .forms import ImageForm
 
 from .util_auth import generate_url, create_token_info, login_django_user, get_spotify_object
 from .profile_stats import get_or_create_track_from_uri
 
-from .models import JMUser, Track
+from .models import *
 from .profile_stats import update_user_stats, get_top_artist, get_top_genre, get_top_song, get_num_friends, get_num_playlists
 
 import spotipy
@@ -191,6 +195,18 @@ def result(request, friend):
     }
     return render(request, 'result.html', context)
 
+def experiment(request):
+    if request.method == "POST":
+        form=ImageForm(data=request.POST,files=request.FILES)
+        if form.is_valid():
+            form.save()
+            obj=form.instance
+            return render(request,"experiment.html",{"obj":obj})
+    else:
+        form=ImageForm()
+        img=Image.objects.all()
+    return render(request,"experiment.html",{"img":img,"form":form})
+
 
 def profile(request):
     sp = get_spotify_object(request)
@@ -202,13 +218,13 @@ def profile(request):
         except:
             user = None
             pass
-
+    
+    
     if "about" in request.GET:
         user.about = request.GET['about']
     if "vibes" in request.GET:
         user.vibes = request.GET['vibes']
     user.save()
-
     context = {}
     context['user_to_display'] = user
     context['is_owner'] = user == request.user
@@ -222,6 +238,61 @@ def profile(request):
 
     context['bg_color'] = 'blue-400'
     context['bubble_color'] = '[#7dd3fc]'
+
+    
+    temp = {}
+    obj = None
+    if request.method == "POST":
+        form=ImageForm(files=request.FILES)
+        #form = ImageForm()
+        print(request.FILES)
+        #form = uploadedImage(data=request.POST, files=request.FILES)
+        #user.uploaded_image = form
+        if form.is_valid():
+            #sujal = ImageFile(request.FILES)
+            #print(sujal)
+            form.save()
+            #user.uploaded_image = sujal
+            #form.save()
+            #user.save()
+            obj=form.instance
+            #temp["obj"] = obj
+            context["obj"] = obj
+            return render(request, 'profile.html', context)
+            #return render(request,"experiment.html",{"obj":obj})
+    else:
+        form=ImageForm()
+        #form = uploadedImage()
+        img=Image.objects.all()
+        #img=uploadedImage.objects.all()
+        context["img"] = img
+        context["form"] = form
+    
+    temp = Image.objects.all()
+    if len(temp) != 0:
+        latest_image = temp[len(temp) - 1]
+        context['latest'] = latest_image
+    
+    #latest_img = Image.objects.latest('id')
+    #context['latest_img'] = latest_img
+
+    #return render(request,"experiment.html",{"img":img,"form":form})
+    
+    
+
+    #if "profile-image" in request.GET:
+    #    user.uploaded_image = request.GET['profile-image']
+    #    print(user.uploaded_image)
+    
+
+
+    #if "upload_input" in request.FILES:
+    #    print("Uploaded Image is registered")
+    #    user.uploaded_image = request.GET['upload_input']
+
+    #user.save()
+
+
 
     return render(request, 'profile.html', context)
 
@@ -357,11 +428,18 @@ def homepage(request):
     else:
         friend3 = False
 
+    image_lst = Image.objects.all()
+
+
     context = {}
 
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
     context['request_code'] = request_code
+
+    if len(image_lst) != 0:
+        latest = image_lst[len(image_lst) - 1]
+        context['latest_image'] = latest
 
     context['friend1'] = friend1
     context['friend2'] = friend2
@@ -373,7 +451,6 @@ def homepage(request):
 
 def profiledit(request):
     return render(request, 'profiledit.html')
-
 
 def temp(request):
 
