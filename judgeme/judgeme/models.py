@@ -24,22 +24,47 @@ class Artist(models.Model):
     name = models.CharField(max_length=256)
     location = models.CharField(max_length=256)
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class Album(models.Model):
+    id = models.CharField(max_length=32, primary_key=True, unique=True)
+
     artist = models.ForeignKey(
-        Artist, on_delete=models.CASCADE, related_name='albums')
+        Artist, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=256)
-    release_date = models.DateField()
-    # cover = models.ImageField()
+    image = models.URLField(null=True)
+    tracks = models.ManyToManyField(Track)
 
 
 class Track(models.Model):
     name = models.CharField(max_length=256)
-    uri = models.CharField(max_length=512)
-    picture = models.CharField(max_length=256)
-    # artist = models.ForeignKey(
-    #     Artist, on_delete=models.CASCADE, related_name='tracks')
+    uri = models.CharField(max_length=32)
+    picture = models.URLField(null=True)
+    artist = models.ForeignKey(
+        Artist, on_delete=models.CASCADE)
+
+
+    danceability = models.DecimalField(max_digits=4, decimal_places=3)
+    speechiness = models.DecimalField(max_digits=4, decimal_places=3)
+    acousticness = models.DecimalField(max_digits=4, decimal_places=3)
+    valence = models.DecimalField(max_digits=4, decimal_places=3)
+    instrumentalness = models.DecimalField(max_digits=4, decimal_places=3)
+    energy = models.DecimalField(max_digits=4, decimal_places=3)
+    liveness = models.DecimalField(max_digits=4, decimal_places=3)
+
+    @property
+    def get_fields_names(self):
+        return [f.name for f in Features._meta.fields if f.name != 'id']
+
+    @property
+    def get_features(self):
+        dict_of_features = {
+            f: getattr(self, f) for f in self.get_fields_names
+        }
+        return dict_of_features
     # album = models.ForeignKey(
     #     Album, on_delete=models.CASCADE, related_name='tracks')
     # collaborators = models.ManyToManyField(
