@@ -10,6 +10,11 @@ from django.core.files.images import ImageFile
 
 from .forms import ImageForm
 
+#post imports---------
+from .Spotify_post import Credentials
+
+#end imports-------------
+
 from .util_auth import generate_url, create_token_info, login_django_user, get_spotify_object
 from .profile_stats import get_or_create_track_from_uri
 
@@ -20,6 +25,8 @@ import spotipy
 import os
 import random
 
+
+share_var = ""
 
 def sign_in(request):
     url = generate_url()
@@ -33,10 +40,12 @@ def spotify_callback(request):
 
     code = request.GET.get('code')
     token = create_token(code)
-
     request.session['code'] = code
     request.session['token'] = token
-    print("AWDAA", request.session['token'])
+    print(request.session['token'])
+    #print("my code here----------")
+    #Sujal(request)
+    #print("my code here------------")
 
     return redirect('login')
 
@@ -48,7 +57,55 @@ def create_token(code):
 
     return token_info['access_token']
 
+#----------------------------
+def Sujal(request):
+    token = request.session['token']
+    user_id = request.user
 
+    sp = get_spotify_object(request)
+    items = sp.current_user_recently_played(limit=20).get('items')
+
+    temp = sp.current_user_top_tracks(1).get("items")
+    temp_uri = temp[0].get("uri")
+    #print(temp_uri)
+    #sp.add_to_queue(temp_uri)
+    #sp.playlist_add_items(temp_uri)
+    #sp.add_to_queue(temp_uri)
+    #print(temp_uri)
+
+    """ 
+    song_uri = ""
+    for item in items:
+        #pprint(item)
+        uri = item.get('track').get('uri')
+        song_uri += uri + ','
+    """
+    
+    #song_uri = song_uri[:-1]
+    cred = Credentials(token, user_id)
+    #response = cred.create_playlist()
+    #print(response)
+    #cred.add_a_song(temp_uri)
+    #cred.add_song_to_queue(temp_uri)
+    
+    #response = cred.add_song_to_queue(temp_uri)
+    #print(response)
+
+        #print(response)
+    #playlist_id = cred.create_playlist()
+    #sp.playlist_add_items(cred.playlist_id, temp_uri)
+    #response = cred.add_a_song(temp_uri)
+    #print(response)
+
+
+    #response2 = cred.add_songs_to_playlist()
+    #pprint(items)
+    #print(playlist_id, response2)
+    #print(token)
+    #print(sp)
+    #print(request.session['token'])
+    return
+#-----------------------------
 def index(request):
     context = {}
     context["bg_color"] = "white"
@@ -68,6 +125,7 @@ def spotify(request):
 
 
 def welcome(request):
+    Sujal(request)
     context = {}
     context["bg_color"] = "[#322c3d]"
     context["bubble_color"] = "[#8e3d81]"
@@ -727,3 +785,6 @@ def api_test(request):
     print("")
 
     pass
+
+
+
