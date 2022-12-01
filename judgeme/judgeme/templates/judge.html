@@ -1,94 +1,202 @@
 {% load static tailwind_tags %} {% tailwind_css %}
 <!DOCTYPE html>
 <html>
-    <title>Judge</title>
+  <title>Judge</title>
 
-    <body class="bg-emerald-900 columns-1">
-        <!-- BUBBLES -->
-        <div
-            class="fixed top-32 right-5 w-72 h-36 z-1 bg-emerald-300 rounded-full rotate-12 animate-blob animation-delay-1500"
-        ></div>
-        <div
-            class="fixed z-1 bottom-64 w-72 h-72 bg-emerald-300 rounded-full animate-blob"
-        ></div>
-        <!--END BUBBLES-->
-        <div class="relative h-24 w-full z-2">
-            <h1 class="relative text-7xl text-bold z-2 pl-20 pt-20 text-center">
-                Go Ahead, JudgeMe
-            </h1>
-        </div>
-        <div
-            class="flex justify-center container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2"
+  <body class="bg-emerald-900 columns-1">
+    <!-- BUBBLES -->
+    <div
+      class="fixed top-32 right-5 w-72 h-36 z-1 bg-emerald-300 rounded-full rotate-12 animate-blob animation-delay-1500"
+    ></div>
+    <div
+      class="fixed z-1 bottom-64 w-72 h-72 bg-emerald-300 rounded-full animate-blob"
+    ></div>
+    <!--END BUBBLES-->
+    <div class="relative h-24 w-full z-2">
+      <h1 class="relative text-7xl text-bold z-2 pl-20 pt-20 text-center">
+        Go Ahead, JudgeMe
+      </h1>
+    </div>
+    <div
+      class="flex justify-center container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2"
+    >
+      <div id="music-taste" class="hidden flex-col justify-center">
+        <h1>{{music_taste}}</h1>
+        <p>
+          Your music taste value is determined based on the correlation between
+          genre of music and the "Big Five" Personality Traits:
+          <br />
+          Agreeableness, Conscientiousness, Openness, Emotional Stability,
+          Extravertedness.
+          <br />
+          Your music taste value of {{music_taste}} says that you are...
+          <br />
+          {% if me.agreeableness < 3 %} Not Agreeable {% else %} Agreeable {% endif %}
+          <br />
+          {% if me.conscientiousness < 3 %} Not Conscientious {% else %}
+          Conscientious {% endif %}
+          <br />
+          {% if me.openness < 3 %} Not Open {% else %} Open {% endif %}
+          <br />
+          {% if me.emotional_stability < 3 %} Not Emotionally Stable {% else %}
+          Emotionally Stable {% endif %}
+          <br />
+          {% if me.extravertedness < 3 %} Introverted {% else %} Extraverted {% endif %}
+        </p>
+        <br />
+        <a href="https://journals.sagepub.com/doi/10.1177/1948550620923228"
+          >Link to Research</a
         >
-            <button
-                class="btn opacity-0 animate-fadeIn"
-                onclick="list_choices('playlistPlaceholder', '<h3>Choose a Playlist</h3>', 'playlistMessage', 'playlist')"
-            >
-                Playlist vs Playlist
-            </button>
-
-            <div
-                class="text-white text-lg align-middle font-semibold"
-                id="playlistMessage"
-            ></div>
-            <div
-                class="text-white text-lg align-middle font-semibold"
-                id="friendsMessage"
-            ></div>
-            <div
-                class="text-white text-lg align-middle font-semibold"
-                id="friendsPlaylistsMessage"
-            ></div>
-            <div
-                class="text-white text-lg align-middle font-semibold"
-                id="graphsTypesMessage"
-            ></div>
-
-            <button
-                type="submit"
-                class="btn opacity-0 animate-fadeIn"
-                name="fvf"
-                onclick="showFriends()"
-            >
-                Friend vs Friend
-            </button>
-            <script src="../../static/js/script.js"></script>
-            <div id="friend-list" class="hidden flex-col">
-                {% for friend in friends %}
-                <form id="{{friend}}">
-                    <div
-                        class="relative flex flex-row w-72 h-16 p-2 my-1 rounded-lg border-0 space-x-2 bg-green-300 hover:bg-green-400]"
-                        onclick="selectFriend(`{{friend.username}}`)"
-                    >
-                        <input
-                            name="friend"
-                            value="{{friend}}"
-                            class="hidden"
-                        />
-                        <img
-                            src="{{friend.profile_picture}}"
-                            class="w-12 h-12 rounded-full hover:opacity-60"
-                        />
-                        <div class="flex flex-col text-left">
-                            <p class="text-white text-base">{{friend}}</p>
-                            <p class="text-indigo-200 text-xs">
-                                Joined {{friend.date_joined}}
-                            </p>
-                        </div>
-                    </div>
-                </form>
-                {% endfor %}
+      </div>
+      <button class="btn opacity-0 animate-fadeIn" onclick="show_music_taste()">
+        Show Me My Music Taste
+      </button>
+      <button class="btn opacity-0 animate-fadeIn" onclick="location.href='./music_tastes'">
+        Show Friends' Music Tastes
+      </button>
+      <button
+        class="btn opacity-0 animate-fadeIn"
+        onclick="showMyPlaylists()"
+      >
+        Playlist vs Playlist
+      </button>
+      <div id="playlists_one" class="hidden flex-col">
+        {% for playlist in playlists %}
+        <form id="my_playlists">
+          <div
+            class="relative flex flex-row w-72 h-16 p-2 my-1 rounded-lg border-0 space-x-2 bg-green-300 hover:bg-green-400]"
+            onclick="selectPlaylist1(`{{playlist.name}}`)"
+          >
+            <input
+              name="playlist"
+              value="{{playlist}}"
+              class="hidden"
+              id="{{playlist.name}}"
+            />
+            <img
+              src="{{playlist.playlist_pic}}"
+              class="w-12 h-12 rounded-full hover:opacity-60"
+            />
+            <div class="flex flex-col text-center">
+              <p class="text-black">{{playlist.name}}</p>
             </div>
-        </div>
-    </body>
-    <script>
-        function showFriends() {
-            document.getElementById("friend-list").style.display = "flex";
-        }
+          </div>
+        </form>
+        {% endfor %} 
+      </div>
+      <div id="friend-list-two" class="hidden flex-col">
+        {% for friend in friends %}
+        <form id="{{friend.username}}">
+          <div
+            class="relative flex flex-row w-72 h-16 p-2 my-1 rounded-lg border-0 space-x-2 bg-green-300 hover:bg-green-400]"
+            onclick="selectFriend2(`{{friend.username}}`)"
+          >
+            <input
+              name="friend"
+              value="{{friend}}"
+              class="hidden"
+              id="{{friend.username}}"
+            />
+            <img
+              src="{{friend.profile_picture}}"
+              class="w-12 h-12 rounded-full hover:opacity-60"
+            />
+            <div class="flex flex-col text-left">
+              <p class="text-black text-base">{{friend}}</p>
+              <p class="text-indigo-200 text-xs">
+                Joined {{friend.date_joined}}
+              </p>
+            </div>
+          </div>
+        </form>
+        {% endfor %}
+      </div>
+      <div id="playlists_two" class="hidden flex-col">
+        {% for playlist in playlists %}
+        <form id="friend_playlists">
+          <div
+            class="relative flex flex-row w-72 h-16 p-2 my-1 rounded-lg border-0 space-x-2 bg-green-300 hover:bg-green-400]"
+            onclick="selectPlaylist2(`{{playlist.name}}`)"
+          >
+            <input
+              name="playlist"
+              value="{{playlist}}"
+              class="hidden"
+              id="{{playlist.name}}"
+            />
+            <img
+              src="{{playlist.playlist_pic}}"
+              class="w-12 h-12 rounded-full hover:opacity-60"
+            />
+            <div class="flex flex-col text-center">
+              <p class="text-black">{{playlist.name}}</p>
+            </div>
+          </div>
+        </form>
+        {% endfor %} 
+      </div>
+      <button
+        type="submit"
+        class="btn opacity-0 animate-fadeIn"
+        name="fvf"
+        onclick="showFriends()"
+      >
+        Friend vs Friend
+      </button>
+      <script src="../../static/js/script.js"></script>
+      <div id="friend-list" class="hidden flex-col">
+        {% for friend in friends %}
+        <form id="{{friend.username}}">
+          <div
+            class="relative flex flex-row w-72 h-16 p-2 my-1 rounded-lg border-0 space-x-2 bg-green-300 hover:bg-green-400]"
+            onclick="selectFriend(`{{friend.username}}`)"
+          >
+            <input
+              name="friend"
+              value="{{friend}}"
+              class="hidden"
+              id="{{friend.username}}"
+            />
+            <img
+              src="{{friend.profile_picture}}" 
+              class="w-12 h-12 rounded-full hover:opacity-60"
+            />
+            <div class="flex flex-col text-left">
+              <p class="text-black text-base">{{friend}}</p>
+              <p class="text-indigo-200 text-xs">
+                Joined {{friend.date_joined}}
+              </p>
+            </div>
+          </div>
+        </form>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+  <script>
+    function showFriends() {
+      document.getElementById("friend-list").style.display = "flex";
+    }
 
-        function selectFriend(name) {
-            console.log(name);
-            document.getElementById(name).submit();
-        }
-    </script>
+    function selectFriend(name) {
+      document.getElementById(name).submit();
+    }
+
+    function selectFriend2(name) {
+      document.getElementById("friend-list-two").style.display = "hidden"
+    }
+
+    function showMusicTaste() {
+      document.getElementById("music-taste").style.display = "flex";
+    }
+
+    function showMyPlaylists() {
+      document.getElementById("playlists_one").style.display = "flex"
+    }
+
+    function selectPlaylist1(name) {
+      document.getElementById("playlists_one").style.display = "hidden"
+      document.getElementById(name).submit();
+    }
+  </script>
 </html>
