@@ -266,10 +266,12 @@ def playlist(request):
     track_uri = {}
     sp = get_spotify_object(request)
 
-    if settings.SIZE == 0:
+    pprint(settings.SIZE)
+
+    if settings.SIZE == 0 or settings.SIZE == '0':
         settings.SIZE = 20
 
-    if settings.SIZE == 100:
+    if settings.SIZE == 100 or settings.SIZE == '100':
         settings.SIZE = 50
         items = sp.current_user_top_tracks(settings.SIZE).get("items")
         for item in items:
@@ -280,17 +282,26 @@ def playlist(request):
     items = sp.current_user_top_tracks(settings.SIZE).get("items")
     for item in items:
         uri = item['uri']
+        song_uri += uri + ","
         track = get_or_create_track_from_uri(request, uri)
         tracks.append(track)
         track_uri[track.name] = uri
         track_name.append(track.name)
+
+    pname = ""
+    if settings.DARKMODE == False:
+        pname = "Sunny Days"
+    else:
+        pname = "Messy Midnights"
+        
     
     song_uri = song_uri[:-1]
     wizard = Credentials(token, user_id)
     if request.method == "POST":
         if request.POST.get('sendplaylist') == 'test':
-            playlist_id = wizard.create_playlist("AAAAAAAA")
+            playlist_id = wizard.create_playlist(pname)
             response = wizard.add_songs_to_playlist(song_uri)
+            print(response)
             print("Post registered")
             return HttpResponseRedirect("../success/")
         elif request.POST.get('qsong') in track_name:
