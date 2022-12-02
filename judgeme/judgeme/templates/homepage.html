@@ -190,80 +190,64 @@
         </div>
         <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
 
-        <div class="nav">
-            <div class="prof-container">
-                <div class="imgbox">
-                  {% if profile %}
-                    <img src={{profile}} class="src" />
-                  {% else %}
-                    <img src="{% static '/icons/ProfilePic.png' %}" class="src" />
-                  {% endif %}
-                </div>
-                <button
-                    onclick="location.href = '../profile/'"
-                    id="btnid"
-                    class="btn opacity-0 animate-fadeIn animation-delay-500"
-                >
-                    View Profile
-                </button>
-                <button
+        <!-- welcome -->
+        <div class="flex w-max m-auto space-x-4 p-4 pt-16">
+            <button onclick="location.href='../profile/'">
+                <img
+                    id="profile-image"
+                    src="{{user.profile_picture}}"
+                    class="w-28 h-28 m-auto rounded-full pointer-events-none"
+                />
+            </button>
+
+            <div
+                class="flex flex-col text-left py-2 align-middle h-auto m-auto"
+            >
+                <p class="title text-3xl">Hi {{user.display_name}}.</p>
+                <p class="">You look terrible.</p>
+            </div>
+            <button
                     onclick="location.href = '../goodorbadplaylist/'"
                     id="btnid"
                     class="btn opacity-0 animate-fadeIn animation-delay-500"
                 >
                     Risk Your Fate
                 </button>
-            </div>
-            <div class="info">
-                <div class="friends">
-                    <p class="one">Your Friends Count</p>
-                    <p class="numfriends">{{friendcount}}</p>
-                </div>
-                <div class="playlist">
-                    <div class="two">Your Playlist Count</div>
-                    <p class="numfriends">{{playlist_count}}</p>
-                </div>
-            </div>
         </div>
+        <!-- welcome -->
 
-        <div class="btn-container">
-            <div class="compare-container">
-                <button
-                    type="submit"
-                    class="btn opacity-0 animate-fadeIn animation-delay-500"
-                    onclick="location.href='../judge/'"
-                >
-                    Lets go make a comparison.
-                </button>
-            </div>
-            <div class="compare-container">
-                <button
-                    type="submit"
-                    class="btn opacity-0 animate-fadeIn animation-delay-500"
-                    onclick="location.href='../artist/'"
-                >
-                    Explore any artists
-                </button>
-            </div>
-            <div class="generate-container">
-                <button
-                    type="submit"
-                    class="btn opacity-0 animate-fadeIn animation-delay-500"
-                    onclick="location.href='../generate/'"
-                >
-                    Click me if you wanna generate some tunes.
-                </button>
-            </div>
-            <div class="compare-container">
-                <button
-                    type="submit"
-                    class="btn opacity-0 animate-fadeIn animation-delay-500"
-                    onclick="location.href='../breakdown/'"
-                >
-                    Explore your music taste
-                </button>
-            </div>
+        <!-- button row -->
+        <div class="flex flex-col m-auto space-y-3 w-min py-4">
+            <button
+                type="submit"
+                class="btn opacity-0 animate-fadeIn animation-delay-500"
+                onclick="location.href='../judge/'"
+            >
+                Make a comparison
+            </button>
+            <button
+                type="submit"
+                class="btn opacity-0 animate-fadeIn animation-delay-500"
+                onclick="location.href='../artist/'"
+            >
+                Explore artist stats
+            </button>
+            <button
+                type="submit"
+                class="btn opacity-0 animate-fadeIn animation-delay-500"
+                onclick="location.href='../generate/'"
+            >
+                Generate some tunes
+            </button>
+            <button
+                type="submit"
+                class="btn opacity-0 animate-fadeIn animation-delay-500"
+                onclick="location.href='../breakdown/'"
+            >
+                Explore your music taste
+            </button>
         </div>
+        <!-- button row -->
 
         <style>
             .image {
@@ -273,9 +257,9 @@
                 border: 4px solid #ffffff;
             }
         </style>
-        <div class="flex items-end justify-center h-screen">
-            <div class="flex space-y-0 w-100 flex-col">
-                <div class="flex justify-center space-x-12 w-100 flex-row">
+        <div class="flex justify-center pt-16">
+            <div class="flex space-y-0 flex-col">
+                <div class="flex justify-center space-x-12 flex-row">
                     {% if user %} {% if friend2 != False %}
                     <img
                         name="silver"

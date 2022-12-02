@@ -1,42 +1,148 @@
 {% extends 'base.html' %} {% load static tailwind_tags %} {% tailwind_css %}
 <!DOCTYPE html>
 <html>
-{% block content %}
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block content %}
     <title>Playlist</title>
 </head>
 <body class="bg-zinc-900">
     <div class="flex container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
-        <img class="max-w-md m-4 shadow-white" src="{% static '/icons/music.jpeg' %}"></img>
+        {% if darkmode == False %}
+            <img class="max-w-md m-4 shadow-white" src="{% static '/icons/music.jpeg' %}"></img>
+        {% else %}
+            <img class="max-w-md m-4 shadow-white" src="{% static '/icons/musicdark.jpeg' %}"></img>
+        {% endif %}
         <div class="flex justify-center space-x-12 w-200 flex-row">
             <div class="flex justify-center space-y-10 w-100 flex-col">
-                <h1 class="text-white grow text-4xl text-lg mt-4 w-80">Messy Midnights</h1>
-                <h1 class="text-[#fdbcb4] grow text-2xl text-bold mt-4 w-80">Friends and Artists</h1>
-                {% for name in songNames1 %}
-                <button class="flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20">
-                    <img class="m-2 rounded-sm w-12 h-12" src="{% static '/icons/musics.png' %}">
-                    <h1 class="text-[#fdbcb4] grow text-lg text-bold mt-4 w-fit">{{name}}</h1>
+                {% if darkmode == False %}
+                    <h1 class="text-white grow text-4xl text-lg mt-4 w-80">Sunny Days</h1>
+                    <h1 class="text-[#fdbcb4] grow text-2xl text-bold mt-4 w-80">Friends and Artists</h1>
+                {% else %}
+                    <h1 class="text-white grow text-4xl text-lg mt-4 w-80">Messy Midnights</h1>
+                    <h1 class="text-[#b0c4de] grow text-2xl text-bold mt-4 w-80">Friends and Artists</h1>
+                {% endif %}
+                {% for track in tracks %}
+                {% if darkmode == False %} 
+                <div
+                class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"
+                onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+            >
+                <button
+                    class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
+                    onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                >
+                    click to preview track
                 </button>
-                {% endfor %}
+                <img
+                    class="m-2 rounded-sm w-12 h-12 pointer-events-none"
+                    src="{{track.picture}}"
+                />
+                <div
+                    class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none"
+                >
+                    <h1 class="text-white grow text-base truncate ...">
+                        {{track.name}}
+                    </h1>
+                    <h1 class="text-[#fdbcb4] grow text-sm truncate ...">
+                        {{track.artist_name}}
+                    </h1>
+                </div>
             </div>
-            <div class="flex justify-center space-y-10 w-100 flex-col" style="position: relative; margin-bottom: 25px;">
-                <h1 class="text-white grow text-4xl text-lg mt-4 w-80">Nights Out</h1>
-                <h1 class="text-[#fdbcb4] grow text-2xl text-bold mt-4 w-80">Playlist</h1>
-                {% for name in songNames2 %}
-                <button class="flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20">
-                    <img class="m-2 rounded-sm w-12 h-12" src="{% static '/icons/musics.png' %}">
-                    <h1 class="text-[#fdbcb4] grow text-lg text-bold mt-4 w-fit">{{name}}</h1>
+                {% else %}
+                <div
+                class="relative group flex w-80 rounded-lg border-[#b0c4de] border-2 max-h-20 hover:bg-black"
+                onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+            >
+                <button
+                    class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
+                    onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                >
+                    click to preview track
                 </button>
+                <img
+                    class="m-2 rounded-sm w-12 h-12 pointer-events-none"
+                    src="{{track.picture}}"
+                />
+                <div
+                    class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none"
+                >
+                    <h1 class="text-white grow text-base truncate ...">
+                        {{track.name}}
+                    </h1>
+                    <h1 class="text-[#b0c4de] grow text-sm truncate ...">
+                        {{track.artist_name}}
+                    </h1>
+                </div>
+            </div>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
+        {% if darkmode == False %}
         <button onclick="location.href='../homepage/'" class="bg-[#fdbcb4] hover:bg-transparent border border-[#fdbcb4] text-white font-bold py-7 px-20 rounded">
             Home
         </button>
+        {% else %}
+        <button onclick="location.href='../homepage/'" class="bg-[#b0c4de] hover:bg-transparent border border-[#b0c4de] text-black font-bold py-7 px-20 rounded">
+            Home
+        </button>
+        {% endif %}
     </div>
-</body>
-{% endblock %}
+
+    <!--Music Player-->
+    <div
+        class="bg-white/90 shadow-lg rounded-lg w-96 text-black fixed bottom-2 right-2 backdrop-blur-lg"
+    >
+        <div class="flex p-2">
+            <img
+                id="song_picture"
+                class="rounded-sm w-16 h-16 my-auto"
+                src="https://picsum.photos/600"
+            />
+            <div class="ml-2 flex flex-col py-0 my-auto w-60 text-left">
+                <h1 id="song_name" class="grow text-base truncate ...">
+                    Belong
+                </h1>
+                <h1
+                    id="artist_name"
+                    class="text-[#fdbcb4] grow text-sm truncate ..."
+                >
+                    Macross 82-99
+                </h1>
+            </div>
+            <audio src></audio>
+        </div>
+        <div class="w-full bg-gray-400 rounded-b-full h-1.5">
+            <div
+                id="timeline"
+                class="bg-[#e15542] h-1.5 rounded-full"
+                style="width: 45%"
+            ></div>
+        </div>
+    </div>
+    <script>
+        const timeline = document.getElementById("timeline");
+        const audio = document.querySelector("audio");
+
+        setInterval(updateTimeline, 1000 / 30);
+
+
+        function selectSong(song_name, artist_name, picture_url, preview_url) {
+            document.getElementById("song_name").innerHTML = song_name;
+            document.getElementById("artist_name").innerHTML = artist_name;
+            document
+                .getElementById("song_picture")
+                .setAttribute("src", picture_url);
+
+            audio.setAttribute("src", preview_url);
+            audio.play();
+        }
+
+        function updateTimeline() {
+            const percentagePosition =
+                (100 * audio.currentTime) / audio.duration;
+            timeline.style.width = `${percentagePosition}%`;
+        }
+    </script>
+    <!--Music Player-->
+    {% endblock %}
 </html>
