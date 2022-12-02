@@ -1,7 +1,8 @@
 {
   "dependencies": {
-    "flowbite": "^1.5.3",
     "@georgedoescode/spline": "^1.0.1",
+    "flowbite": "^1.5.3",
+    "jquery": "^3.6.1",
     "simplex-noise": "^4.0.1"
   }
 }

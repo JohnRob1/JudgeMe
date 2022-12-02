@@ -5,6 +5,7 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
 from django.conf import settings
+from django.http import JsonResponse
 import random
 
 from .util_auth import generate_url, create_token_info, login_django_user, get_spotify_object
@@ -192,6 +193,14 @@ def result(request, friend):
     }
     return render(request, 'result.html', context)
 
+def generateOptions(request):
+    settings.SIZE = request.GET.get('size', None)
+    pprint(settings.SIZE)
+    artistString = request.GET.get('artist', None)
+    settings.ARTIST = artistString[2:len(artistString) - 2].split("\",\"")
+    pprint(settings.ARTIST)
+    response = {}
+    return JsonResponse(response)
 
 def profile(request):
     sp = get_spotify_object(request)
@@ -238,12 +247,23 @@ def playlist(request):
         context['bubble_color'] = '[#b0c4de]'
         context['darkmode'] = True
 
-    sp = get_spotify_object(request)
-    items = sp.current_user_recently_played(limit=20).get('items')
     tracks = []
+    sp = get_spotify_object(request)
 
+    if settings.SIZE == 0:
+        settings.SIZE = 20
+
+    if settings.SIZE == 100:
+        settings.SIZE = 50
+        items = sp.current_user_top_tracks(settings.SIZE).get("items")
+        for item in items:
+            uri = item['uri']
+            track = get_or_create_track_from_uri(request, uri)
+            tracks.append(track)
+    
+    items = sp.current_user_top_tracks(settings.SIZE).get("items")
     for item in items:
-        uri = item.get('track').get('uri')
+        uri = item['uri']
         track = get_or_create_track_from_uri(request, uri)
         tracks.append(track)
 
@@ -313,6 +333,10 @@ def homepage(request):
 
     if 'lightMode' in request.GET:
         settings.DARKMODE = False
+
+    settings.SIZE = 0
+
+    settings.ARTIST = []
 
     request_code = 0
     if 'add-friend' in request.GET:
@@ -625,7 +649,6 @@ def print_top_genres(request):
         artist = sp.artist(artist_id)
         genres = artist.get("genres")
         top_genre = genres[0]
-        pprint(top_genre)
 
 
 def test(request):

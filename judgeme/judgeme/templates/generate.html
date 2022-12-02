@@ -45,7 +45,7 @@
             aria-labelledby="dropdownCheckboxButton0"
           >
             <li>
-              <div class="flex items-center">
+              <div id="twenty" class="flex items-center">
                 <input
                   id="20"
                   type="checkbox"
@@ -60,7 +60,7 @@
               </div>
             </li>
             <li>
-              <div class="flex items-center">
+              <div id="fourty" class="flex items-center">
                 <input
                   id="40"
                   type="checkbox"
@@ -75,7 +75,7 @@
               </div>
             </li>
             <li>
-              <div class="flex items-center">
+              <div id="fifty" class="flex items-center">
                 <input
                   id="50"
                   type="checkbox"
@@ -90,7 +90,7 @@
               </div>
             </li>
             <li>
-              <div class="flex items-center">
+              <div id="hundred" class="flex items-center">
                 <input
                   id="100"
                   type="checkbox"
@@ -109,14 +109,12 @@
 
         <button
           class="bg-[#3d0c02] text-white text-lg font-medium py-2 px-10 rounded-full"
-          id="next"
-          name="next"
-          onclick="saveNumbers()"
+          id="save0"
+          name="save0"
         >
           Save
         </button>
-        <script src="../../static/js/generate.js"></script>
-        
+
         <button
           id="dropdownCheckboxButton"
           data-dropdown-toggle="dropdownDefaultCheckbox"
@@ -171,13 +169,11 @@
 
         <button
           class="bg-[#3d0c02] text-white text-lg font-medium py-2 px-10 rounded-full"
-          id="next"
-          name="next"
-          onclick="saveFriends()"
+          id="save"
+          name="save"
         >
           Save
         </button>
-        <script src="../../static/js/generate.js"></script>
 
         <button
           id="dropdownCheckboxButton2"
@@ -209,9 +205,9 @@
         >
           <ul
             class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="dropdownCheckboxButton"
+            aria-labelledby="dropdownCheckboxButton2"
           >
-            {% if user %} {% if artistNames %} {% for artistName in artistNames %}
+            {% if user %} {% if artistNames %} {% for artistName in artistNames%}
             <li>
               <div class="flex items-center">
                 <input
@@ -230,31 +226,82 @@
             {% endfor %} {% endif %} {% endif %}
           </ul>
         </div>
-        
 
         <button
           class="bg-[#3d0c02] text-white text-lg font-medium py-2 px-10 rounded-full"
-          id="next"
-          name="next"
-          onclick="saveArtists()"
+          id="save2"
+          name="save2"
         >
           Save
         </button>
-        <script src="../../static/js/generate.js"></script>
 
         <button
-          onclick="location.href='../playlistgenerate/'"
+          id="next"
           class="bg-transparent hover:bg-[#3d0c02] text-[#3d0c02] font-semibold hover:text-white py-2 px-4 border border-[#3d0c02] hover:border-transparent rounded"
         >
           Next
         </button>
 
-        <script>
-          let btnShow = document.querySelector("next");
+        <script data-artists="{{ artistNames }}" data-friends="{{ friends }}">
+          let sizeSave = document.getElementById("save0");
+          let friendSave = document.getElementById("save");
+          let artistSave = document.getElementById("save2");
+          let next = document.getElementById("next");
 
-          btnShow.addEventListener("click", () => {
-            let checkbox = document.querySelector("playlist-id");
-            console.log(checkbox);
+          const data = document.currentScript.dataset;
+
+          let size = 0;
+          const selected = [];
+
+          next.addEventListener("click", () => {
+            $.ajax({
+              type: "GET",
+              url: "/generateOptions",
+              data: {
+                "size": size,
+                "artist": JSON.stringify(selected),
+              },
+              dataType: "json",
+              success: function (data) {
+                console.log("success");
+              },
+              error: function (error) {
+                console.log("error");
+              },
+            });
+            location.href='../playlistgenerate/'
+          });
+
+          sizeSave.addEventListener("click", () => {
+            let checkbox1 = document.getElementById("20");
+            let checkbox2 = document.getElementById("40");
+            let checkbox3 = document.getElementById("50");
+            let checkbox4 = document.getElementById("100");
+            if (checkbox1.checked) {
+              size = 20;
+            }
+            if (checkbox2.checked) {
+              size = 40;
+            }
+            if (checkbox3.checked) {
+              size = 50;
+            }
+            if (checkbox4.checked) {
+              size = 100;
+            }
+          });
+          friendSave.addEventListener("click", () => {
+            const friends = data.friends;
+            console.log(friends)
+          });
+          artistSave.addEventListener("click", () => {
+            const artists = data.artists.substring(2, data.artists.length - 2).split("', '");
+            for (const artist of artists) {
+              let artistInput = document.getElementById(artist)
+              if (artistInput.checked) {
+                selected.push(artist)
+              }
+            }
           });
         </script>
 
