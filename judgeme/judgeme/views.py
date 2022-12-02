@@ -1,14 +1,14 @@
 from distutils.log import debug
 from pprint import pprint
 from urllib.request import HTTPRedirectHandler
-from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
 import random
 from django.core.files import File
 from django.core.files.images import ImageFile
 
-from .forms import ImageForm
+from .forms import ImageForm, uploadedImage
 
 #post imports---------
 from .Spotify_post import Credentials
@@ -58,53 +58,14 @@ def create_token(code):
     return token_info['access_token']
 
 #----------------------------
-def Sujal(request):
-    token = request.session['token']
-    user_id = request.user
 
-    sp = get_spotify_object(request)
-    items = sp.current_user_recently_played(limit=20).get('items')
+def success(request):
 
-    temp = sp.current_user_top_tracks(1).get("items")
-    temp_uri = temp[0].get("uri")
-    #print(temp_uri)
-    #sp.add_to_queue(temp_uri)
-    #sp.playlist_add_items(temp_uri)
-    #sp.add_to_queue(temp_uri)
-    #print(temp_uri)
+    context = {}
+    context["bg_color"] = "[#355e3b]"
+    context["bubble_color"] = "[#518634]"
+    return render(request, 'success.html', context)
 
-    """ 
-    song_uri = ""
-    for item in items:
-        #pprint(item)
-        uri = item.get('track').get('uri')
-        song_uri += uri + ','
-    """
-    
-    #song_uri = song_uri[:-1]
-    cred = Credentials(token, user_id)
-    #response = cred.create_playlist()
-    #print(response)
-    #cred.add_a_song(temp_uri)
-    #cred.add_song_to_queue(temp_uri)
-    
-    #response = cred.add_song_to_queue(temp_uri)
-    #print(response)
-
-        #print(response)
-    #playlist_id = cred.create_playlist()
-    #sp.playlist_add_items(cred.playlist_id, temp_uri)
-    #response = cred.add_a_song(temp_uri)
-    #print(response)
-
-
-    #response2 = cred.add_songs_to_playlist()
-    #pprint(items)
-    #print(playlist_id, response2)
-    #print(token)
-    #print(sp)
-    #print(request.session['token'])
-    return
 #-----------------------------
 def index(request):
     context = {}
@@ -125,7 +86,7 @@ def spotify(request):
 
 
 def welcome(request):
-    Sujal(request)
+    #Sujal(request)
     context = {}
     context["bg_color"] = "[#322c3d]"
     context["bubble_color"] = "[#8e3d81]"
@@ -282,7 +243,8 @@ def profile(request):
         user.about = request.GET['about']
     if "vibes" in request.GET:
         user.vibes = request.GET['vibes']
-    user.save()
+    
+    #user.save()
     context = {}
     context['user_to_display'] = user
     context['is_owner'] = user == request.user
@@ -297,84 +259,67 @@ def profile(request):
     context['bg_color'] = 'blue-400'
     context['bubble_color'] = '[#7dd3fc]'
 
-    
-    temp = {}
-    obj = None
     if request.method == "POST":
-        form=ImageForm(files=request.FILES)
-        #form = ImageForm()
-        print(request.FILES)
-        #form = uploadedImage(data=request.POST, files=request.FILES)
-        #user.uploaded_image = form
-        if form.is_valid():
-            #sujal = ImageFile(request.FILES)
-            #print(sujal)
-            form.save()
-            #user.uploaded_image = sujal
-            #form.save()
-            #user.save()
-            obj=form.instance
-            #temp["obj"] = obj
-            context["obj"] = obj
-            return render(request, 'profile.html', context)
-            #return render(request,"experiment.html",{"obj":obj})
-    else:
-        form=ImageForm()
-        #form = uploadedImage()
-        img=Image.objects.all()
-        #img=uploadedImage.objects.all()
-        context["img"] = img
-        context["form"] = form
-    
-    temp = Image.objects.all()
-    if len(temp) != 0:
-        latest_image = temp[len(temp) - 1]
-        context['latest'] = latest_image
-    
-    #latest_img = Image.objects.latest('id')
-    #context['latest_img'] = latest_img
+        try:
+            form=ImageForm(files=request.FILES)
+            form.Meta.store_image = request.FILES
+            user.uploaded_image = form.Meta.store_image['image']
+            user.save()
+        except:
+            return HttpResponse("Oops you clicked upload instaed of save when editing bio. Try again but click save so that you're not posting image")
+            #return HttpResponseRedirect("../profile/")
 
-    #return render(request,"experiment.html",{"img":img,"form":form})
-    
-    
-
-    #if "profile-image" in request.GET:
-    #    user.uploaded_image = request.GET['profile-image']
-    #    print(user.uploaded_image)
-    
-
-
-    #if "upload_input" in request.FILES:
-    #    print("Uploaded Image is registered")
-    #    user.uploaded_image = request.GET['upload_input']
-
-    #user.save()
-
-
-
+    context['custom_image'] = user.uploaded_image
     return render(request, 'profile.html', context)
 
 
 def playlist(request):
+    token = request.session['token']
+    user_id = request.user
     context = {}
     context['bg_color'] = '[#674846]'
     context['bubble_color'] = '[#fdbcb4]'
     sp = get_spotify_object(request)
     items = sp.current_user_recently_played(limit=20).get('items')
     tracks = []
+    song_uri = ""
+    track_name = []
+    track_uri = {}
 
-    # songNames = []
-    # songPictures = []
     for item in items:
         uri = item.get('track').get('uri')
+        song_uri += uri + ","
         track = get_or_create_track_from_uri(request, uri)
         tracks.append(track)
-
-        # songNames.append(item.get('track').get('name'))
-        # songPictures.append(item.get("track").get('album').get('images')[0])
-
-
+        track_uri[track.name] = uri
+        track_name.append(track.name)
+    
+    song_uri = song_uri[:-1]
+    wizard = Credentials(token, user_id)
+    if request.method == "POST":
+        if request.POST.get('sendplaylist') == 'test':
+            playlist_id = wizard.create_playlist("JudgeMe Playlist")
+            response = wizard.add_songs_to_playlist(song_uri)
+            print("Post registered")
+            return HttpResponseRedirect("../success/")
+        elif request.POST.get('qsong') in track_name:
+            my_uri = track_uri[request.POST.get('qsong')]
+            wizard.add_song_to_queue(my_uri)
+            print("Success")
+            return HttpResponseRedirect("../playlist/")
+    
     random.shuffle(tracks)
+
+    """ 
+    song_uri = ""
+    for item in items:
+        #pprint(item)
+        uri = item.get('track').get('uri')
+        song_uri += uri + ','
+    """
+    
+    #song_uri = song_uri[:-1]
+    #cred = Credentials(token, user_id)
 
     # context['songNames1'] = songNames[:20]
     # context['songNames2'] = songNames[20:]
@@ -486,7 +431,7 @@ def homepage(request):
     else:
         friend3 = False
 
-    image_lst = Image.objects.all()
+    #image_lst = Image.objects.all()
 
 
     context = {}
@@ -494,10 +439,7 @@ def homepage(request):
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
     context['request_code'] = request_code
-
-    if len(image_lst) != 0:
-        latest = image_lst[len(image_lst) - 1]
-        context['latest_image'] = latest
+    context['custom_image'] = request.user.uploaded_image
 
     context['friend1'] = friend1
     context['friend2'] = friend2

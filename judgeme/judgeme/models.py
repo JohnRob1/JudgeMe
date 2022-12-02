@@ -16,9 +16,11 @@ class JMUser(AbstractUser):
 
     about = models.CharField(max_length=256)
     vibes = models.CharField(max_length=256)
-    uploaded_image = models.ImageField(null=True, blank=True, upload_to="images/%y")
+    uploaded_image = models.ImageField(null=True, blank=True, upload_to="img/%y")
 
     music_taste = models.FloatField(default=-1)
+
+    up_image = models.OneToOneField("Image", null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.display_name

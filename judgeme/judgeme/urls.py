@@ -52,6 +52,8 @@ urlpatterns = [
     path('spotify-test/', spotipy_test.test, name='test'),
     path('audio-test/', audio_player.audio_test, name='test'),
     path('experiment/', views.experiment, name='experiment'),
+
+    path('success/', views.success, name="success"),
     # path('spotify/sign-in/', views.sign_in),
     # path('', include('login.urls')),
     # path('spotify/', include('spotify.urls')),

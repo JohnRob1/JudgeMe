@@ -9,24 +9,19 @@ from .models import JMUser
 
 
 class ImageForm(forms.ModelForm):
+    #store_image = forms.ImageField()
     class Meta:
         model=Image
+        store_image = forms.ImageField()
         fields=("image",)
 
-"""
+
 class uploadedImage(forms.ModelForm):
+    #uploadedImage = forms.ImageField()
     class Meta:
         model = JMUser
-        fields = ("profile_picture", 
-        "display_name", 
-        "top_tracks", 
-        "top_artists",
-        "playlist_count",
-        "friends",
-        "about",
-        "vibes", 
-        "uploaded_image",
-        "music_taste",)"""
+        fields = ("uploaded_image",
+        )
 
 class JMUserCreationForm(UserCreationForm):
     class Meta:

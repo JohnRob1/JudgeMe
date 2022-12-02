@@ -836,6 +836,9 @@ html{
 .right-1{
   right: 0.25rem;
 }
+.bottom-12{
+  bottom: 3rem;
+}
 .bottom-\[60px\]{
   bottom: 60px;
 }
@@ -1712,10 +1715,6 @@ html{
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
-.py-0{
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
 .py-7{
   padding-top: 1.75rem;
   padding-bottom: 1.75rem;
@@ -1723,6 +1722,10 @@ html{
 .px-20{
   padding-left: 5rem;
   padding-right: 5rem;
+}
+.py-0{
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 .pl-3{
   padding-left: 0.75rem;
@@ -1982,6 +1985,10 @@ html{
   -webkit-animation-delay: 800ms;
           animation-delay: 800ms;
 }
+.animation-delay-1000{
+  -webkit-animation-delay: 1000ms;
+          animation-delay: 1000ms;
+}
 .animation-delay-1500{
   -webkit-animation-delay: 1500ms;
           animation-delay: 1500ms;
@@ -2043,12 +2050,12 @@ html{
   --tw-bg-opacity: 1;
   background-color: rgb(74 222 128 / var(--tw-bg-opacity));
 }
+.hover\:bg-transparent:hover{
+  background-color: transparent;
+}
 .hover\:bg-black:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
-}
-.hover\:bg-transparent:hover{
-  background-color: transparent;
 }
 .hover\:bg-\[\#9f8170\]:hover{
   --tw-bg-opacity: 1;

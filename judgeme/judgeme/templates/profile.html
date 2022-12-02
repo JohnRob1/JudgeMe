@@ -88,19 +88,11 @@
         <div class="box h-auto bg-black/30 rounded-lg flex flex-col p-4">
             <!-- Top row -->
             <div class="flex w-max space-x-4 p-4">
-                {% if obj %}
+                {% if custom_image %}
                 <img
                     id="profile-image"
                     name="upload_picture"
-                    src="{{obj.image.url}}"
-                    class="w-28 h-28 m-auto"
-                    onclick="selectProfilePicture()"
-                />
-                {% elif latest %}
-                <img
-                    id="profile-image"
-                    name="upload_picture"
-                    src="{{latest.image.url}}"
+                    src="{{custom_image.url}}"
                     class="w-28 h-28 m-auto"
                     onclick="selectProfilePicture()"
                 />
@@ -184,8 +176,8 @@
                         edit profile
                     </button>
                 </div>
-                <div id="editing-buttons" class="hidden space-x-2">                    
-                    <form action="" method="post" enctype="multipart/form-data">
+                <div id="editing-buttons" class="hidden space-x-2">                 
+                    <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <label
                             class="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-full"
@@ -206,12 +198,23 @@
                     >
                         cancel
                     </button>
+                    {% comment %}
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label
+                            class="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-full"
+                            for="id_image"
+                            >edit picture</label
+                        >
+                        <input type="file" name="image" accept="image/png" id="id_image" class="hidden">
+                        {% endcomment %}
                         <button
                             onclick="submitForm(), this.disabled=true,this.form.submit();"
                             class="bg-blue-500 hover:bg-green-700 text-white text-sm py-2 px-4 rounded-full"
                             >
                             save
                         </button>
+                    <!-- </form> -->
                     </div>
                 {% endif %}
             </div>

@@ -8,6 +8,17 @@
             class="max-w-md m-4 shadow-white"
             src="{% static '/icons/music.jpeg' %}"
         />
+        <form method="POST"> 
+            {% csrf_token %}
+            <button 
+            name="sendplaylist"
+            value="test"
+            type="submit"
+            class="bg-[#fdbcb4] hover:bg-transparent border border-[#fdbcb4] text-white font-bold py-7 px-20 rounded"
+            >
+                Send Playlist to my Spotify Library
+            </button>
+        </form>
         <div class="flex justify-center space-x-12 w-200 flex-row">
             <div class="flex space-y-4 w-100 flex-col">
                 <h1 class="text-white grow text-4xl mt-4">Messy Midnights</h1>
@@ -47,6 +58,19 @@
                     >
                         click to preview track
                     </button>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button
+                        name="qsong"
+                        value="{{track.name}}"
+                        type="submit"
+                        onclick="sendConfirmation()"
+                        class="flex absolute right-1 bottom-12 invisible text-xs group-hover:visible hover:underline"
+                    >
+                        click to queue track
+                    </button>
+                    </form>
+
                     <img
                         class="m-2 rounded-sm w-12 h-12 pointer-events-none"
                         src="{{track.picture}}"
@@ -110,7 +134,7 @@
 
         setInterval(updateTimeline, 1000 / 30);
 
-
+        /* When person clicks on sample songs, add a click to add queue option */
         function selectSong(song_name, artist_name, picture_url, preview_url) {
             document.getElementById("song_name").innerHTML = song_name;
             document.getElementById("artist_name").innerHTML = artist_name;
@@ -122,10 +146,23 @@
             audio.play();
         }
 
+        function dummyInvc(){
+            var dummy = "send_to_playlist";
+            dummy.submit();
+        }
+
         function updateTimeline() {
             const percentagePosition =
                 (100 * audio.currentTime) / audio.duration;
             timeline.style.width = `${percentagePosition}%`;
+        }
+
+        function sendConfirmation(){
+            alert("Successfully Queued Song! :)")
+        }
+
+        function submitForm() {
+            document.getElementById('sendID').submit();
         }
     </script>
     <!--Music Player-->
