@@ -1,53 +1,64 @@
-Afropop,0.472222222222
-Alternative,0.25
-Atmospheric,0.472222222222
-Funk Carioca,0.444444444444
-Black Metal,0.388888888889
-Blues,0.666666666667
-Chill,0.5
-Classic Rock,0.444444444444
-Classical,0.5
-Comedy,0.277777777778
-Children,0.444444444444
-Country,0.638888888889
-Death Metal,0.25
-Metal,0.333333333333
-Deep House,0.472222222222
-Doom,0.444444444444
-Easy Listening,0.555555555556
-Electro,0.472222222222
-Emo,0.138888888889
-Epic,0.25
-Folk,0.5
-Funk,0.75
-Gothic,0.333333333333
-Hip Hop,0.388888888889
-House,0.361111111111
-Indie,0.361111111111
-Jazz,0.694444444444
-Metro,0.333333333333
-Modern Rock,0.222222222222
-Neuro,0.333333333333
-New Age,0.472222222222
-Old Country,0.666666666667
-Organic,0.444444444444
-Other,0.472222222222
-Pop,0.333333333333
-Prog,0.444444444444
-Punk,0.083333333333
-R&B,0.611111111111
-Reggae,0.5
-Reggaeton,0.444444444444
-Regional Music (Brazil),0.5
-Regional Music (France),0.444444444444
-Regional Music (Japan),0.25
-Regional Music (Korean),0.305555555556
-Regional Music (Mexico),0.444444444444
-Rock,0.194444444444
-Soundtrack,0.361111111111
-Soul,0.75
-Synth,0.444444444444
-Christian,0.472222222222
-Caribbean,0.555555555556
-Latin,0.5
-Blast,0.361111111111
+Afropop,3,3,3,3,5
+Alternative,2,1,1,1,4
+Atmospheric,3,3,3,2,6
+Funk Carioca,3,3,3,4,3
+Black Metal,2,3,3,2,4
+Blast,2,3,3,2,3
+Blues,5,6,5,3,5
+Caribbean,4,3,4,6,3
+Chill,3,3,3,3,6
+Classic Rock,3,3,3,3,4
+Classical,3,3,3,3,6
+Comedy,2,0,3,2,3
+Children,4,3,3,3,3
+Christian,5,3,3,3,3
+Country,5,6,3,6,2
+Death Metal,1,1,3,1,3
+Metal,2,3,3,1,3
+Deep House,3,3,3,3,5
+Doom,3,3,3,2,5
+Easy Listening,5,5,3,3,4
+Easygoing,5,3,3,3,3
+Electro,3,3,3,3,5
+Emo,1,0,0,1,3
+Epic,3,0,2,0,4
+Folk,3,3,3,3,6
+Funk,6,6,4,6,5
+Gothic,2,3,3,0,4
+Hip Hop,3,1,3,3,3
+House,3,1,3,4,3
+Indie,3,1,1,3,5
+Jazz,6,6,4,4,5
+Latin,4,3,3,5,3
+Metro,3,1,1,3,4
+Modern Rock,3,1,0,1,3
+Neuro,3,0,3,3,3
+New Age,3,3,3,3,5
+Old Country,5,6,5,5,3
+Organic,3,3,1,3,6
+Other,3,3,3,3,5
+Pop,3,3,1,3,2
+Prog,3,3,3,2,5
+Punk,0,0,0,0,3
+R&B,5,5,3,6,3
+Reggae,3,3,3,4,5
+Reggaeton,4,3,3,3,3
+Regional Music (Brazil),4,3,4,3,4
+Regional Music (France),3,0,2,1,3
+Regional Music (Japan),3,0,2,1,3
+Regional Music (Korean),3,1,1,3,3
+Regional Music (Mexico),3,3,3,4,3
+Rock,2,1,1,3,3
+Romantic,5,5,3,3,3
+Sensual,3,3,3,5,3
+Sentimental,5,3,3,3,4
+Serious,3,3,3,3,6
+Somber,3,1,1,0,6
+Sophisticated,5,3,3,3,3
+Soul,6,6,5,5,5
+Soundtrack,3,3,1,3,3
+Synth,3,3,3,2,5
+Tender,4,3,3,3,5
+Upbeat,3,5,3,3,3
+Urgent,1,1,1,1,3
+Yearning,3,3,2,3,3

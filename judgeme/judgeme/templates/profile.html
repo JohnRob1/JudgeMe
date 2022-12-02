@@ -110,16 +110,23 @@
             <!-- Top row -->
 
             <!-- Statistics row -->
-            <div
-                class="text-blue-200 justify-start text-left w-full flex flex-col px-4"
-            >
-                <p class="text-xs text-white">stats</p>
-                <p>top genre: {{top_genre}}</p>
-                <p>top artist: {{top_artist}}</p>
-                <p>top song: {{top_song}}</p>
-                <p>friends: {{num_friends}}</p>
-                <p>playlists: {{num_playlists}}</p>
-            </div>
+            <form id="recalculate-form">
+                <input name="recalculate" value="True" class="absolute h-0 w-0">
+                <div
+                    class="text-blue-200 justify-start text-left w-full flex flex-col px-4"
+                >
+                    {% if is_owner %}
+                    <button class="mr-auto text-xs text-white" onclick="recalculateStats()">stats (click to recalculate)</button>
+                    {% else %}
+                    <p class="text-xs text-white">stats</p>
+                    {% endif %}
+                    <p>top genre: {{top_genre}}</p>
+                    <p>top artist: {{top_artist}}</p>
+                    <p>top song: {{top_song}}</p>
+                    <p>friends: {{num_friends}}</p>
+                    <p>playlists: {{num_playlists}}</p>
+                </div>
+            </form>
             <!-- Statistics row -->
 
             <!-- Description field row -->
@@ -213,8 +220,11 @@
             window.location.reload(true);
         }
 
+        function recalculateStats() {
+            document.getElementById("recalculate-form").submit()
+        }
+
         function submitForm() {
-            console.log("aaa");
             document.getElementById("profile-form").submit();
         }
 

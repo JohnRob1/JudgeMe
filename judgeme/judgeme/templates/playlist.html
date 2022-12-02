@@ -90,8 +90,13 @@
 
     <!--Music Player-->
     <div
-        class="bg-white/90 shadow-lg rounded-lg w-96 text-black fixed bottom-2 right-2 backdrop-blur-lg"
+        id="music_player"
+        class="bg-white/90 shadow-lg rounded-lg w-96 text-black fixed bottom-2 right-2 backdrop-blur-lg invisible"
     >
+        <button class="absolute right-2.5 top-2 font-light text-xs text-gray-700 hover:underline"
+        onClick="closePlayer()">
+            stop player
+        </button>
         <div class="flex p-2">
             <img
                 id="song_picture"
@@ -127,6 +132,8 @@
 
 
         function selectSong(song_name, artist_name, picture_url, preview_url) {
+            document.getElementById("music_player").style.visibility='visible'
+
             document.getElementById("song_name").innerHTML = song_name;
             document.getElementById("artist_name").innerHTML = artist_name;
             document
@@ -135,6 +142,10 @@
 
             audio.setAttribute("src", preview_url);
             audio.play();
+        }
+
+        function closePlayer() {
+            document.getElementById("music_player").style.visibility='hidden'
         }
 
         function updateTimeline() {

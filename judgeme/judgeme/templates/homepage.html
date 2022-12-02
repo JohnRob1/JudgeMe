@@ -191,7 +191,7 @@
         <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
 
         <!-- welcome -->
-        <div class="flex w-max m-auto space-x-4 p-4 pt-16">
+        <div class="flex m-auto justify-center space-x-4 p-8">
             <button onclick="location.href='../profile/'">
                 <img
                     id="profile-image"
@@ -215,101 +215,92 @@
                 </button>
         </div>
         <!-- welcome -->
+        <div class="flex justify-center animate-fadeIn">
+            <div class="flex flex-col m-y-auto">
+                <p class="title text-lg">Your Besties</p>
+                    {% for friend in besties %}
+                    <!-- Friend Listing -->
+                    {% if forloop.counter0 == 0 %}
+                    <div
+                        class="flex flex-row w-80 h-16 p-2 my-1 rounded-lg border-2 space-x-2 border-yellow-400 bg-black"
+                    >
+                    {% elif forloop.counter0 == 1 %}
+                    <div
+                        class="flex flex-row w-80 h-16 p-2 my-1 rounded-lg border-2 space-x-2 border-slate-400 bg-black"
+                    >
+                    {% else %}
+                    <div
+                        class="flex flex-row w-80 h-16 p-2 my-1 rounded-lg border-2 space-x-2 border-yellow-800 bg-black"
+                    >
+                    {% endif %}
+                        <button type="button">
+                            <img
+                                src="{{friend.profile_picture}}"
+                                class="w-12 h-12 rounded-full hover:opacity-60"
+                                onClick="location.href = '../profile/?user={{friend.username}}' "
+                            />
+                        </button>
+                        <div class="flex flex-col text-left">
+                            <p class="text-white text-base">{{friend}}</p>
+                            <p class="text-indigo-200 text-xs">
+                                Current fav:
+                                {{friend.top_track_name}}
+                            </p>
+                        </div>
+                        <div class="flex flex-grow justify-end text-xs">#{{forloop.counter}}</div>
 
-        <!-- button row -->
-        <div class="flex flex-col m-auto space-y-3 w-min py-4">
-            <button
-                type="submit"
-                class="btn opacity-0 animate-fadeIn animation-delay-500"
-                onclick="location.href='../judge/'"
-            >
-                Make a comparison
-            </button>
-            <button
-                type="submit"
-                class="btn opacity-0 animate-fadeIn animation-delay-500"
-                onclick="location.href='../artist/'"
-            >
-                Explore artist stats
-            </button>
-            <button
-                type="submit"
-                class="btn opacity-0 animate-fadeIn animation-delay-500"
-                onclick="location.href='../generate/'"
-            >
-                Generate some tunes
-            </button>
-            <button
-                type="submit"
-                class="btn opacity-0 animate-fadeIn animation-delay-500"
-                onclick="location.href='../breakdown/'"
-            >
-                Explore your music taste
-            </button>
-        </div>
-        <!-- button row -->
-
-        <style>
-            .image {
-                width: 100px;
-                height: 100px;
-                border-radius: 50%;
-                border: 4px solid #ffffff;
-            }
-        </style>
-        <div class="flex justify-center pt-16">
-            <div class="flex space-y-0 flex-col">
-                <div class="flex justify-center space-x-12 flex-row">
-                    {% if user %} {% if friend2 != False %}
-                    <img
-                        name="silver"
-                        src="{{friend2}}"
-                        alt="friend2"
-                        class="animate-bounce animation-delay-300 image"
-                    />
-                    {% else %}
-                    <img
-                        name="silver"
-                        src="{% static '/icons/invite.png' %}"
-                        alt="friend2"
-                        class="animate-bounce animation-delay-300 image"
-                    />
-                    {% endif %} {% if friend1 != False %}
-                    <img
-                        name="gold"
-                        src="{{friend1}}"
-                        alt="friend1"
-                        class="animate-bounce animation-delay-500 image"
-                    />
-                    {% else %}
-                    <img
-                        name="gold"
-                        src="{% static '/icons/invite.png' %}"
-                        alt="friend1"
-                        class="animate-bounce animation-delay-500 image"
-                    />
-                    {% endif %} {% if friend2 != False %}
-                    <img
-                        name="bronze"
-                        src="{{friend3}}"
-                        alt="friend3"
-                        class="animate-bounce animation-delay-100 image"
-                    />
-                    {% else %}
-                    <img
-                        name="bronze"
-                        src="{% static '/icons/invite.png' %}"
-                        alt="friend3"
-                        class="animate-bounce animation-delay-100 image"
-                    />
-                    {% endif %} {% endif %}
-                </div>
-                <img
-                    src="{% static '/icons/podium.png' %}"
-                    alt="podium"
-                    class="h-60 w-90"
-                />
+                    </div>
+                    <!-- Friend Listing end -->
+                    {% empty %}
+                    <p>You have no friends. Invite them!</p>
+                    {% endfor %}
             </div>
+        </div>
+        {% comment %} <div class="flex flex-row m-auto items-center justify-center space-x-8"> {% endcomment %}
+        <div class="flex flex-col m-auto items-center justify-center space-y-8 opacity-0 animate-fadeIn animation-delay-500">
+            <!-- button row -->
+            <div class="flex flex-col m-y-auto space-y-3 w-min py-4">
+                <p class="title text-lg justify-center text-center">Let's do something.</p>
+                <button
+                    type="submit"
+                    class="btn "
+                    onclick="location.href='../judge/'"
+                >
+                    Make a comparison
+                </button>
+                <button
+                    type="submit"
+                    class="btn "
+                    onclick="location.href='../artist/'"
+                >
+                    Explore artist stats
+                </button>
+                <button
+                    type="submit"
+                    class="btn "
+                    onclick="location.href='../generate/'"
+                >
+                    Generate some tunes
+                </button>
+                <button
+                    type="submit"
+                    class="btn "
+                    onclick="location.href='../breakdown/'"
+                >
+                    Explore your music taste
+                </button>
+            </div>
+            <!-- button row -->
+
+            <style>
+                .image {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    border: 4px solid #ffffff;
+                }
+            </style>
+
         </div>
     </body>
 
@@ -339,13 +330,13 @@
                         <p class="text-indigo-200 text-xs">
                             Joined {{friend.date_joined}}
                         </p>
+                        <button
+                            class="absolute right-2.5 bottom-1 font-light text-xs text-indigo-300 hover:underline"
+                            type="submit"
+                            name="remove-friend"
+                            value="{{friend}}"
+                        >
                         <form>
-                            <button
-                                class="absolute right-2.5 bottom-1 font-light text-xs text-indigo-300 hover:underline"
-                                type="submit"
-                                name="remove-friend"
-                                value="{{friend.username}}"
-                            >
                                 remove
                             </button>
                         </form>
