@@ -1,22 +1,33 @@
 from distutils.log import debug
 from pprint import pprint
 from urllib.request import HTTPRedirectHandler
-from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
 from django.conf import settings
 import random
+from django.core.files import File
+from django.core.files.images import ImageFile
+
+from .forms import ImageForm, uploadedImage
+
+#post imports---------
+from .Spotify_post import Credentials
+
+#end imports-------------
 
 from .util_auth import generate_url, create_token_info, login_django_user, get_spotify_object
 from .profile_stats import get_or_create_track_from_uri, get_or_create_playlist
 
-from .models import JMUser, Track
+from .models import *
 from .profile_stats import update_user_stats, get_top_artist, get_top_genre, get_top_song, get_num_friends, get_num_playlists, get_music_taste, get_user_playlists
 
 import spotipy
 import os
 import random
 
+
+share_var = ""
 
 def sign_in(request):
     url = generate_url()
@@ -30,10 +41,12 @@ def spotify_callback(request):
 
     code = request.GET.get('code')
     token = create_token(code)
-
     request.session['code'] = code
     request.session['token'] = token
-    print("AWDAA", request.session['token'])
+    print(request.session['token'])
+    #print("my code here----------")
+    #Sujal(request)
+    #print("my code here------------")
 
     return redirect('login')
 
@@ -45,7 +58,16 @@ def create_token(code):
 
     return token_info['access_token']
 
+#----------------------------
 
+def success(request):
+
+    context = {}
+    context["bg_color"] = "[#355e3b]"
+    context["bubble_color"] = "[#518634]"
+    return render(request, 'success.html', context)
+
+#-----------------------------
 def index(request):
     context = {}
     context["bg_color"] = "white"
@@ -65,6 +87,7 @@ def spotify(request):
 
 
 def welcome(request):
+    #Sujal(request)
     context = {}
     context["bg_color"] = "[#322c3d]"
     context["bubble_color"] = "[#8e3d81]"
@@ -154,6 +177,18 @@ def result(request, friend):
     }
     return render(request, 'result.html', context)
 
+def experiment(request):
+    if request.method == "POST":
+        form=ImageForm(data=request.POST,files=request.FILES)
+        if form.is_valid():
+            form.save()
+            obj=form.instance
+            return render(request,"experiment.html",{"obj":obj})
+    else:
+        form=ImageForm()
+        img=Image.objects.all()
+    return render(request,"experiment.html",{"img":img,"form":form})
+
 
 def profile(request):
     sp = get_spotify_object(request)
@@ -173,8 +208,8 @@ def profile(request):
         user.about = request.GET['about']
     if "vibes" in request.GET:
         user.vibes = request.GET['vibes']
-    user.save()
-
+    
+    #user.save()
     context = {}
     context['user_to_display'] = user
     context['is_owner'] = user == request.user
@@ -189,10 +224,23 @@ def profile(request):
     context['bg_color'] = 'blue-400'
     context['bubble_color'] = '[#7dd3fc]'
 
+    if request.method == "POST":
+        try:
+            form=ImageForm(files=request.FILES)
+            form.Meta.store_image = request.FILES
+            user.uploaded_image = form.Meta.store_image['image']
+            user.save()
+        except:
+            return HttpResponse("Oops you clicked upload instaed of save when editing bio. Try again but click save so that you're not posting image")
+            #return HttpResponseRedirect("../profile/")
+
+    context['custom_image'] = user.uploaded_image
     return render(request, 'profile.html', context)
 
 
 def playlist(request):
+    token = request.session['token']
+    user_id = request.user
     context = {}
     if settings.DARKMODE == False:
         context['bg_color'] = '[#674846]'
@@ -206,14 +254,47 @@ def playlist(request):
     sp = get_spotify_object(request)
     items = sp.current_user_recently_played(limit=20).get('items')
     tracks = []
+    song_uri = ""
+    track_name = []
+    track_uri = {}
 
     for item in items:
         uri = item.get('track').get('uri')
+        song_uri += uri + ","
         track = get_or_create_track_from_uri(request, uri)
         tracks.append(track)
-
+        track_uri[track.name] = uri
+        track_name.append(track.name)
+    
+    song_uri = song_uri[:-1]
+    wizard = Credentials(token, user_id)
+    if request.method == "POST":
+        if request.POST.get('sendplaylist') == 'test':
+            playlist_id = wizard.create_playlist("JudgeMe Playlist")
+            response = wizard.add_songs_to_playlist(song_uri)
+            print("Post registered")
+            return HttpResponseRedirect("../success/")
+        elif request.POST.get('qsong') in track_name:
+            my_uri = track_uri[request.POST.get('qsong')]
+            wizard.add_song_to_queue(my_uri)
+            print("Success")
+            return HttpResponseRedirect("../playlist/")
+    
     random.shuffle(tracks)
 
+    """ 
+    song_uri = ""
+    for item in items:
+        #pprint(item)
+        uri = item.get('track').get('uri')
+        song_uri += uri + ','
+    """
+    
+    #song_uri = song_uri[:-1]
+    #cred = Credentials(token, user_id)
+
+    # context['songNames1'] = songNames[:20]
+    # context['songNames2'] = songNames[20:]
     context['tracks'] = tracks
     return render(request, 'playlist.html', context)
 
@@ -304,11 +385,15 @@ def homepage(request):
     else:
         friend3 = False
 
+    #image_lst = Image.objects.all()
+
+
     context = {}
 
     context['user'] = request.user
     context['friends'] = request.user.friends.all()
     context['request_code'] = request_code
+    context['custom_image'] = request.user.uploaded_image
 
     context['besties'] = besties
     context['friend1'] = friend1
@@ -321,7 +406,6 @@ def homepage(request):
 
 def profiledit(request):
     return render(request, 'profiledit.html')
-
 
 def temp(request):
 
@@ -620,3 +704,6 @@ def api_test(request):
     print("")
 
     pass
+
+
+

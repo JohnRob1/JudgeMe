@@ -3,157 +3,220 @@
 <html>
     {% block content %}
     <title>Playlist</title>
-</head>
-<body class="bg-zinc-900">
-    <div class="flex container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
-        {% if darkmode == False %}
-            <img class="max-w-md m-4 shadow-white" src="{% static '/icons/music.jpeg' %}"></img>
-        {% else %}
-            <img class="max-w-md m-4 shadow-white" src="{% static '/icons/musicdark.jpeg' %}"></img>
-        {% endif %}
-        <div class="flex justify-center space-x-12 w-200 flex-row">
-            <div class="flex justify-center space-y-10 w-100 flex-col">
-                {% if darkmode == False %}
-                    <h1 class="text-white grow text-4xl text-lg mt-4 w-80">Sunny Days</h1>
-                    <h1 class="text-[#fdbcb4] grow text-2xl text-bold mt-4 w-80">Friends and Artists</h1>
-                {% else %}
-                    <h1 class="text-white grow text-4xl text-lg mt-4 w-80">Messy Midnights</h1>
-                    <h1 class="text-[#b0c4de] grow text-2xl text-bold mt-4 w-80">Friends and Artists</h1>
-                {% endif %}
-                {% for track in tracks %}
-                {% if darkmode == False %} 
-                <div
-                class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"
-                onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
-            >
-                <button
-                    class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
-                    onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
-                >
-                    click to preview track
-                </button>
-                <img
-                    class="m-2 rounded-sm w-12 h-12 pointer-events-none"
-                    src="{{track.picture}}"
-                />
-                <div
-                    class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none"
-                >
-                    <h1 class="text-white grow text-base truncate ...">
-                        {{track.name}}
-                    </h1>
-                    <h1 class="text-[#fdbcb4] grow text-sm truncate ...">
-                        {{track.artist_name}}
-                    </h1>
-                </div>
-            </div>
-                {% else %}
-                <div
-                class="relative group flex w-80 rounded-lg border-[#b0c4de] border-2 max-h-20 hover:bg-black"
-                onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
-            >
-                <button
-                    class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
-                    onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
-                >
-                    click to preview track
-                </button>
-                <img
-                    class="m-2 rounded-sm w-12 h-12 pointer-events-none"
-                    src="{{track.picture}}"
-                />
-                <div
-                    class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none"
-                >
-                    <h1 class="text-white grow text-base truncate ...">
-                        {{track.name}}
-                    </h1>
-                    <h1 class="text-[#b0c4de] grow text-sm truncate ...">
-                        {{track.artist_name}}
-                    </h1>
-                </div>
-            </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        {% if darkmode == False %}
-        <button onclick="location.href='../homepage/'" class="bg-[#fdbcb4] hover:bg-transparent border border-[#fdbcb4] text-white font-bold py-7 px-20 rounded">
-            Home
-        </button>
-        {% else %}
-        <button onclick="location.href='../homepage/'" class="bg-[#b0c4de] hover:bg-transparent border border-[#b0c4de] text-black font-bold py-7 px-20 rounded">
-            Home
-        </button>
-        {% endif %}
-    </div>
-
-    <!--Music Player-->
-    <div
-        id="music_player"
-        class="bg-white/90 shadow-lg rounded-lg w-96 text-black fixed bottom-2 right-2 backdrop-blur-lg invisible"
-    >
-        <button class="absolute right-2.5 top-2 font-light text-xs text-gray-700 hover:underline"
-        onClick="closePlayer()">
-            stop player
-        </button>
-        <div class="flex p-2">
+    <body class="bg-zinc-900">
+        <div
+            class="flex container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2"
+        >
+            {% if darkmode == False %}
             <img
-                id="song_picture"
-                class="rounded-sm w-16 h-16 my-auto"
-                src="https://picsum.photos/600"
+                class="max-w-md m-4 shadow-white"
+                src="{% static '/icons/music.jpeg' %}"
             />
-            <div class="ml-2 flex flex-col py-0 my-auto w-60 text-left">
-                <h1 id="song_name" class="grow text-base truncate ...">
-                    Belong
-                </h1>
-                <h1
-                    id="artist_name"
-                    class="text-[#fdbcb4] grow text-sm truncate ..."
+            {% else %}
+            <img
+                class="max-w-md m-4 shadow-white"
+                src="{% static '/icons/musicdark.jpeg' %}"
+            />
+            {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                <button
+                    name="sendplaylist"
+                    value="test"
+                    type="submit"
+                    class="bg-[#fdbcb4] hover:bg-transparent border border-[#fdbcb4] text-white font-bold py-7 px-20 rounded"
                 >
-                    Macross 82-99
-                </h1>
+                    Send Playlist to my Spotify Library
+                </button>
+            </form>
+            <div class="flex justify-center space-x-12 w-200 flex-row">
+                <div class="flex justify-center space-y-10 w-100 flex-col">
+                    {% if darkmode == False %}
+                    <h1 class="text-white grow text-4xl text-lg mt-4 w-80">
+                        Sunny Days
+                    </h1>
+                    <h1
+                        class="text-[#fdbcb4] grow text-2xl text-bold mt-4 w-80"
+                    >
+                        Friends and Artists
+                    </h1>
+                    {% else %}
+                    <h1 class="text-white grow text-4xl text-lg mt-4 w-80">
+                        Messy Midnights
+                    </h1>
+                    <h1
+                        class="text-[#b0c4de] grow text-2xl text-bold mt-4 w-80"
+                    >
+                        Friends and Artists
+                    </h1>
+                    {% endif %} {% for track in tracks %} {% if darkmode ==
+                    False %}
+                    <div
+                        class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"
+                        onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                    >
+                        <button
+                            class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
+                            onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                        >
+                            click to preview track
+                        </button>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <button
+                                name="qsong"
+                                value="{{track.name}}"
+                                type="submit"
+                                onclick="sendConfirmation()"
+                                class="flex absolute right-1 bottom-12 invisible text-xs group-hover:visible hover:underline"
+                            >
+                                click to queue track
+                            </button>
+                        </form>
+
+                        <img
+                            class="m-2 rounded-sm w-12 h-12 pointer-events-none"
+                            src="{{track.picture}}"
+                        />
+                        <div
+                            class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none"
+                        >
+                            <h1 class="text-white grow text-base truncate ...">
+                                {{track.name}}
+                            </h1>
+                            <h1
+                                class="text-[#fdbcb4] grow text-sm truncate ..."
+                            >
+                                {{track.artist_name}}
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div
+                    class="relative group flex w-80 rounded-lg border-[#b0c4de] border-2 max-h-20 hover:bg-black"
+                    onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                >
+                    <button
+                        class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
+                        onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                    >
+                        click to preview track
+                    </button>
+                    <img
+                        class="m-2 rounded-sm w-12 h-12 pointer-events-none"
+                        src="{{track.picture}}"
+                    />
+                    <div
+                        class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none"
+                    >
+                        <h1 class="text-white grow text-base truncate ...">
+                            {{track.name}}
+                        </h1>
+                        <h1 class="text-[#b0c4de] grow text-sm truncate ...">
+                            {{track.artist_name}}
+                        </h1>
+                    </div>
+                </div>
+                {% endif %} {% endfor %}
             </div>
-            <audio src></audio>
+            {% if darkmode == False %}
+            <button
+                onclick="location.href='../homepage/'"
+                class="bg-[#fdbcb4] hover:bg-transparent border border-[#fdbcb4] text-white font-bold py-7 px-20 rounded"
+            >
+                Home
+            </button>
+            {% else %}
+            <button
+                onclick="location.href='../homepage/'"
+                class="bg-[#b0c4de] hover:bg-transparent border border-[#b0c4de] text-black font-bold py-7 px-20 rounded"
+            >
+                Home
+            </button>
+            {% endif %}
         </div>
-        <div class="w-full bg-gray-400 rounded-b-full h-1.5">
-            <div
-                id="timeline"
-                class="bg-[#e15542] h-1.5 rounded-full"
-                style="width: 45%"
-            ></div>
+
+        <!--Music Player-->
+        <div
+            id="music_player"
+            class="bg-white/90 shadow-lg rounded-lg w-96 text-black fixed bottom-2 right-2 backdrop-blur-lg invisible"
+        >
+            <button
+                class="absolute right-2.5 top-2 font-light text-xs text-gray-700 hover:underline"
+                onClick="closePlayer()"
+            >
+                stop player
+            </button>
+            <div class="flex p-2">
+                <img
+                    id="song_picture"
+                    class="rounded-sm w-16 h-16 my-auto"
+                    src="https://picsum.photos/600"
+                />
+                <div class="ml-2 flex flex-col py-0 my-auto w-60 text-left">
+                    <h1 id="song_name" class="grow text-base truncate ...">
+                        Belong
+                    </h1>
+                    <h1
+                        id="artist_name"
+                        class="text-[#fdbcb4] grow text-sm truncate ..."
+                    >
+                        Macross 82-99
+                    </h1>
+                </div>
+                <audio src></audio>
+            </div>
+            <div class="w-full bg-gray-400 rounded-b-full h-1.5">
+                <div
+                    id="timeline"
+                    class="bg-[#e15542] h-1.5 rounded-full"
+                    style="width: 45%"
+                ></div>
+            </div>
         </div>
-    </div>
-    <script>
-        const timeline = document.getElementById("timeline");
-        const audio = document.querySelector("audio");
+        <script>
+            const timeline = document.getElementById("timeline");
+            const audio = document.querySelector("audio");
 
-        setInterval(updateTimeline, 1000 / 30);
+            setInterval(updateTimeline, 1000 / 30);
 
+            /* When person clicks on sample songs, add a click to add queue option */
+            function selectSong(song_name, artist_name, picture_url, preview_url) {
+                document.getElementById("music_player").style.visibility='visible'
 
-        function selectSong(song_name, artist_name, picture_url, preview_url) {
-            document.getElementById("music_player").style.visibility='visible'
+                document.getElementById("song_name").innerHTML = song_name;
+                document.getElementById("artist_name").innerHTML = artist_name;
+                document
+                    .getElementById("song_picture")
+                    .setAttribute("src", picture_url);
 
-            document.getElementById("song_name").innerHTML = song_name;
-            document.getElementById("artist_name").innerHTML = artist_name;
-            document
-                .getElementById("song_picture")
-                .setAttribute("src", picture_url);
+                audio.setAttribute("src", preview_url);
+                audio.play();
+            }
 
-            audio.setAttribute("src", preview_url);
-            audio.play();
-        }
+            function closePlayer() {
+                document.getElementById("music_player").style.visibility='hidden'
+            function dummyInvc(){
+                var dummy = "send_to_playlist";
+                dummy.submit();
+            }
 
-        function closePlayer() {
-            document.getElementById("music_player").style.visibility='hidden'
-        }
+            function updateTimeline() {
+                const percentagePosition =
+                    (100 * audio.currentTime) / audio.duration;
+                timeline.style.width = `${percentagePosition}%`;
+            }
 
-        function updateTimeline() {
-            const percentagePosition =
-                (100 * audio.currentTime) / audio.duration;
-            timeline.style.width = `${percentagePosition}%`;
-        }
-    </script>
-    <!--Music Player-->
-    {% endblock %}
+            function sendConfirmation(){
+                alert("Successfully Queued Song! :)")
+            }
+
+            function submitForm() {
+                document.getElementById('sendID').submit();
+            }
+        </script>
+        <!--Music Player-->
+        {% endblock %}
+    </body>
 </html>
