@@ -3,8 +3,8 @@ import requests
 
 class Credentials:
     
-    def __init__(self, spotify_token, spotify_user_id, playlist_id="", playlist_uri=""):
-        self.spotify_token = spotify_token
+    def __init__(self, spotfify_token, spotify_user_id, playlist_id="", playlist_uri=""):
+        self.spotify_token = spotfify_token
         self.spotify_user_id = spotify_user_id
         self.playlist_id = playlist_id
         self.playlist_uri = playlist_uri
@@ -24,7 +24,9 @@ class Credentials:
         }
 
         response = requests.post(query, data=request_body, headers=header)
+        print(response)
         response_json = response.json()
+        
 
         self.playlist_id = response_json["id"]
         return response_json["id"]

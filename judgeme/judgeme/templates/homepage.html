@@ -242,12 +242,21 @@
                     >
                     {% endif %}
                         <button type="button">
+                            {% if friend.uploaded_image %}
+                            <img
+                                src="{{friend.uploaded_image.url}}"
+                                class="w-12 h-12 rounded-full hover:opacity-60"
+                                onClick="location.href = '../profile/?user={{friend.username}}' "
+                            />
+                            {% else %}
                             <img
                                 src="{{friend.profile_picture}}"
                                 class="w-12 h-12 rounded-full hover:opacity-60"
                                 onClick="location.href = '../profile/?user={{friend.username}}' "
                             />
+                            {% endif %}
                         </button>
+
                         <div class="flex flex-col text-left">
                             <p class="text-white text-base">{{friend}}</p>
                             <p class="text-indigo-200 text-xs">
@@ -327,11 +336,19 @@
                     class="relative flex flex-row w-80 h-16 p-2 my-1 rounded-lg border-0 space-x-2 bg-indigo-600 hover:bg-[{{bubble_color}}]"
                 >
                     <button type="button">
+                        {% if friend.uploaded_image %}
+                        <img
+                            src="{{friend.uploaded_image.url}}"
+                            class="w-12 h-12 rounded-full hover:opacity-60"
+                            onClick="location.href = '../profile/?user={{friend.username}}' "
+                        />
+                        {% else %}
                         <img
                             src="{{friend.profile_picture}}"
                             class="w-12 h-12 rounded-full hover:opacity-60"
                             onClick="location.href = '../profile/?user={{friend.username}}' "
                         />
+                        {% endif %}
                     </button>
                     <div class="flex flex-col text-left">
                         <p class="text-white text-base">{{friend}}</p>
