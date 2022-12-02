@@ -10,8 +10,15 @@
         <div
             class="fixed bottom-32 right-5 w-72 h-36 -z-50 bg-[#551b1b] rounded-full rotate-12 animate-blob animation-delay-1500"
         ></div>
-        <div class="flex items-center justify-center h-screen">
+
+        <div class="flex container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
             <div class="flex space-y-8 w-50% items-center flex-col">
+                <div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
                 {% if error %}
                 <p class="text-center opacity-0 animate-fadeIn animation-delay-80">
                     We ran into some issues on our end, try again later
@@ -29,48 +36,44 @@
                 <p class="text-center opacity-0 animate-fadeIn animation-delay-300">
                     You can only do this once
                 </p>
-                {% elif top_tracks %}
-                <div class="grid gap-14 grid-cols-2">
-                    <div class="">
-                        <table class="table-auto">
-                            <thead>
-                                <th>Top Songs</th>                           
-                            </thead>
-                            <tbody>
-                                {% for song in top_tracks %}
-                                    <tr><td>{{ song }}&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-                                {% endfor %}
-                                    <tr><td> &#8203; </td></tr>
-                                    <tr><td> &#8203; </td></tr>
-                            </tbody>
-                        </table>
-                        <div class="py-20">
-                            <img src={{ image }} class="object-contain h-48 w-48 py-20...">
-                            <p class="text-lg">Your playlist result:<br>{{ Quality }}%</p>
-                        </div> 
+                <form method="POST">
+                    {% csrf_token %} 
+                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Will you risk it all?</label>
+                    <button type="submit" name="rolldice" class="text-black bg-gradient-to-r from-white via-red-300 to-red-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-white shadow-lg shadow-white-500/50 dark:shadow-lg dark:shadow-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Risk Your Fate</button>
+                </form> 
+                {% elif tracks %}
+                    {% if Goodplaylist %}
+                    <p class="text-center opacity-0 animate-fadeIn animation-delay-150">
+                        Lucky you. Check your spotify
+                    </p>
+                    {% else %}
+                    <p class="text-center opacity-0 animate-fadeIn animation-delay-150">
+                        Not so lucky this time around
+                    </p>
+                    {% endif %}
+                    <div class="flex justify-center space-x-12 w-200 flex-row">
+                        <div class="flex justify-center space-y-10 w-100 flex-col">
+                            <div class="grid grid-cols-2 gap-8">
+                    {% for track in tracks %}
+                    <div class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black">
+                        <img
+                            class="m-2 rounded-sm w-12 h-12 pointer-events-none"
+                            src="{{track.picture}}"
+                        />
+                        <div class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none">
+                            <h1 class="text-white grow text-base truncate ...">
+                                {{track.name}}
+                            </h1>
+                            <h1 class="text-[#fdbcb4] grow text-sm truncate ...">
+                                {{track.artist_name}}
+                            </h1>
+                        </div>
                     </div>
-                    
-                    {% comment %} <div>
-                        <table class="table-auto">
-                            <thead>
-                                <th>List of Albums</th>                            </tr>
-                            </thead>
-                            <tbody>
-                                {% for album in album_titles %}
-                                    <tr><td>{{ album }}&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div> {% endcomment %}
-                </div>
                 
-                {% endif %}
+                    {% endfor %}
+                </div>
+                    {% endif %}
                 <div class="flex space-y-4 w-96 items-center flex-col">
-                    <form method="POST">
-                        {% csrf_token %} 
-                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Will you risk it all?</label>
-                        <button type="submit" name="rolldice" class="text-black bg-gradient-to-r from-white via-red-300 to-red-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-white shadow-lg shadow-white-500/50 dark:shadow-lg dark:shadow-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Risk Your Fate</button>
-                    </form> 
                     <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onclick="location.href = '../homepage/'">
                         Return Home
                     </button>
@@ -82,7 +85,7 @@
 
     
     <!-- Navbar -->
-    <header class="fixed bottom-0 px-6 py-4">
+    {% comment %} <header class="fixed bottom-0 px-6 py-4">
         <div class="flex-col">
             <a href="../homepage/">
                 <img
@@ -96,6 +99,6 @@
                 <!-- <p>terms</p> -->
             </div>
         </div>
-    </header>
+    </header> {% endcomment %}
     <!-- Navbar -->
 </html>

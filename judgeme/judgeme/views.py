@@ -568,6 +568,7 @@ def gorb(request):
     sp: spotipy.Spotify = get_spotify_object(request)
 
     uris = []
+    pre_result = True
     bad_repeat_uris = ["6OnfBiiSc9RGKiBKKtZXgQ",
                        "4HjwGX3pJKJTeOSDpT6GCo",
                        "2mY2q2kza9vvWKZz6JLTxS",
@@ -596,39 +597,44 @@ def gorb(request):
                        "1K2u31R6UAOtUPM4uSWQTc"]
 
     uri_string = ""
-    uri_list = []
+    tracks = []
     GoodPlaylist = False
     if request.method == 'POST':
+        pre_result = False
         GoodPlaylist = bool(random.getrandbits(1))
         if GoodPlaylist :
             print("GOODPLAYLIST SELECTED")
-            results = sp.current_user_top_tracks(time_range=sp_range, 
+            results = sp.current_user_top_tracks(time_range='medium_term', 
                 limit=14)
             for i, item in enumerate(results['items']):
                 #print(i, item['name'], '//', item['artists'][0]['name'])
-                uri_string += item['id']
+                uri_string += item['uri']
                 uri_string += ','
-                top_songs.append(item['name'])
+                tracks.append(get_or_create_track_from_uri(request, item['uri']))
 
                 artist_uri = item["artists"][0]['uri']
                 top_tracks = sp.artist_top_tracks(artist_uri)
 
                 for track in top_tracks['tracks'][:1]:
                     artist_uri = track['uri']
-                    if artist_uri not in uri_list:
-                        uri_list += artist_uri
-                        uri_list += ','
+                    if artist_uri not in uri_string:
+                        uri_string += artist_uri
+                        uri_string += ','
+                        tracks.append(get_or_create_track_from_uri(request, artist_uri))
+
             
-            results2 = sp.current_user_top_artists(time_range=sp_range, limit=10)
+            results2 = sp.current_user_top_artists(time_range='medium_term', limit=2)
 
             for i, item in enumerate(results2['items']):
                 top_artist_tracks = sp.artist_top_tracks(item['uri'])
-                for track in top_artist_tracks[:2]:
+                for track in top_artist_tracks['tracks'][:2]:
                     track_uri = track['uri']
-                    if track_uri not in uri_list:
-                        uri_list += track_uri
-                        uri_list += ','
-            uri_list = uri_list[:-1]
+                    if track_uri not in uri_string:
+                        uri_string += track_uri
+                        uri_string += ','
+                        tracks.append(get_or_create_track_from_uri(request, track_uri))
+
+            uri_string = uri_string[:-1]
 
             print(uri_string)
         else :
@@ -640,18 +646,21 @@ def gorb(request):
             while i < 7:
                 uri_string += bad_repeat_uris[randRepeat]
                 uri_string += ','
+                tracks.append(get_or_create_track_from_uri(request, bad_repeat_uris[randRepeat]))
                 i = i + 1
             
             #adds all of these songs
             for uri2 in bad_always_uris:
                 uri_string += uri2
                 uri_string += ','
+                tracks.append(get_or_create_track_from_uri(request, uri2))
             
             #adds half of these songs
             reduced_bad_uris = random.sample(random_bad_uris, 4)
             for uri3 in reduced_bad_uris:
                 uri_string += uri3
                 uri_string += ','
+                tracks.append(get_or_create_track_from_uri(request, uri3))
             
             uri_string = uri_string[:-1]
 
@@ -660,8 +669,12 @@ def gorb(request):
 
 
     context = {
-        'pre_result': True,
+        'pre_result': pre_result,
+        'Goodplaylist' : GoodPlaylist,
+        'uris' : uri_string,
+        'tracks' : tracks,
     }
+    print(tracks)
 
     return render(request, 'goodorbadplaylist.html', context)
 
