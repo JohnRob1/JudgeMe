@@ -92,7 +92,76 @@
 
             </div>
         </div>
+ <!--Music Player-->
+ <div
+ id="music_player"
+ class="bg-white/90 shadow-lg rounded-lg w-96 text-black fixed bottom-2 right-2 backdrop-blur-lg invisible"
+>
+ <button class="absolute right-2.5 top-2 font-light text-xs text-gray-700 hover:underline"
+ onClick="closePlayer()">
+     stop player
+ </button>
+ <div class="flex p-2">
+     <img
+         id="song_picture"
+         class="rounded-sm w-16 h-16 my-auto"
+         src="https://picsum.photos/600"
+     />
+     <div class="ml-2 flex flex-col py-0 my-auto w-60 text-left">
+         <h1 id="song_name" class="grow text-base truncate ...">
+             Belong
+         </h1>
+         <h1
+             id="artist_name"
+             class="text-[#fdbcb4] grow text-sm truncate ..."
+         >
+             Macross 82-99
+         </h1>
+     </div>
+     <audio src></audio>
+ </div>
+ <div class="w-full bg-gray-400 rounded-b-full h-1.5">
+     <div
+         id="timeline"
+         class="bg-[#e15542] h-1.5 rounded-full"
+         style="width: 45%"
+     ></div>
+ </div>
+</div>
+<script>
+ const timeline = document.getElementById("timeline");
+ const audio = document.querySelector("audio");
+
+ setInterval(updateTimeline, 1000 / 30);
+
+
+ function selectSong(song_name, artist_name, picture_url, preview_url) {
+     document.getElementById("music_player").style.visibility='visible';
+
+     document.getElementById("song_name").innerHTML = song_name;
+     document.getElementById("artist_name").innerHTML = artist_name;
+     document
+         .getElementById("song_picture")
+         .setAttribute("src", picture_url);
+
+     audio.setAttribute("src", preview_url);
+     audio.play();
+ }
+
+ function closePlayer() {
+     document.getElementById("music_player").style.visibility='hidden';
+     audio.pause();
+ }
+
+ function updateTimeline() {
+     const percentagePosition =
+         (100 * audio.currentTime) / audio.duration;
+     timeline.style.width = `${percentagePosition}%`;
+ }
+</script>
+
     </body>
+
     <!-- Navbar -->
     {% comment %} <header class="fixed bottom-0 px-6 py-4">
         <div class="flex-col">
