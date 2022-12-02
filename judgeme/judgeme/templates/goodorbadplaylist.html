@@ -55,7 +55,18 @@
                         <div class="flex justify-center space-y-10 w-100 flex-col">
                             <div class="grid grid-cols-2 gap-8">
                     {% for track in tracks %}
-                    <div class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black">
+                    <div
+                    class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"
+                    onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                >
+                    <button
+                        class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
+                        onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                    >
+                        click to preview track
+                    </button>
+
+                    {% comment %} <div class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"> {% endcomment %}
                         <img
                             class="m-2 rounded-sm w-12 h-12 pointer-events-none"
                             src="{{track.picture}}"
@@ -82,8 +93,6 @@
             </div>
         </div>
     </body>
-
-    
     <!-- Navbar -->
     {% comment %} <header class="fixed bottom-0 px-6 py-4">
         <div class="flex-col">
