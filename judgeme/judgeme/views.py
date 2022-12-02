@@ -611,6 +611,20 @@ def breakdown(request):
 
 
 def gorb(request):
+    sp: spotipy.Spotify = get_spotify_object(request)
+
+    GoodPlaylist = False
+    if request.method == 'POST':
+        print("WEEEEEEEEEEE")
+        GoodPlaylist = bool(random.getrandbits(1))
+
+        if GoodPlaylist :
+            print("GOODPLAYLIST SELECTED")
+        
+        else :
+            print("BADPLAYLIST SELECTED")
+
+
     context = {
         'pre_result': True,
     }
