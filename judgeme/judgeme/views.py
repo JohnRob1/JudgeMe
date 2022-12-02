@@ -106,6 +106,9 @@ def judge(request):
     if "friend" in request.GET:
         friend = JMUser.objects.get(display_name=request.GET.get("friend"))
         return result(request, friend)
+    # if "playlist" in request.GET:
+    #     playlist = Playlist.objects.get(name=request.GET.get("playlist"))
+    #     return render(request, 'friend_playlist.html', context)
     return render(request, 'judge.html', context)
 
 def music_tastes(request):
@@ -119,13 +122,11 @@ def music_tastes(request):
             else:
                 friends[friend.music_taste] = []
                 friends[friend.music_taste].append(friend)
-    for value in sorted(friends):
+    for value in sorted(list(friends.keys())):
         for friend in friends[value]:
             context['friends'].append(friend)
 
     return render(request, 'music_tastes.html', context)
-
-
 
 def result(request, friend):
 
