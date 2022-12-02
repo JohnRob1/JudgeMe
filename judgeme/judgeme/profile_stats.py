@@ -40,6 +40,9 @@ def get_num_playlists(request, user) -> int:
 
 
 def get_or_create_track_from_uri(request, uri) -> Track:
+    if uri == None:
+        return
+
     # If the track exists, return it.
     track = Track.objects.filter(uri=uri).first()
     if track != None:
@@ -93,21 +96,23 @@ def get_or_create_playlist(request, uri) -> Playlist:
         return playlist 
 
     sp = get_spotify_object(request)
-    playlist = sp.playlist(uri)
-    if playlist == None:
+    sp_playlist = sp.playlist(uri)
+    if sp_playlist == None:
         return None
-
-    name = playlist.get("name")
-    picture = playlist.get("images")[0].get("url")
-
-    tracks = playlist.get("tracks").get("items")
-    for track in tracks:
-        song_uri = track.get("uri")
-        track = get_or_create_track_from_uri(request, song_uri)
-        request.user.playlist.add(track)
+    
+    name = sp_playlist.get("name")
+    picture = sp_playlist.get("images")[0].get("url")
 
     playlist, created = Playlist.objects.get_or_create(
-        uri=uri, name=name, playlist_pic=picture, tracks=tracks)
+        uri=uri, name=name, playlist_pic=picture)
+    
+    sp_tracks = sp_playlist.get("tracks").get("items")
+    for track in sp_tracks:
+        song_uri = track.get("uri")
+        track = get_or_create_track_from_uri(request, song_uri)
+        playlist.tracks.add(track)
+    
+
     return playlist 
 
 def update_user_stats(request):
