@@ -56,6 +56,9 @@ def get_or_create_track_from_uri(request, uri) -> Track:
     artist_name = track.get("artists")[0].get("name")
     images = track.get("album").get("images")
     audio_preview = track.get("preview_url")
+    if audio_preview == None:
+        audio_preview = "No preview"
+    
     picture = images[0].get("url") if images != None else "None"
     track, created = Track.objects.get_or_create(
         uri=uri, name=name, artist_name=artist_name, picture=picture, audio_preview=audio_preview)
@@ -94,6 +97,9 @@ def update_user_stats(request):
         track = get_or_create_track_from_uri(request, song_uri)
         request.user.top_tracks.add(track)
 
+    top_track = request.user.top_tracks.all()[0]
+    request.user.top_track_name = top_track.name + " - " + top_track.artist_name
+
     for artist in sp.current_user_top_artists(10).get("items"):
         artist_uri = artist.get("uri")
         artist = get_or_create_artist_from_uri(request, artist_uri)
@@ -103,6 +109,7 @@ def update_user_stats(request):
 
 
 def get_top_song(request, user):
+    return user.top_track_name
     sp = get_spotify_object(request)
     songs = user.top_tracks.all()
     if len(songs) == 0:

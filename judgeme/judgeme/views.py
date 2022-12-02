@@ -203,6 +203,9 @@ def profile(request):
             user = None
             pass
 
+    if "recalculate" in request.GET:
+        update_user_stats(request)
+
     if "about" in request.GET:
         user.about = request.GET['about']
     if "vibes" in request.GET:
@@ -317,11 +320,11 @@ def homepage(request):
 
     request_code = 0
     if 'add-friend' in request.GET:
-        username = request.GET['add-friend']
-        print("trying to add:", username)
+        display_name = request.GET['add-friend']
+        print("trying to add:", display_name)
 
         try:
-            user = JMUser.objects.get(username=username)
+            user = JMUser.objects.get(display_name=display_name)
             request.user.friends.add(user)
             print("friend added.")
             request_code = 1
@@ -330,10 +333,10 @@ def homepage(request):
             request_code = 2
 
     if 'remove-friend' in request.GET:
-        username = request.GET['remove-friend']
-        print("trying to remove:", username)
+        display_name = request.GET['remove-friend']
+        print("trying to remove:", display_name)
         try:
-            user = JMUser.objects.get(username=username)
+            user = JMUser.objects.get(display_name=display_name)
             request.user.friends.remove(user)
             print("friend removed.")
             request_code = 3
@@ -342,18 +345,22 @@ def homepage(request):
             request_code = 4
 
     friends = request.user.friends.all()
+    besties = []
     if len(friends) >= 1:
-        friend1 = friends[0].profile_picture
+        besties.append(friends[0])
+        friend1 = friends[0]
     else:
         friend1 = False
 
     if len(friends) >= 2:
-        friend2 = friends[1].profile_picture
+        besties.append(friends[1])
+        friend2 = friends[1]
     else:
         friend2 = False
 
     if len(friends) >= 3:
-        friend3 = friends[2].profile_picture
+        besties.append(friends[2])
+        friend3 = friends[2]
     else:
         friend3 = False
 
@@ -363,6 +370,7 @@ def homepage(request):
     context['friends'] = request.user.friends.all()
     context['request_code'] = request_code
 
+    context['besties'] = besties
     context['friend1'] = friend1
     context['friend2'] = friend2
     context['friend3'] = friend3

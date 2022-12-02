@@ -7,6 +7,7 @@ class JMUser(AbstractUser):
     profile_picture = models.CharField(max_length=256)
     display_name = models.CharField(max_length=256)
 
+    top_track_name = models.CharField(max_length=256)
     top_tracks = models.ManyToManyField("Track", blank=True)
     top_artists = models.ManyToManyField("Artist", blank=True)
 
