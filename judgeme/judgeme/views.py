@@ -4,13 +4,14 @@ from urllib.request import HTTPRedirectHandler
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import is_valid_path
+from django.conf import settings
 import random
 
 from .util_auth import generate_url, create_token_info, login_django_user, get_spotify_object
-from .profile_stats import get_or_create_track_from_uri
+from .profile_stats import get_or_create_track_from_uri, get_or_create_playlist
 
 from .models import JMUser, Track
-from .profile_stats import update_user_stats, get_top_artist, get_top_genre, get_top_song, get_num_friends, get_num_playlists
+from .profile_stats import update_user_stats, get_top_artist, get_top_genre, get_top_song, get_num_friends, get_num_playlists, get_music_taste, get_user_playlists
 
 import spotipy
 import os
@@ -71,110 +72,61 @@ def welcome(request):
 
 
 def judge(request):
+    update_user_stats(request)
     context = {}
     context['friends'] = request.user.friends.all()
+    context['playlists'] = request.user.playlists.all()
+    context['me'] = request.user
+    if request.user.music_taste == -1:
+        get_music_taste(request, request.user)
+    context['music_taste'] = request.user.music_taste
     if "friend" in request.GET:
-        friend = JMUser.objects.get(username=request.GET.get("friend"))
+        friend = JMUser.objects.get(display_name=request.GET.get("friend"))
         return result(request, friend)
     return render(request, 'judge.html', context)
+
+def music_tastes(request):
+    context = {}
+    friends = {}
+    context['friends'] = []
+    for friend in request.user.friends.all():
+        if friend.music_taste != -1:
+            if friend.music_taste in friends:
+                friends[friend.music_taste].append(friend)
+            else:
+                friends[friend.music_taste] = []
+                friends[friend.music_taste].append(friend)
+    for value in sorted(friends):
+        for friend in friends[value]:
+            context['friends'].append(friend)
+
+    return render(request, 'music_tastes.html', context)
+
 
 
 def result(request, friend):
 
-    # Implement Comparison Algorithm
-    MusicTaste = 0
-    MusicTaste2 = 0
+    f_dict = {}
+    u_dict = {}
+    if friend.music_taste == -1:
+        f_dict = get_music_taste(request, friend)
 
-    # Read in Correlation Factors into Hash
-    f = open('theme/static/genre_correlations', 'r')
-    glines = f.readlines()
-    genres_cf = {}
-    genres_amt = {}
-    for line in glines:
-        values = line.split(",")
-        values[1] = values[1].strip()
-        genres_cf[values[0].lower()] = values[1]
-    # Get genres of songs for weight
-    sp = get_spotify_object(request)
+    if request.user.music_taste == -1:
+        u_dict = get_music_taste(request, request.user)
 
-    for track in friend.top_tracks.all():
-        artist_id = sp.track(track).get("artists")[0].get("id")
-        artist = sp.artist(artist_id)
-        genres = artist.get("genres")
-        for genre in genres:
-            added_to_dict = False
-            if genres_cf.get(genre, None) != None:
-                added_to_dict = True
-                if genres_amt.get(genre, None) == None:
-                    genres_amt[genre] = 0
-                else:
-                    genres_amt[genre] = genres_amt.get(genre) + 1
-            else:
-                # Check is the genre given is just the subtype of a genre in the correlation values
-                split = genre.split()
-                for word in split:
-                    if genres_cf.get(word, None) != None:
-                        added_to_dict = True
-                        if genres_amt.get(word, None) == None:
-                            genres_amt[word] = 0
-                        else:
-                            genres_amt[word] = genres_amt.get(word) + 1
-            # Genre has no personality correlation
-            # CF = 3/36
-            if added_to_dict is False:
-                if genres_amt.get(genre, None) == None:
-                    genres_amt[genre] = 0
-                else:
-                    genres_amt[genre] = genres_amt.get(genre) + 1
-                genres_cf[genre] = 3/36
+    dark_mode = "Dark Mode"
+    if settings.DARKMODE is False: dark_mode = "Light Mode"
 
-    # Calculate MusicTaste
-    for genre in genres_amt.keys():
-        MusicTaste2 = MusicTaste2 + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
-    friend.music_taste = round(MusicTaste2 * 100, 2)
-
-    for track in sp.current_user_top_tracks(1).get("items"):
-        song_uri = track.get("uri")
-        artist_id = sp.track(song_uri).get("artists")[0].get("id")
-        artist = sp.artist(artist_id)
-        print("Working...")
-        genres = artist.get("genres")
-        for genre in genres:
-            added_to_dict = False
-            if genres_cf.get(genre, None) != None:
-                added_to_dict = True
-                if genres_amt.get(genre, None) == None:
-                    genres_amt[genre] = 0
-                else:
-                    genres_amt[genre] = genres_amt.get(genre) + 1
-            else:
-                # Check is the genre given is just the subtype of a genre in the correlation values
-                split = genre.split()
-                for word in split:
-                    if genres_cf.get(word, None) != None:
-                        added_to_dict = True
-                        if genres_amt.get(word, None) == None:
-                            genres_amt[word] = 0
-                        else:
-                            genres_amt[word] = genres_amt.get(word) + 1
-            # Genre has no personality correlation
-            # CF = 3/36
-            if added_to_dict is False:
-                if genres_amt.get(genre, None) == None:
-                    genres_amt[genre] = 0
-                else:
-                    genres_amt[genre] = genres_amt.get(genre) + 1
-                genres_cf[genre] = 3/36
-
-    # Calculate MusicTaste
-    for genre in genres_amt.keys():
-        MusicTaste = MusicTaste + ((float(genres_amt.get(genre, 0) / 100)) * float(genres_cf.get(genre, 0)))
-    request.user.music_taste = round(MusicTaste * 100, 2)
-
-    if abs(request.user.music_taste - friend.music_taste) < 20:
-        f = open('theme/static/light_mode_gifs/comps.txt', 'r')
+    if abs(request.user.music_taste - friend.music_taste) < 25:
+        if settings.DARKMODE is False:
+            f = open('theme/static/light_mode_gifs/comps.txt', 'r')
+        else:
+            f = open('theme/static/dark_mode_gifs/comps.txt', 'r')
     else:
-        f = open('theme/static/light_mode_gifs/insults.txt', 'r')
+        if settings.DARKMODE is False:
+            f = open('theme/static/light_mode_gifs/insults.txt', 'r')
+        else:
+            f = open('theme/static/dark_mode_gifs/insults.txt', 'r')
     lines = f.readlines()
     r = random.randint(0, len(lines) - 1)
     line = lines[r]
@@ -188,6 +140,17 @@ def result(request, friend):
         'me_mt': request.user.music_taste,
         'friend_pp': friend.profile_picture,
         'friend_mt': friend.music_taste,
+        'agreeablesness': u_dict.get('agreeableness'),
+        'conscientiousness': u_dict.get('conscientiousness'),
+        'openness': u_dict.get('openness'),
+        'emotional_stability': u_dict.get('emotional_stability'),
+        'extraverted': u_dict.get('extraverted'),
+        'agreeableness_f': f_dict.get('agreeableness'),
+        'concientiousness_f': f_dict.get('concientiousness'),
+        'openness_f': f_dict.get('openness'),
+        'emotional_stability_f': f_dict.get('emotional_stability'),
+        'extraverted_f': f_dict.get('extraverted'),
+        'dark_mode': dark_mode
     }
     return render(request, 'result.html', context)
 
@@ -231,27 +194,26 @@ def profile(request):
 
 def playlist(request):
     context = {}
-    context['bg_color'] = '[#674846]'
-    context['bubble_color'] = '[#fdbcb4]'
+    if settings.DARKMODE == False:
+        context['bg_color'] = '[#674846]'
+        context['bubble_color'] = '[#fdbcb4]'
+        context['darkmode'] = False
+    else:
+        context['bg_color'] = '[#002147]'
+        context['bubble_color'] = '[#b0c4de]'
+        context['darkmode'] = True
+
     sp = get_spotify_object(request)
     items = sp.current_user_recently_played(limit=20).get('items')
     tracks = []
 
-    # songNames = []
-    # songPictures = []
     for item in items:
         uri = item.get('track').get('uri')
         track = get_or_create_track_from_uri(request, uri)
         tracks.append(track)
 
-        # songNames.append(item.get('track').get('name'))
-        # songPictures.append(item.get("track").get('album').get('images')[0])
-
-
     random.shuffle(tracks)
 
-    # context['songNames1'] = songNames[:20]
-    # context['songNames2'] = songNames[20:]
     context['tracks'] = tracks
     return render(request, 'playlist.html', context)
 
@@ -289,34 +251,12 @@ def graph(request):
 def tutorial(request):
     return render(request, 'tutorial.html')
 
-
-def get_user_playlists(request):
-
-    sp = get_spotify_object(request)
-    iterations = 0
-    playlists = []
-
-    while (True):
-        result = sp.current_user_playlists(limit=50, offset=iterations*50)
-        items = result.get('items')
-        if (len(items) == 0):
-            break
-        iterations += 1
-        for playlist in items:
-            if playlist.get('owner').get('id') == request.user.username:
-                playlists.append(playlist)
-
-    return playlists
-
-
 def homepage(request):
     if 'darkMode' in request.GET:
-        darkmode = True
-        pprint(darkmode)
+        settings.DARKMODE = True
 
     if 'lightMode' in request.GET:
-        darkmode = False
-        pprint(darkmode)
+        settings.DARKMODE = False
 
     request_code = 0
     if 'add-friend' in request.GET:
@@ -572,6 +512,28 @@ def breakdown(request):
         return render(request, 'breakdown.html', context)
 
     return render(request, 'breakdown.html', context={'error': True})
+
+
+def gorb(request):
+    sp: spotipy.Spotify = get_spotify_object(request)
+
+    GoodPlaylist = False
+    if request.method == 'POST':
+        print("WEEEEEEEEEEE")
+        GoodPlaylist = bool(random.getrandbits(1))
+
+        if GoodPlaylist :
+            print("GOODPLAYLIST SELECTED")
+        
+        else :
+            print("BADPLAYLIST SELECTED")
+
+
+    context = {
+        'pre_result': True,
+    }
+
+    return render(request, 'goodorbadplaylist.html', context)
 
 
 def base(request):

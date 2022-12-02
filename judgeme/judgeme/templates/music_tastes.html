@@ -1,3 +1,4 @@
+
 {% load static tailwind_tags %} {% tailwind_css %}
 <!DOCTYPE html>
 <html lang="en">
@@ -77,52 +78,24 @@
         
         slider.oninput = function() {
           output.innerHTML = this.value;
-          console.log(this.value)
-          console.log(document.getElementById('me_pp').getAttribute('value'))
-           if (this.value == Math.floor(document.getElementById('me_pp').getAttribute('value'))) {
-            document.getElementById('me_pp').setAttribute('class', 'relative w-28 h-28 m-auto')
+           if (this.value == Math.floor(document.getElementById(this.value.toString()).getAttribute('value'))) {
+            document.getElementById(this.value.toString()).setAttribute('class', 'relative w-28 h-28 m-auto')
           } else {
-            document.getElementById('me_pp').setAttribute('class', 'relative w-28 h-28 m-auto blur')
-          }
-          if (this.value == Math.floor(document.getElementById('friend_pp').getAttribute('value'))) {
-            document.getElementById('friend_pp').setAttribute('class', 'relative w-28 h-28 m-auto')
-          } else {
-            document.getElementById('friend_pp').setAttribute('class', 'relative w-28 h-28 m-auto blur')
+            document.getElementById(this.value.toString()).setAttribute('class', 'relative w-28 h-28 m-auto blur')
           }
         }
       </script>
         
       <div class="relative grid grid-cols-2 gap-4">
-        <figure class="grid grid-cols-1 justify-items-center">
-          <img 
-            id="me_pp"
-            value={{ me_mt }}
-            src="{{me_pp}}"
-            class="relative w-28 h-28 m-auto blur"
-            />
-            <figcaption class="items-center">Music Taste: {{ me_mt }}</figcaption>
-        </figure>
-        <figure class="grid grid-cols-1 justify-items-center">
-          <img 
-            id="friend_pp"
-            value={{ friend_mt }}
-            src="{{friend_pp}}"
-            class="relative w-28 h-28 m-auto blur"
-            />
-            <figcaption class="items-center">Music Taste: {{ friend_mt }}</figcaption>
-        </figure>
+        {% for friend in friends %}
+            <figure class="grid grid-cols-1 justify-items-center">
+            <img 
+                id="{{friend.music_taste}}"
+                value={{friend.music_taste}}
+                src="{{friend.profile_picture}}"
+                class="relative w-28 h-28 m-auto blur rounded-full"
+                />
+                <figcaption class="items-center">{{ friend.display_name }} <br> Music Taste: {{ friend.music_taste }}</figcaption>
+            </figure>
+        {% endfor %}
       </div>
-      <!--Gif-->
-      <div class="relative grid grid-cols-1 justify-items-center">
-        <iframe
-          class="relative z-2"
-          src={{ src }}
-          width="480"
-          height={{ height }}
-          frameborder="0"
-        ></iframe>
-        <caption>This is a {{dark_mode}} gif</caption>
-      </div>
-    </div>
-  </body>
-</html>

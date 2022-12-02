@@ -3,74 +3,89 @@
 <html>
     {% block content %}
     <title>Playlist</title>
-    <div class="flex flex-col container mx-auto my-auto items-center">
-        <img
-            class="max-w-md m-4 shadow-white"
-            src="{% static '/icons/music.jpeg' %}"
-        />
+</head>
+<body class="bg-zinc-900">
+    <div class="flex container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
+        {% if darkmode == False %}
+            <img class="max-w-md m-4 shadow-white" src="{% static '/icons/music.jpeg' %}"></img>
+        {% else %}
+            <img class="max-w-md m-4 shadow-white" src="{% static '/icons/musicdark.jpeg' %}"></img>
+        {% endif %}
         <div class="flex justify-center space-x-12 w-200 flex-row">
-            <div class="flex space-y-4 w-100 flex-col">
-                <h1 class="text-white grow text-4xl mt-4">Messy Midnights</h1>
-                <h1 class="text-[#fdbcb4] grow text-2xl text-bold">
-                    Friends and Artists
-                </h1>
+            <div class="flex justify-center space-y-10 w-100 flex-col">
+                {% if darkmode == False %}
+                    <h1 class="text-white grow text-4xl text-lg mt-4 w-80">Sunny Days</h1>
+                    <h1 class="text-[#fdbcb4] grow text-2xl text-bold mt-4 w-80">Friends and Artists</h1>
+                {% else %}
+                    <h1 class="text-white grow text-4xl text-lg mt-4 w-80">Messy Midnights</h1>
+                    <h1 class="text-[#b0c4de] grow text-2xl text-bold mt-4 w-80">Friends and Artists</h1>
+                {% endif %}
                 {% for track in tracks %}
-                <button
-                    class="flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"
-                >
-                    <img
-                        class="m-2 rounded-sm w-12 h-12"
-                        src="{{track.picture}}"
-                    />
-                    <div class="flex flex-col py-0 my-auto w-60 text-left">
-                        <h1 class="text-white grow text-base truncate ...">
-                            {{track.name}}
-                        </h1>
-                        <h1 class="text-[#fdbcb4] grow text-sm truncate ...">
-                            {{track.artist_name}}
-                        </h1>
-                    </div>
-                </button>
-                {% endfor %}
-            </div>
-            <div class="flex space-y-4 w-100 flex-col">
-                <h1 class="text-white text-4xl mt-4">Nights Out</h1>
-                <h1 class="text-[#fdbcb4] text-2xl text-bold">Playlist</h1>
-                {% for track in tracks %}
+                {% if darkmode == False %} 
                 <div
-                    class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"
+                class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"
+                onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+            >
+                <button
+                    class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
                     onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
                 >
-                    <button
-                        class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
-                        onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
-                    >
-                        click to preview track
-                    </button>
-                    <img
-                        class="m-2 rounded-sm w-12 h-12 pointer-events-none"
-                        src="{{track.picture}}"
-                    />
-                    <div
-                        class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none"
-                    >
-                        <h1 class="text-white grow text-base truncate ...">
-                            {{track.name}}
-                        </h1>
-                        <h1 class="text-[#fdbcb4] grow text-sm truncate ...">
-                            {{track.artist_name}}
-                        </h1>
-                    </div>
+                    click to preview track
+                </button>
+                <img
+                    class="m-2 rounded-sm w-12 h-12 pointer-events-none"
+                    src="{{track.picture}}"
+                />
+                <div
+                    class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none"
+                >
+                    <h1 class="text-white grow text-base truncate ...">
+                        {{track.name}}
+                    </h1>
+                    <h1 class="text-[#fdbcb4] grow text-sm truncate ...">
+                        {{track.artist_name}}
+                    </h1>
                 </div>
+            </div>
+                {% else %}
+                <div
+                class="relative group flex w-80 rounded-lg border-[#b0c4de] border-2 max-h-20 hover:bg-black"
+                onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+            >
+                <button
+                    class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
+                    onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                >
+                    click to preview track
+                </button>
+                <img
+                    class="m-2 rounded-sm w-12 h-12 pointer-events-none"
+                    src="{{track.picture}}"
+                />
+                <div
+                    class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none"
+                >
+                    <h1 class="text-white grow text-base truncate ...">
+                        {{track.name}}
+                    </h1>
+                    <h1 class="text-[#b0c4de] grow text-sm truncate ...">
+                        {{track.artist_name}}
+                    </h1>
+                </div>
+            </div>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
-        <button
-            onclick="location.href='../homepage/'"
-            class="bg-[#fdbcb4] hover:bg-transparent border border-[#fdbcb4] text-white font-bold py-7 px-20 rounded"
-        >
+        {% if darkmode == False %}
+        <button onclick="location.href='../homepage/'" class="bg-[#fdbcb4] hover:bg-transparent border border-[#fdbcb4] text-white font-bold py-7 px-20 rounded">
             Home
         </button>
+        {% else %}
+        <button onclick="location.href='../homepage/'" class="bg-[#b0c4de] hover:bg-transparent border border-[#b0c4de] text-black font-bold py-7 px-20 rounded">
+            Home
+        </button>
+        {% endif %}
     </div>
 
     <!--Music Player-->
