@@ -567,16 +567,96 @@ def breakdown(request):
 def gorb(request):
     sp: spotipy.Spotify = get_spotify_object(request)
 
+    uris = []
+    bad_repeat_uris = ["6OnfBiiSc9RGKiBKKtZXgQ",
+                       "4HjwGX3pJKJTeOSDpT6GCo",
+                       "2mY2q2kza9vvWKZz6JLTxS",
+                       "4cOdK2wGLETKBW3PvgPWqT",
+                       "0Jg602cHeMCnPez9baacIe",
+                       "5ygDXis42ncn6kYG14lEVG"]
+
+    bad_always_uris = ["12a51Wz9uxB0FahAPMHTde",
+                       "0ik5szrSW9DvBF62OdYlqh",
+                       "0AzD1FEuvkXP1verWfaZdv",
+                       "2R8YJIea5IaRtVGka8uUyE",
+                       "0CaHTGPAvGoDyycVvoMZgD",
+                       "2Uu4AnnMTJpevC0IrwAuOW",
+                       "2Wq2R59KXY8mW7sYGccrKA",
+                       "66Crx53pJDyF3B2Nign13F",
+                       "4WtguaQ8EOj7BfU06F2Lzz",
+                       "0F09XNIuGq4kDtl5qeO7FR"]
+    
+    random_bad_uris = ["6epn3r7S14KUqlReYr77hA",
+                       "1KEdF3FNF9bKRCxN3KUMbx",
+                       "5RIVoVdkDLEygELLCniZFr",
+                       "6nFYXpBgrNcZjbtNEuc6yR",
+                       "315YiOWf8Yy7gOEOLpyWQs",
+                       "66e2TRYYXe72Kj7iCBVkFC",
+                       "29drzlJamuYPBRh1LPpXM4",
+                       "1K2u31R6UAOtUPM4uSWQTc"]
+
+    uri_string = ""
+    uri_list = []
     GoodPlaylist = False
     if request.method == 'POST':
-        print("WEEEEEEEEEEE")
         GoodPlaylist = bool(random.getrandbits(1))
-
         if GoodPlaylist :
             print("GOODPLAYLIST SELECTED")
-        
+            results = sp.current_user_top_tracks(time_range=sp_range, 
+                limit=14)
+            for i, item in enumerate(results['items']):
+                #print(i, item['name'], '//', item['artists'][0]['name'])
+                uri_string += item['id']
+                uri_string += ','
+                top_songs.append(item['name'])
+
+                artist_uri = item["artists"][0]['uri']
+                top_tracks = sp.artist_top_tracks(artist_uri)
+
+                for track in top_tracks['tracks'][:1]:
+                    artist_uri = track['uri']
+                    if artist_uri not in uri_list:
+                        uri_list += artist_uri
+                        uri_list += ','
+            
+            results2 = sp.current_user_top_artists(time_range=sp_range, limit=10)
+
+            for i, item in enumerate(results2['items']):
+                top_artist_tracks = sp.artist_top_tracks(item['uri'])
+                for track in top_artist_tracks[:2]:
+                    track_uri = track['uri']
+                    if track_uri not in uri_list:
+                        uri_list += track_uri
+                        uri_list += ','
+            uri_list = uri_list[:-1]
+
+            print(uri_string)
         else :
             print("BADPLAYLIST SELECTED")
+
+            #adds seven of one song
+            randRepeat = random.randint(0, (len(bad_repeat_uris)-1))
+            i=0
+            while i < 7:
+                uri_string += bad_repeat_uris[randRepeat]
+                uri_string += ','
+                i = i + 1
+            
+            #adds all of these songs
+            for uri2 in bad_always_uris:
+                uri_string += uri2
+                uri_string += ','
+            
+            #adds half of these songs
+            reduced_bad_uris = random.sample(random_bad_uris, 4)
+            for uri3 in reduced_bad_uris:
+                uri_string += uri3
+                uri_string += ','
+            
+            uri_string = uri_string[:-1]
+
+            print(uri_string)
+    #convert uris to string comma separated
 
 
     context = {
