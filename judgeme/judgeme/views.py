@@ -604,32 +604,32 @@ def gorb(request):
 
     uris = []
     pre_result = True
-    bad_repeat_uris = ["6OnfBiiSc9RGKiBKKtZXgQ",
-                       "4HjwGX3pJKJTeOSDpT6GCo",
-                       "2mY2q2kza9vvWKZz6JLTxS",
-                       "4cOdK2wGLETKBW3PvgPWqT",
-                       "0Jg602cHeMCnPez9baacIe",
-                       "5ygDXis42ncn6kYG14lEVG"]
+    bad_repeat_uris = ["spotify:track:6OnfBiiSc9RGKiBKKtZXgQ",
+                       "spotify:track:4HjwGX3pJKJTeOSDpT6GCo",
+                       "spotify:track:2mY2q2kza9vvWKZz6JLTxS",
+                       "spotify:track:4cOdK2wGLETKBW3PvgPWqT",
+                       "spotify:track:0Jg602cHeMCnPez9baacIe",
+                       "spotify:track:5ygDXis42ncn6kYG14lEVG"]
 
-    bad_always_uris = ["12a51Wz9uxB0FahAPMHTde",
-                       "0ik5szrSW9DvBF62OdYlqh",
-                       "0AzD1FEuvkXP1verWfaZdv",
-                       "2R8YJIea5IaRtVGka8uUyE",
-                       "0CaHTGPAvGoDyycVvoMZgD",
-                       "2Uu4AnnMTJpevC0IrwAuOW",
-                       "2Wq2R59KXY8mW7sYGccrKA",
-                       "66Crx53pJDyF3B2Nign13F",
-                       "4WtguaQ8EOj7BfU06F2Lzz",
-                       "0F09XNIuGq4kDtl5qeO7FR"]
+    bad_always_uris = ["spotify:track:12a51Wz9uxB0FahAPMHTde",
+                       "spotify:track:0ik5szrSW9DvBF62OdYlqh",
+                       "spotify:track:0AzD1FEuvkXP1verWfaZdv",
+                       "spotify:track:2R8YJIea5IaRtVGka8uUyE",
+                       "spotify:track:0CaHTGPAvGoDyycVvoMZgD",
+                       "spotify:track:2Uu4AnnMTJpevC0IrwAuOW",
+                       "spotify:track:2Wq2R59KXY8mW7sYGccrKA",
+                       "spotify:track:66Crx53pJDyF3B2Nign13F",
+                       "spotify:track:4WtguaQ8EOj7BfU06F2Lzz",
+                       "spotify:track:0F09XNIuGq4kDtl5qeO7FR"]
     
-    random_bad_uris = ["6epn3r7S14KUqlReYr77hA",
-                       "1KEdF3FNF9bKRCxN3KUMbx",
-                       "5RIVoVdkDLEygELLCniZFr",
-                       "6nFYXpBgrNcZjbtNEuc6yR",
-                       "315YiOWf8Yy7gOEOLpyWQs",
-                       "66e2TRYYXe72Kj7iCBVkFC",
-                       "29drzlJamuYPBRh1LPpXM4",
-                       "1K2u31R6UAOtUPM4uSWQTc"]
+    random_bad_uris = ["spotify:track:6epn3r7S14KUqlReYr77hA",
+                       "spotify:track:1KEdF3FNF9bKRCxN3KUMbx",
+                       "spotify:track:5RIVoVdkDLEygELLCniZFr",
+                       "spotify:track:6nFYXpBgrNcZjbtNEuc6yR",
+                       "spotify:track:315YiOWf8Yy7gOEOLpyWQs",
+                       "spotify:track:66e2TRYYXe72Kj7iCBVkFC",
+                       "spotify:track:29drzlJamuYPBRh1LPpXM4",
+                       "spotify:track:1K2u31R6UAOtUPM4uSWQTc"]
 
     uri_string = ""
     tracks = []
@@ -637,6 +637,7 @@ def gorb(request):
     if request.method == 'POST':
         pre_result = False
         GoodPlaylist = bool(random.getrandbits(1))
+        #GoodPlaylist = False
         if GoodPlaylist :
             print("GOODPLAYLIST SELECTED")
             results = sp.current_user_top_tracks(time_range='medium_term', 
@@ -700,6 +701,18 @@ def gorb(request):
             uri_string = uri_string[:-1]
 
             print(uri_string)
+
+        playlist_title = ""
+        if GoodPlaylist: 
+            playlist_title = "JudgeMe GoodTime Jams"
+        else :
+            playlist_title = "JUDGEMENT HATH FALLEN"
+        token = request.session['token']
+        user_id = request.user.username
+        wizard = Credentials(token, user_id)
+        playlist_id = wizard.create_playlist(playlist_title)
+        response = wizard.add_songs_to_playlist(uri_string)
+        print(response)
     #convert uris to string comma separated
 
 
