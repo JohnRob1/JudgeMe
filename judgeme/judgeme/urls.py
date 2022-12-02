@@ -16,6 +16,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 from . import spotify_views
@@ -51,10 +53,20 @@ urlpatterns = [
     path('spotify-test/', spotipy_test.test, name='test'),
     path('goodorbadplaylist/', views.gorb, name='gorb'),
     # path('audio-test/', audio_player.audio_test, name='test'),
+    path('experiment/', views.experiment, name='experiment'),
+
+    path('success/', views.success, name="success"),
     # path('spotify/sign-in/', views.sign_in),
     # path('', include('login.urls')),
     # path('spotify/', include('spotify.urls')),
     # path('theme/', include('theme.urls')),
     # path('judge/', include('judge.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
-]
+
+    #Added Static part for the urls because this will suppposedly help us reference the url of the uploaded image
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+
+#added the stattic 

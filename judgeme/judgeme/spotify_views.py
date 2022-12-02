@@ -5,15 +5,20 @@ import spotipy
 import spotipy.util as util
 from spotipy import oauth2
 
+from .Spotify_post import Scope
+
 SPOTIPY_CLIENT_ID = '1fba4b0df2fe49318273c0ab3aeb1d49'
 SPOTIPY_CLIENT_SECRET = '8d0bfdb045024e74bbdc22cd47c69588'
 SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/tutorial/'
 # https://developer.spotify.com/documentation/general/guides/authorization/scopes/ for scopes
-scope = 'user-top-read user-library-read playlist-read-private playlist-modify-public'
+
+myScope = Scope()
+scope = myScope.createScope()
+#scope = createScope()
+#scope = 'user-top-read user-library-read playlist-read-private playlist-modify-public user-modify-playback-state'
 username = ''
 
 sp: spotipy.Spotify = None
-
 
 def next_offset(n):
     try:

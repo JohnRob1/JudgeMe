@@ -193,11 +193,19 @@
         <!-- welcome -->
         <div class="flex m-auto justify-center space-x-4 p-8">
             <button onclick="location.href='../profile/'">
+                {% if custom_image %}
+                <img
+                id="profile-image"
+                src="{{custom_image.url}}"
+                class="w-28 h-28 m-auto rounded-full pointer-events-none"
+                />
+                {% else %}
                 <img
                     id="profile-image"
                     src="{{user.profile_picture}}"
                     class="w-28 h-28 m-auto rounded-full pointer-events-none"
                 />
+                {% endif %}
             </button>
 
             <div

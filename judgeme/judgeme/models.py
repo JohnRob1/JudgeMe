@@ -17,6 +17,7 @@ class JMUser(AbstractUser):
 
     about = models.CharField(max_length=256)
     vibes = models.CharField(max_length=256)
+    uploaded_image = models.ImageField(null=True, blank=True, upload_to="img/%y")
 
     agreeableness = models.FloatField(default=0)
     conscientiousness = models.FloatField(default=0)
@@ -24,6 +25,8 @@ class JMUser(AbstractUser):
     extravertedness = models.FloatField(default=0)
     openness = models.FloatField(default=0)
     music_taste = models.IntegerField(default=-1)
+
+    up_image = models.OneToOneField("Image", null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.display_name
@@ -80,3 +83,11 @@ class Album(models.Model):
     name = models.CharField(max_length=256)
     image = models.URLField(null=True)
     tracks = models.ManyToManyField(Track)
+class Test(models.Model):
+    display_name = models.CharField(max_length=256)
+    uploaded_image = models.ImageField(null=True, blank=True, upload_to="images/")
+    def __str__(self):
+        return self.display_name
+
+class Image(models.Model):
+    image=models.ImageField(null=True, blank=True, upload_to="img/%y")
