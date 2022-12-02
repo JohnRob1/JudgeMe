@@ -243,15 +243,11 @@ def get_music_taste(request, user):
     # Calculate MusicTaste
     for genre in genres_amt.keys():
         personality_array = genres_cf.get(genre, [3, 3, 3, 3, 3])
-        weight = genres_amt.get(genre) / len(genres_amt)
-        user.agreeableness = user.agreeableness + \
-            (float(personality_array[0]) * weight)
-        user.conscientiousness = user.conscientiousness + \
-            (float(personality_array[1]) * weight)
-        user.emotional_stability = user.emotional_stability + \
-            (float(personality_array[2]) * weight)
-        user.extravertedness = user.extravertedness + \
-            (float(personality_array[3]) * weight)
+        weight = genres_amt.get(genre) / total_genres
+        user.agreeableness = user.agreeableness + (float(personality_array[0]) * weight)
+        user.conscientiousness = user.conscientiousness + (float(personality_array[1]) * weight)
+        user.emotional_stability = user.emotional_stability + (float(personality_array[2]) * weight)
+        user.extravertedness = user.extravertedness + (float(personality_array[3]) * weight)
         user.openness = user.openness + (float(personality_array[4]) * weight)
 
     value = 0

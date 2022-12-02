@@ -109,8 +109,18 @@ def judge(request):
         return result(request, friend)
     # if "playlist" in request.GET:
     #     playlist = Playlist.objects.get(name=request.GET.get("playlist"))
-    #     return render(request, 'friend_playlist.html', context)
+    #     context['playlists'] = {}
+    #     for friend in context.get('friends'):
+    #         context[friend] = []
+    #         for playlist in friend.playlists:
+    #             context[friend].append(playlist)
+    #     return friend_playlist(request, context, playlist)
     return render(request, 'judge.html', context)
+
+# def friend_playlist(request, context, playlist):
+    
+#     return render(request, 'friend_playlist.html', context)
+
 
 def music_tastes(request):
     context = {}
