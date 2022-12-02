@@ -101,7 +101,10 @@ def get_or_create_playlist(request, uri) -> Playlist:
         return None
     
     name = sp_playlist.get("name")
-    picture = sp_playlist.get("images")[0].get("url")
+    if len(sp_playlist.get("images")) > 0:
+        picture = sp_playlist.get("images")[0].get("url")
+    else:
+        picture = "No Data"
 
     playlist, created = Playlist.objects.get_or_create(
         uri=uri, name=name, playlist_pic=picture)
