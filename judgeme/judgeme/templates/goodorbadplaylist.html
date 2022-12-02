@@ -38,8 +38,9 @@
                 </p>
                 <form method="POST">
                     {% csrf_token %} 
-                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Will you risk it all?</label>
+                    <label for="rolldice" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Will you risk it all?</label>
                     <button type="submit" name="rolldice" class="text-black bg-gradient-to-r from-white via-red-300 to-red-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-white shadow-lg shadow-white-500/50 dark:shadow-lg dark:shadow-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Risk Your Fate</button>
+                    <label for="sendplaylist" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Will you risk it all?</label>
                 </form> 
                 {% elif tracks %}
                     {% if Goodplaylist %}
@@ -83,6 +84,19 @@
                 
                     {% endfor %}
                 </div>
+                <form method="POST">
+                    {% csrf_token %} 
+                    <button
+                    name="sendplaylist"
+                    value="test"
+                    type="submit"
+                    class="bg-[#fdbcb4] hover:bg-transparent border border-[#fdbcb4] text-white font-bold py-7 px-20 rounded"
+                    onclick=
+                >
+                    Send Playlist to my Spotify Library
+                </button>
+                </form> 
+            </form>
                     {% endif %}
                 <div class="flex space-y-4 w-96 items-center flex-col">
                     <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onclick="location.href = '../homepage/'">

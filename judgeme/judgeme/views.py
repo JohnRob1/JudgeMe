@@ -29,6 +29,7 @@ import random
 
 share_var = ""
 
+
 def sign_in(request):
     url = generate_url()
     return HttpResponseRedirect(url)
@@ -634,10 +635,25 @@ def gorb(request):
     uri_string = ""
     tracks = []
     GoodPlaylist = False
+     
     if request.method == 'POST':
         pre_result = False
         GoodPlaylist = bool(random.getrandbits(1))
         #GoodPlaylist = False
+        if request.POST.get('sendplaylist') == 'test':
+            print("AJSKLDJASKLJDLKASJDLKASJDLKADS")
+            playlist_title = ""
+            if GoodPlaylist: 
+                playlist_title = "JudgeMe GoodTime Jams"
+            else :
+                playlist_title = "JUDGEMENT HATH FALLEN"
+            token = request.session['token']
+            user_id = request.user.username
+            wizard = Credentials(token, user_id)
+            playlist_id = wizard.create_playlist(playlist_title)
+            response = wizard.add_songs_to_playlist(settings.URI_LIST)
+            print(response) 
+            return HttpResponseRedirect("../homepage/")
         if GoodPlaylist :
             print("GOODPLAYLIST SELECTED")
             results = sp.current_user_top_tracks(time_range='medium_term', 
@@ -671,7 +687,7 @@ def gorb(request):
                         tracks.append(get_or_create_track_from_uri(request, track_uri))
 
             uri_string = uri_string[:-1]
-
+            settings.URI_LIST = uri_string
             print(uri_string)
         else :
             print("BADPLAYLIST SELECTED")
@@ -699,20 +715,21 @@ def gorb(request):
                 tracks.append(get_or_create_track_from_uri(request, uri3))
             
             uri_string = uri_string[:-1]
+            settings.URI_LIST = uri_string
 
             print(uri_string)
 
-        playlist_title = ""
-        if GoodPlaylist: 
-            playlist_title = "JudgeMe GoodTime Jams"
-        else :
-            playlist_title = "JUDGEMENT HATH FALLEN"
-        token = request.session['token']
-        user_id = request.user.username
-        wizard = Credentials(token, user_id)
-        playlist_id = wizard.create_playlist(playlist_title)
-        response = wizard.add_songs_to_playlist(uri_string)
-        print(response)
+        # playlist_title = ""
+        # if GoodPlaylist: 
+        #     playlist_title = "JudgeMe GoodTime Jams"
+        # else :
+        #     playlist_title = "JUDGEMENT HATH FALLEN"
+        # token = request.session['token']
+        # user_id = request.user.username
+        # wizard = Credentials(token, user_id)
+        # playlist_id = wizard.create_playlist(playlist_title)
+        # response = wizard.add_songs_to_playlist(uri_string)
+        # print(response)
     #convert uris to string comma separated
 
 
