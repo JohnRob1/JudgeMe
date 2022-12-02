@@ -28,6 +28,10 @@ DEBUG = True
 
 DARKMODE = False
 
+SIZE = 0
+
+ARTIST = []
+
 ALLOWED_HOSTS = []
 
 
