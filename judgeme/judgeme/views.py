@@ -610,6 +610,10 @@ def breakdown(request):
     return render(request, 'breakdown.html', context={'error': True})
 
 
+def gorb(request):
+    return render(request, 'goodorbadplaylist.html')
+
+
 def base(request):
     return render(request, 'base.html')
 

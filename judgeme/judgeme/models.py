@@ -27,18 +27,6 @@ class Artist(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-
-class Album(models.Model):
-    id = models.CharField(max_length=32, primary_key=True, unique=True)
-
-    artist = models.ForeignKey(
-        Artist, on_delete=models.CASCADE)
-
-    name = models.CharField(max_length=256)
-    image = models.URLField(null=True)
-    tracks = models.ManyToManyField(Track)
-
-
 class Track(models.Model):
     name = models.CharField(max_length=256)
     uri = models.CharField(max_length=32)
@@ -76,3 +64,14 @@ class Track(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Album(models.Model):
+    id = models.CharField(max_length=32, primary_key=True, unique=True)
+
+    artist = models.ForeignKey(
+        Artist, on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=256)
+    image = models.URLField(null=True)
+    tracks = models.ManyToManyField(Track)
