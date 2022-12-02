@@ -3,8 +3,8 @@ import requests
 
 class Credentials:
     
-    def __init__(self, spotfify_token, spotify_user_id, playlist_id="", playlist_uri=""):
-        self.spotify_token = spotfify_token
+    def __init__(self, spotify_token, spotify_user_id, playlist_id="", playlist_uri=""):
+        self.spotify_token = spotify_token
         self.spotify_user_id = spotify_user_id
         self.playlist_id = playlist_id
         self.playlist_uri = playlist_uri

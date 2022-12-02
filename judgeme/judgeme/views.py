@@ -240,7 +240,7 @@ def profile(request):
 
 def playlist(request):
     token = request.session['token']
-    user_id = request.user
+    user_id = request.user.username
     context = {}
     if settings.DARKMODE == False:
         context['bg_color'] = '[#674846]'
@@ -270,7 +270,7 @@ def playlist(request):
     wizard = Credentials(token, user_id)
     if request.method == "POST":
         if request.POST.get('sendplaylist') == 'test':
-            playlist_id = wizard.create_playlist("JudgeMe Playlist")
+            playlist_id = wizard.create_playlist("AAAAAAAA")
             response = wizard.add_songs_to_playlist(song_uri)
             print("Post registered")
             return HttpResponseRedirect("../success/")

@@ -49,8 +49,7 @@
                     >
                         Friends and Artists
                     </h1>
-                    {% endif %} {% for track in tracks %} {% if darkmode ==
-                    False %}
+                    {% endif %} {% for track in tracks %} {% if darkmode == False %}
                     <div
                         class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"
                         onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
