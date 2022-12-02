@@ -10,8 +10,15 @@
         <div
             class="fixed bottom-32 right-5 w-72 h-36 -z-50 bg-[#551b1b] rounded-full rotate-12 animate-blob animation-delay-1500"
         ></div>
-        <div class="flex items-center justify-center h-screen">
+
+        <div class="flex container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2">
             <div class="flex space-y-8 w-50% items-center flex-col">
+                <div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
                 {% if error %}
                 <p class="text-center opacity-0 animate-fadeIn animation-delay-80">
                     We ran into some issues on our end, try again later
@@ -29,48 +36,55 @@
                 <p class="text-center opacity-0 animate-fadeIn animation-delay-300">
                     You can only do this once
                 </p>
-                {% elif top_tracks %}
-                <div class="grid gap-14 grid-cols-2">
-                    <div class="">
-                        <table class="table-auto">
-                            <thead>
-                                <th>Top Songs</th>                           
-                            </thead>
-                            <tbody>
-                                {% for song in top_tracks %}
-                                    <tr><td>{{ song }}&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-                                {% endfor %}
-                                    <tr><td> &#8203; </td></tr>
-                                    <tr><td> &#8203; </td></tr>
-                            </tbody>
-                        </table>
-                        <div class="py-20">
-                            <img src={{ image }} class="object-contain h-48 w-48 py-20...">
-                            <p class="text-lg">Your playlist result:<br>{{ Quality }}%</p>
-                        </div> 
+                <form method="POST">
+                    {% csrf_token %} 
+                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Will you risk it all?</label>
+                    <button type="submit" name="rolldice" class="text-black bg-gradient-to-r from-white via-red-300 to-red-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-white shadow-lg shadow-white-500/50 dark:shadow-lg dark:shadow-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Risk Your Fate</button>
+                </form> 
+                {% elif tracks %}
+                    {% if Goodplaylist %}
+                    <p class="text-center opacity-0 animate-fadeIn animation-delay-150">
+                        Lucky you. Check your spotify
+                    </p>
+                    {% else %}
+                    <p class="text-center opacity-0 animate-fadeIn animation-delay-150">
+                        Not so lucky this time around
+                    </p>
+                    {% endif %}
+                    <div class="flex justify-center space-x-12 w-200 flex-row">
+                        <div class="flex justify-center space-y-10 w-100 flex-col">
+                            <div class="grid grid-cols-2 gap-8">
+                    {% for track in tracks %}
+                    <div
+                    class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"
+                    onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                >
+                    <button
+                        class="flex absolute right-1 bottom-1 invisible text-xs group-hover:visible hover:underline"
+                        onClick="selectSong(`{{track.name}}`, `{{track.artist_name}}`, `{{track.picture}}`, `{{track.audio_preview}}`)"
+                    >
+                        click to preview track
+                    </button>
+
+                    {% comment %} <div class="relative group flex w-80 rounded-lg border-[#fdbcb4] border-2 max-h-20 hover:bg-black"> {% endcomment %}
+                        <img
+                            class="m-2 rounded-sm w-12 h-12 pointer-events-none"
+                            src="{{track.picture}}"
+                        />
+                        <div class="flex flex-col py-0 my-auto w-60 text-left pointer-events-none">
+                            <h1 class="text-white grow text-base truncate ...">
+                                {{track.name}}
+                            </h1>
+                            <h1 class="text-[#fdbcb4] grow text-sm truncate ...">
+                                {{track.artist_name}}
+                            </h1>
+                        </div>
                     </div>
-                    
-                    {% comment %} <div>
-                        <table class="table-auto">
-                            <thead>
-                                <th>List of Albums</th>                            </tr>
-                            </thead>
-                            <tbody>
-                                {% for album in album_titles %}
-                                    <tr><td>{{ album }}&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div> {% endcomment %}
-                </div>
                 
-                {% endif %}
+                    {% endfor %}
+                </div>
+                    {% endif %}
                 <div class="flex space-y-4 w-96 items-center flex-col">
-                    <form method="POST">
-                        {% csrf_token %} 
-                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Will you risk it all?</label>
-                        <button type="submit" name="rolldice" class="text-black bg-gradient-to-r from-white via-red-300 to-red-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-white shadow-lg shadow-white-500/50 dark:shadow-lg dark:shadow-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Risk Your Fate</button>
-                    </form> 
                     <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onclick="location.href = '../homepage/'">
                         Return Home
                     </button>
@@ -78,11 +92,78 @@
 
             </div>
         </div>
+ <!--Music Player-->
+ <div
+ id="music_player"
+ class="bg-white/90 shadow-lg rounded-lg w-96 text-black fixed bottom-2 right-2 backdrop-blur-lg invisible"
+>
+ <button class="absolute right-2.5 top-2 font-light text-xs text-gray-700 hover:underline"
+ onClick="closePlayer()">
+     stop player
+ </button>
+ <div class="flex p-2">
+     <img
+         id="song_picture"
+         class="rounded-sm w-16 h-16 my-auto"
+         src="https://picsum.photos/600"
+     />
+     <div class="ml-2 flex flex-col py-0 my-auto w-60 text-left">
+         <h1 id="song_name" class="grow text-base truncate ...">
+             Belong
+         </h1>
+         <h1
+             id="artist_name"
+             class="text-[#fdbcb4] grow text-sm truncate ..."
+         >
+             Macross 82-99
+         </h1>
+     </div>
+     <audio src></audio>
+ </div>
+ <div class="w-full bg-gray-400 rounded-b-full h-1.5">
+     <div
+         id="timeline"
+         class="bg-[#e15542] h-1.5 rounded-full"
+         style="width: 45%"
+     ></div>
+ </div>
+</div>
+<script>
+ const timeline = document.getElementById("timeline");
+ const audio = document.querySelector("audio");
+
+ setInterval(updateTimeline, 1000 / 30);
+
+
+ function selectSong(song_name, artist_name, picture_url, preview_url) {
+     document.getElementById("music_player").style.visibility='visible';
+
+     document.getElementById("song_name").innerHTML = song_name;
+     document.getElementById("artist_name").innerHTML = artist_name;
+     document
+         .getElementById("song_picture")
+         .setAttribute("src", picture_url);
+
+     audio.setAttribute("src", preview_url);
+     audio.play();
+ }
+
+ function closePlayer() {
+     document.getElementById("music_player").style.visibility='hidden';
+     audio.pause();
+ }
+
+ function updateTimeline() {
+     const percentagePosition =
+         (100 * audio.currentTime) / audio.duration;
+     timeline.style.width = `${percentagePosition}%`;
+ }
+</script>
+
     </body>
 
-    
     <!-- Navbar -->
-    <header class="fixed bottom-0 px-6 py-4">
+    {% comment %} <header class="fixed bottom-0 px-6 py-4">
         <div class="flex-col">
             <a href="../homepage/">
                 <img
@@ -96,6 +177,6 @@
                 <!-- <p>terms</p> -->
             </div>
         </div>
-    </header>
+    </header> {% endcomment %}
     <!-- Navbar -->
 </html>

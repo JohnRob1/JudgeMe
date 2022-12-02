@@ -107,6 +107,9 @@ def judge(request):
     if "friend" in request.GET:
         friend = JMUser.objects.get(display_name=request.GET.get("friend"))
         return result(request, friend)
+    # if "playlist" in request.GET:
+    #     playlist = Playlist.objects.get(name=request.GET.get("playlist"))
+    #     return render(request, 'friend_playlist.html', context)
     return render(request, 'judge.html', context)
 
 def music_tastes(request):
@@ -120,13 +123,11 @@ def music_tastes(request):
             else:
                 friends[friend.music_taste] = []
                 friends[friend.music_taste].append(friend)
-    for value in sorted(friends):
+    for value in sorted(list(friends.keys())):
         for friend in friends[value]:
             context['friends'].append(friend)
 
     return render(request, 'music_tastes.html', context)
-
-
 
 def result(request, friend):
 
@@ -635,21 +636,127 @@ def breakdown(request):
 def gorb(request):
     sp: spotipy.Spotify = get_spotify_object(request)
 
+    uris = []
+    pre_result = True
+    bad_repeat_uris = ["spotify:track:6OnfBiiSc9RGKiBKKtZXgQ",
+                       "spotify:track:4HjwGX3pJKJTeOSDpT6GCo",
+                       "spotify:track:2mY2q2kza9vvWKZz6JLTxS",
+                       "spotify:track:4cOdK2wGLETKBW3PvgPWqT",
+                       "spotify:track:0Jg602cHeMCnPez9baacIe",
+                       "spotify:track:5ygDXis42ncn6kYG14lEVG"]
+
+    bad_always_uris = ["spotify:track:12a51Wz9uxB0FahAPMHTde",
+                       "spotify:track:0ik5szrSW9DvBF62OdYlqh",
+                       "spotify:track:0AzD1FEuvkXP1verWfaZdv",
+                       "spotify:track:2R8YJIea5IaRtVGka8uUyE",
+                       "spotify:track:0CaHTGPAvGoDyycVvoMZgD",
+                       "spotify:track:2Uu4AnnMTJpevC0IrwAuOW",
+                       "spotify:track:2Wq2R59KXY8mW7sYGccrKA",
+                       "spotify:track:66Crx53pJDyF3B2Nign13F",
+                       "spotify:track:4WtguaQ8EOj7BfU06F2Lzz",
+                       "spotify:track:0F09XNIuGq4kDtl5qeO7FR"]
+    
+    random_bad_uris = ["spotify:track:6epn3r7S14KUqlReYr77hA",
+                       "spotify:track:1KEdF3FNF9bKRCxN3KUMbx",
+                       "spotify:track:5RIVoVdkDLEygELLCniZFr",
+                       "spotify:track:6nFYXpBgrNcZjbtNEuc6yR",
+                       "spotify:track:315YiOWf8Yy7gOEOLpyWQs",
+                       "spotify:track:66e2TRYYXe72Kj7iCBVkFC",
+                       "spotify:track:29drzlJamuYPBRh1LPpXM4",
+                       "spotify:track:1K2u31R6UAOtUPM4uSWQTc"]
+
+    uri_string = ""
+    tracks = []
     GoodPlaylist = False
     if request.method == 'POST':
-        print("WEEEEEEEEEEE")
+        pre_result = False
         GoodPlaylist = bool(random.getrandbits(1))
-
+        #GoodPlaylist = False
         if GoodPlaylist :
             print("GOODPLAYLIST SELECTED")
-        
+            results = sp.current_user_top_tracks(time_range='medium_term', 
+                limit=14)
+            for i, item in enumerate(results['items']):
+                #print(i, item['name'], '//', item['artists'][0]['name'])
+                uri_string += item['uri']
+                uri_string += ','
+                tracks.append(get_or_create_track_from_uri(request, item['uri']))
+
+                artist_uri = item["artists"][0]['uri']
+                top_tracks = sp.artist_top_tracks(artist_uri)
+
+                for track in top_tracks['tracks'][:1]:
+                    artist_uri = track['uri']
+                    if artist_uri not in uri_string:
+                        uri_string += artist_uri
+                        uri_string += ','
+                        tracks.append(get_or_create_track_from_uri(request, artist_uri))
+
+            
+            results2 = sp.current_user_top_artists(time_range='medium_term', limit=2)
+
+            for i, item in enumerate(results2['items']):
+                top_artist_tracks = sp.artist_top_tracks(item['uri'])
+                for track in top_artist_tracks['tracks'][:2]:
+                    track_uri = track['uri']
+                    if track_uri not in uri_string:
+                        uri_string += track_uri
+                        uri_string += ','
+                        tracks.append(get_or_create_track_from_uri(request, track_uri))
+
+            uri_string = uri_string[:-1]
+
+            print(uri_string)
         else :
             print("BADPLAYLIST SELECTED")
 
+            #adds seven of one song
+            randRepeat = random.randint(0, (len(bad_repeat_uris)-1))
+            i=0
+            while i < 7:
+                uri_string += bad_repeat_uris[randRepeat]
+                uri_string += ','
+                tracks.append(get_or_create_track_from_uri(request, bad_repeat_uris[randRepeat]))
+                i = i + 1
+            
+            #adds all of these songs
+            for uri2 in bad_always_uris:
+                uri_string += uri2
+                uri_string += ','
+                tracks.append(get_or_create_track_from_uri(request, uri2))
+            
+            #adds half of these songs
+            reduced_bad_uris = random.sample(random_bad_uris, 4)
+            for uri3 in reduced_bad_uris:
+                uri_string += uri3
+                uri_string += ','
+                tracks.append(get_or_create_track_from_uri(request, uri3))
+            
+            uri_string = uri_string[:-1]
+
+            print(uri_string)
+
+        playlist_title = ""
+        if GoodPlaylist: 
+            playlist_title = "JudgeMe GoodTime Jams"
+        else :
+            playlist_title = "JUDGEMENT HATH FALLEN"
+        token = request.session['token']
+        user_id = request.user.username
+        wizard = Credentials(token, user_id)
+        playlist_id = wizard.create_playlist(playlist_title)
+        response = wizard.add_songs_to_playlist(uri_string)
+        print(response)
+    #convert uris to string comma separated
+
 
     context = {
-        'pre_result': True,
+        'pre_result': pre_result,
+        'Goodplaylist' : GoodPlaylist,
+        'uris' : uri_string,
+        'tracks' : tracks,
     }
+    print(tracks)
 
     return render(request, 'goodorbadplaylist.html', context)
 
