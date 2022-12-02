@@ -611,7 +611,11 @@ def breakdown(request):
 
 
 def gorb(request):
-    return render(request, 'goodorbadplaylist.html')
+    context = {
+        'pre_result': True,
+    }
+
+    return render(request, 'goodorbadplaylist.html', context)
 
 
 def base(request):
