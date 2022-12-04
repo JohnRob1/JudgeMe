@@ -18,7 +18,7 @@ from .Spotify_post import Credentials
 #end imports-------------
 
 from .util_auth import generate_url, create_token_info, login_django_user, get_spotify_object
-from .profile_stats import get_or_create_track_from_uri, get_or_create_playlist
+from .profile_stats import get_or_create_track_from_uri
 
 from .models import *
 from .profile_stats import update_user_stats, get_top_artist, get_top_genre, get_top_song, get_num_friends, get_num_playlists, get_music_taste, get_user_playlists
@@ -97,10 +97,9 @@ def welcome(request):
 
 
 def judge(request):
-    update_user_stats(request)
     context = {}
     context['friends'] = request.user.friends.all()
-    context['playlists'] = request.user.playlists.all()
+    # context['playlists'] = request.user.playlists.all()
     context['me'] = request.user
     if request.user.music_taste == -1:
         get_music_taste(request, request.user)

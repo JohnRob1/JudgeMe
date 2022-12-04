@@ -1,7 +1,7 @@
 from pprint import pprint
 
 from .util_auth import get_spotify_object
-from .models import Track, Artist, Playlist
+from .models import Track, Artist
 
 
 def get_num_friends(request, user) -> int:
@@ -40,9 +40,6 @@ def get_num_playlists(request, user) -> int:
 
 
 def get_or_create_track_from_uri(request, uri) -> Track:
-    if uri == None:
-        return
-
     # If the track exists, return it.
     track = Track.objects.filter(uri=uri).first()
     if track != None:
@@ -56,6 +53,7 @@ def get_or_create_track_from_uri(request, uri) -> Track:
         return None
 
     name = track.get("name")
+    print(name)
     artist_name = track.get("artists")[0].get("name")
     images = track.get("album").get("images")
     audio_preview = track.get("preview_url")
@@ -88,47 +86,45 @@ def get_or_create_artist_from_uri(request, uri) -> Artist:
         uri=uri, name=name, picture=picture, top_genre=genre)
     return artist
 
-def get_or_create_playlist(request, uri) -> Playlist:
-    # If the playlist exists, return it.
-    playlist = Playlist.objects.filter(uri=uri).first()
-    if playlist != None:
-        return playlist 
+# def get_or_create_playlist(request, uri) -> Playlist:
+#     # If the playlist exists, return it.
+#     playlist = Playlist.objects.filter(uri=uri).first()
+#     if playlist != None:
+#         return playlist 
 
-    sp = get_spotify_object(request)
-    sp_playlist = sp.playlist(uri)
-    if sp_playlist == None:
-        return None
+#     sp = get_spotify_object(request)
+#     sp_playlist = sp.playlist(uri)
+#     if sp_playlist == None:
+#         return None
     
-    name = sp_playlist.get("name")
-    if len(sp_playlist.get("images")) > 0:
-        picture = sp_playlist.get("images")[0].get("url")
-    else:
-        picture = "No Data"
+#     name = sp_playlist.get("name")
+#     if len(sp_playlist.get("images")) > 0:
+#         picture = sp_playlist.get("images")[0].get("url")
+#     else:
+#         picture = "No Data"
 
-    playlist, created = Playlist.objects.get_or_create(
-        uri=uri, name=name, playlist_pic=picture)
+#     playlist, created = Playlist.objects.get_or_create(
+#         uri=uri, name=name, playlist_pic=picture)
     
-    sp_tracks = sp_playlist.get("tracks").get("items")
-    for track in sp_tracks:
-        song_uri = track.get("uri")
-        track = get_or_create_track_from_uri(request, song_uri)
-        playlist.tracks.add(track)
+#     sp_tracks = sp_playlist.get("tracks").get("items")
+#     for track in sp_tracks:
+#         song_uri = track.get("uri")
+#         track = get_or_create_track_from_uri(request, song_uri)
+#         playlist.tracks.add(track)
     
 
-    return playlist 
+#     return playlist 
 
 def update_user_stats(request):
     request.user.top_tracks.clear()
     request.user.top_artists.clear()
-    request.user.music_taste = -1
-    get_music_taste(request, request.user)
 
     sp = get_spotify_object(request)
-    playlists = get_user_playlists(request)
-    for playlist in playlists:
-        playlist_uri = playlist.get("uri") 
-        playlist = get_or_create_playlist(request, playlist_uri)
-        request.user.playlists.add(playlist)
+    # playlists = get_user_playlists(request)
+    # for playlist in playlists:
+    #     playlist_uri = playlist.get("uri") 
+    #     playlist = get_or_create_playlist(request, playlist_uri)
+    #     request.user.playlists.add(playlist)
 
     for track in sp.current_user_top_tracks(10).get("items"):
         song_uri = track.get("uri")
@@ -202,11 +198,13 @@ def get_music_taste(request, user):
     sp = get_spotify_object(request)
     total_genres = 0
     tracks = user.top_tracks.all()
+    pprint(user.top_tracks.all())
     for track in tracks:
         song_uri = track.uri
         artist_id = sp.track(song_uri).get("artists")[0].get("id")
         artist = sp.artist(artist_id)
         genres = artist.get("genres")
+        pprint(genres)
         for genre in genres:
             added_to_dict = False
             if genres_cf.get(genre, None) != None:
@@ -241,6 +239,8 @@ def get_music_taste(request, user):
                 genres_cf[genre] = [3, 3, 3, 3, 3]
 
     # Calculate MusicTaste
+    print("Calculating...")
+    pprint(genres_amt)
     for genre in genres_amt.keys():
         personality_array = genres_cf.get(genre, [3, 3, 3, 3, 3])
         weight = genres_amt.get(genre) / total_genres

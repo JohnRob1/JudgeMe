@@ -11,7 +11,7 @@ class JMUser(AbstractUser):
     top_artists = models.ManyToManyField("Artist", blank=True)
 
     playlist_count = models.SmallIntegerField(default=-1)
-    playlists = models.ManyToManyField("Playlist", blank=True)
+    # playlists = models.ManyToManyField("Playlist", blank=True)
 
     friends = models.ManyToManyField("JMUser", blank=True)
 
@@ -32,12 +32,12 @@ class JMUser(AbstractUser):
         return self.display_name
 
     
-class Playlist(models.Model):
-    name = models.CharField(max_length=256)
-    uri = models.CharField(max_length=512)
-    playlist_pic = models.CharField(max_length=256)
-    tracks = models.ManyToManyField("Track", blank=True)
-    playlist_music_taste = models.FloatField(default=-1)
+# class Playlist(models.Model):
+#     name = models.CharField(max_length=256)
+#     uri = models.CharField(max_length=512)
+#     playlist_pic = models.CharField(max_length=256)
+#     tracks = models.ManyToManyField("Track", blank=True)
+#     playlist_music_taste = models.FloatField(default=-1)
 
 
 class Artist(models.Model):
