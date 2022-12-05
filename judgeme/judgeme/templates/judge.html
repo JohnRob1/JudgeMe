@@ -21,34 +21,31 @@
       class="flex justify-center container mx-auto my-auto w-screen h-screen items-center flex-col space-y-2"
     >
       <div id="music-taste" class="hidden flex-col justify-center">
-        <h1>Music Taste Value: {{music_taste}}</h1>
-        <br />
+        <h1>{{music_taste}}</h1>
         <p>
-          Your music taste value is determined based on research on the correlation between the
-          genres of music you like and the "Big Five" Personality Traits:
+          Your music taste value is determined based on the correlation between
+          genre of music and the "Big Five" Personality Traits:
           <br />
           Agreeableness, Conscientiousness, Openness, Emotional Stability,
           Extravertedness.
           <br />
-          <br />
           Your music taste value of {{music_taste}} says that you are...
           <br />
+          {% if me.agreeableness < 3 %} Not Agreeable {% else %} Agreeable {% endif %}
           <br />
-          {% if me.agreeableness < 3 %} Less Agreeable {% else %} More Agreeable {% endif %}
+          {% if me.conscientiousness < 3 %} Not Conscientious {% else %}
+          Conscientious {% endif %}
           <br />
-          {% if me.conscientiousness < 3 %} Less Conscientious {% else %}
-          More Conscientious {% endif %}
+          {% if me.openness < 3 %} Not Open {% else %} Open {% endif %}
           <br />
-          {% if me.openness < 3 %} Less Open {% else %} More Open {% endif %}
+          {% if me.emotional_stability < 3 %} Not Emotionally Stable {% else %}
+          Emotionally Stable {% endif %}
           <br />
-          {% if me.emotional_stability < 3 %} Less Emotionally Stable {% else %}
-          More Emotionally Stable {% endif %}
-          <br />
-          {% if me.extravertedness < 3 %} More Introverted {% else %} More Extraverted {% endif %}
+          {% if me.extravertedness < 3 %} Introverted {% else %} Extraverted {% endif %}
         </p>
         <br />
         <a href="https://journals.sagepub.com/doi/10.1177/1948550620923228"
-          ><u>Link to Research</u></a
+          >Link to Research</a
         >
       </div>
       <button class="btn opacity-0 animate-fadeIn" onclick="showMusicTaste()">
@@ -57,11 +54,11 @@
       <button class="btn opacity-0 animate-fadeIn" onclick="location.href='./music_tastes'">
         Show Friends' Music Tastes
       </button>
-      {% comment %} <button
+      <button
         class="btn opacity-0 animate-fadeIn"
         onclick="showMyPlaylists()"
-      > {% endcomment %}
-        {% comment %} Playlist vs Playlist
+      >
+        Playlist vs Playlist
       </button>
       <div id="playlists_one" class="hidden flex-col">
         {% for playlist in playlists %}
@@ -86,7 +83,7 @@
           </div>
         </form>
         {% endfor %} 
-      </div> {% endcomment %}
+      </div>
       <button
         type="submit"
         class="btn opacity-0 animate-fadeIn"

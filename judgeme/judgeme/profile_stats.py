@@ -53,6 +53,7 @@ def get_or_create_track_from_uri(request, uri) -> Track:
         return None
 
     name = track.get("name")
+    print(name)
     artist_name = track.get("artists")[0].get("name")
     images = track.get("album").get("images")
     audio_preview = track.get("preview_url")
@@ -117,7 +118,6 @@ def get_or_create_artist_from_uri(request, uri) -> Artist:
 def update_user_stats(request):
     request.user.top_tracks.clear()
     request.user.top_artists.clear()
-    get_music_taste(request, request.user)
 
     sp = get_spotify_object(request)
     # playlists = get_user_playlists(request)
@@ -126,7 +126,7 @@ def update_user_stats(request):
     #     playlist = get_or_create_playlist(request, playlist_uri)
     #     request.user.playlists.add(playlist)
 
-    for track in sp.current_user_top_tracks(50).get("items"):
+    for track in sp.current_user_top_tracks(10).get("items"):
         song_uri = track.get("uri")
         track = get_or_create_track_from_uri(request, song_uri)
         request.user.top_tracks.add(track)
@@ -198,11 +198,13 @@ def get_music_taste(request, user):
     sp = get_spotify_object(request)
     total_genres = 0
     tracks = user.top_tracks.all()
+    pprint(user.top_tracks.all())
     for track in tracks:
         song_uri = track.uri
         artist_id = sp.track(song_uri).get("artists")[0].get("id")
         artist = sp.artist(artist_id)
         genres = artist.get("genres")
+        pprint(genres)
         for genre in genres:
             added_to_dict = False
             if genres_cf.get(genre, None) != None:
@@ -237,6 +239,8 @@ def get_music_taste(request, user):
                 genres_cf[genre] = [3, 3, 3, 3, 3]
 
     # Calculate MusicTaste
+    print("Calculating...")
+    pprint(genres_amt)
     for genre in genres_amt.keys():
         personality_array = genres_cf.get(genre, [3, 3, 3, 3, 3])
         weight = genres_amt.get(genre) / total_genres
@@ -250,40 +254,34 @@ def get_music_taste(request, user):
     if (user.agreeableness < 3):
         return_dict['agreeableness'] = "Not Agreeable"
     else:
-        value = value + 17
+        value = value + 51
         return_dict['agreeableness'] = "Agreeable"
-    # either 0 or 16
 
     if (user.conscientiousness < 3):
         return_dict['concientiousness'] = "Not Conscientious"
     else:
-        value = value + 8 
+        value = value + 25
         return_dict['concientiousness'] = "Conscientious"
-    # either 0,8,16,24
 
     if (user.openness < 3):
         return_dict['openness'] = "Not Open"
-    # either 0,8,16,24
     else:
-        value = value + 4
+        value = value + 12.5
         return_dict['openness'] = "Open"
-    # either 4,12,20,28
 
     if (user.emotional_stability < 3):
         return_dict['emotional_stability'] = "Not Emotionally Stable"
-    # either 0,4,8,12,16,20,24,28
     else:
-        value = value + 2
+        value = value + 6.25
         return_dict['emotional_stability'] = "Emotionally Stable"
-    # either 2,6,10,14,18,22,26,30
 
     if (user.extravertedness < 3):
         return_dict['extraverted'] = "Introverted"
-    # even
     else:
-        value = value + 1
+        value = value + 3.125
         return_dict['extraverted'] = "Extroverted"
-    # odd 
 
+    value = value / 3.125
+    user.music_taste = int(value) + 1
     user.save()
     return return_dict
