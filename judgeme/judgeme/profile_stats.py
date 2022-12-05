@@ -285,6 +285,5 @@ def get_music_taste(request, user):
         return_dict['extraverted'] = "Extroverted"
     # odd 
 
-    user.music_value = value
     user.save()
     return return_dict
