@@ -64,32 +64,108 @@
           background: #04AA6D;
           cursor: pointer;
         }
-      </style>
+        </style>
       
-      <div class="slidecontainer">
-        <input type="range" min="0" max="32" value="16" class="slider" id="myRange">
-        <p>Music Taste Value: <span id="demo"></span></p>
-      </div>
+        <div class="slidecontainer">
+        <div id="personalities"
+            class="flex flex-row gap-4 justify-center">
+            <div id="p-1" class="hidden">Agreeable</div>
+            <div id="p-2" class="hidden">Less Agreeable</div>
+            <div id="p-3" class="hidden">Open</div>
+            <div id="p-4" class="hidden">Less Open</div>
+            <div id="p-5" class="hidden">Conscientious</div>
+            <div id="p-6" class="hidden">Less Conscientious</div>
+            <div id="p-7" class="hidden">Emotionally Stable</div>
+            <div id="p-8" class="hidden">Less Emotionally Stable</div>
+            <div id="p-9" class="hidden">Extraverted</div>
+            <div id="p-10" class="hidden">Introverted</div>
+        </div>
+            <input type="range" min="0" max="32" value="16" class="slider" id="myRange">
+            <p>Music Taste Value: <span id="demo"></span></p>
+        </div>
 
-      <script>
+        <script>
         var slider = document.getElementById("myRange");
         var output = document.getElementById("demo");
         output.innerHTML = slider.value;
         
         slider.oninput = function() {
-          if (document.getElementById(this.value.toString())) {
-            if (this.value == Math.floor(document.getElementById(this.value.toString()).getAttribute('value'))) {
-              document.getElementById(this.value.toString()).setAttribute('class', 'relative w-28 h-28 m-auto');
-            } 
-          } else {
-              document.getElementById(value.toString()).setAttribute('class', 'relative w-28 h-28 m-auto blur');
-          }
+            output.innerHTML = this.value;
+            console.log(this.value)
+            let values = [];
+
+            if(this.value <= 16) { //less
+                document.getElementById("p-1").setAttribute('class', 'hidden');
+                document.getElementById("p-2").setAttribute('class', 'flex');
+                console.log("Done")
+            }
+            else { //more
+                document.getElementById("p-1").setAttribute('class', 'flex');
+                document.getElementById("p-2").setAttribute('class', 'hidden');
+            }
+            if(this.value < 8 || 
+            (this.value < 24 && this.value >= 16)) { //less
+                document.getElementById("p-5").setAttribute('class', 'hidden');
+                document.getElementById("p-6").setAttribute('class', 'flex');
+            }
+            else { //more
+                document.getElementById("p-5").setAttribute('class', 'flex');
+                document.getElementById("p-6").setAttribute('class', 'hidden');
+            }
+            if(this.value < 4 || 
+            this.value >=8 && this.value < 12 ||
+            this.value >=16 && this.value < 20 ||
+            this.value >=24 && this.value < 28) { //less
+                document.getElementById("p-3").setAttribute('class', 'hidden');
+                document.getElementById("p-4").setAttribute('class', 'flex');
+            }
+            else { //more
+                document.getElementById("p-3").setAttribute('class', 'flex');
+                document.getElementById("p-4").setAttribute('class', 'hidden');
+            }
+            if(this.value < 2 ||
+            this.value >=4 && this.value < 6 ||
+            this.value >=8 && this.value < 10 ||
+            this.value >=12 && this.value < 14 ||
+            this.value >=16 && this.value < 18 ||
+            this.value >=20 && this.value < 22 ||
+            this.value >=24 && this.value < 26 ||
+            this.value >=28 && this.value < 30) { //less 
+                document.getElementById("p-7").setAttribute('class', 'hidden');
+                document.getElementById("p-8").setAttribute('class', 'flex');
+            }
+            else { //more
+                document.getElementById("p-7").setAttribute('class', 'flex');
+                document.getElementById("p-8").setAttribute('class', 'hidden');
+            }
+            if(this.value % 2 == 0) { //less
+                document.getElementById("p-9").setAttribute('class', 'hidden');
+                document.getElementById("p-10").setAttribute('class', 'flex');
+            }
+            else { //more
+                document.getElementById("p-9").setAttribute('class', 'flex');
+                document.getElementById("p-10").setAttribute('class', 'hidden');
+            }
+            
+            
+            if (document.getElementById(this.value.toString())) {
+                if (this.value == Math.floor(document.getElementById(this.value.toString()).getAttribute('value'))) {
+                    document.getElementById(this.value.toString()).setAttribute('class', 'relative w-28 h-28 m-auto rounded-full');
+                    values = values.push(this.value.toString());
+                } 
+            } else {
+                for (var i = 0; i < 32; i++) {
+                    if (document.getElementById(i.toString())) {
+                        document.getElementById(i.toString()).setAttribute('class', 'relative w-28 h-28 m-auto blur rounded-full');
+                    }
+                }
+            }
         }
-      </script>
+        </script>
         
       <div class="relative grid grid-cols-2 gap-4">
         {% for friend in friends %}
-            <figure class="grid grid-cols-1 justify-items-center">
+            <div class="grid grid-cols-1 justify-items-center">
             <img 
                 id="{{friend.music_taste}}"
                 value={{friend.music_taste}}
@@ -97,6 +173,6 @@
                 class="relative w-28 h-28 m-auto blur rounded-full"
                 />
                 <figcaption class="items-center">{{ friend.display_name }} <br> Music Taste: {{ friend.music_taste }}</figcaption>
-            </figure>
+            </div>
         {% endfor %}
       </div>
