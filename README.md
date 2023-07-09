@@ -57,7 +57,7 @@ This project was used as our project in CS 30700: Software Engineering at Purdue
 ### Your Music Taste and Artist Statistics
 <details>
   <summary>Click the "Explore artist stats" button on the homepage to go look up insight of artists</summary>
-  <img width="1680" alt="Screenshot 2023-07-09 at 2 54 26 AM" src="https://github.com/Stimils02/CS307-Project/assets/70769897/b2a3c9ed-f5c9-4526-bcd6-4392ba6ee386">
+  <img width="1680" alt="image" src="https://github.com/Stimils02/CS307-Project/assets/70769897/35539d56-184c-4d8c-b70b-a3f7d9f89f4d">
 </details>
 <details>
   <summary>By clicking the "Explore your music taste" button on the homepage, this will give statistics and a graph view of the user's music taste</summary>
