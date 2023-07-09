@@ -145,7 +145,7 @@ def result(request, friend):
     dark_mode = "Dark Mode"
     if settings.DARKMODE is False: dark_mode = "Light Mode"
 
-    if abs(request.user.music_taste - friend.music_taste) < 25:
+    if abs(request.user.music_taste - friend.music_taste) < 10:
         if settings.DARKMODE is False:
             f = open('theme/static/light_mode_gifs/comps.txt', 'r')
         else:

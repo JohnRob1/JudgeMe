@@ -77,6 +77,7 @@
         output.innerHTML = slider.value;
         
         slider.oninput = function() {
+          output.innerHTML = this.value;
           if (document.getElementById(this.value.toString())) {
             if (this.value == Math.floor(document.getElementById(this.value.toString()).getAttribute('value'))) {
               document.getElementById(this.value.toString()).setAttribute('class', 'relative w-28 h-28 m-auto');
