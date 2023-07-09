@@ -54,12 +54,6 @@
       <button class="btn opacity-0 animate-fadeIn" onclick="location.href='./music_tastes'">
         Show Friends' Music Tastes
       </button>
-      <button
-        class="btn opacity-0 animate-fadeIn"
-        onclick="showMyPlaylists()"
-      >
-        Playlist vs Playlist
-      </button>
       <div id="playlists_one" class="hidden flex-col">
         {% for playlist in playlists %}
         <form id="{{playlist.name}}">

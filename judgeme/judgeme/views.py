@@ -89,43 +89,35 @@ def spotify(request):
 
 
 def welcome(request):
-    #Sujal(request)
     context = {}
     context["bg_color"] = "[#322c3d]"
     context["bubble_color"] = "[#8e3d81]"
     return render(request, 'tutorial.html', context)
 
 
+#
 def judge(request):
     context = {}
     context['friends'] = request.user.friends.all()
-    # context['playlists'] = request.user.playlists.all()
     context['me'] = request.user
+
     if request.user.music_taste == -1:
         get_music_taste(request, request.user)
+
     context['music_taste'] = request.user.music_taste
+
     if "friend" in request.GET:
         friend = JMUser.objects.get(display_name=request.GET.get("friend"))
         return result(request, friend)
-    # if "playlist" in request.GET:
-    #     playlist = Playlist.objects.get(name=request.GET.get("playlist"))
-    #     context['playlists'] = {}
-    #     for friend in context.get('friends'):
-    #         context[friend] = []
-    #         for playlist in friend.playlists:
-    #             context[friend].append(playlist)
-    #     return friend_playlist(request, context, playlist)
+        
     return render(request, 'judge.html', context)
-
-# def friend_playlist(request, context, playlist):
-    
-#     return render(request, 'friend_playlist.html', context)
 
 
 def music_tastes(request):
     context = {}
     friends = {}
     context['friends'] = []
+
     for friend in request.user.friends.all():
         if friend.music_taste != -1:
             if friend.music_taste in friends:
@@ -133,6 +125,7 @@ def music_tastes(request):
             else:
                 friends[friend.music_taste] = []
                 friends[friend.music_taste].append(friend)
+                
     for value in sorted(list(friends.keys())):
         for friend in friends[value]:
             context['friends'].append(friend)
@@ -229,7 +222,6 @@ def profile(request):
     if "vibes" in request.GET:
         user.vibes = request.GET['vibes']
     
-    #user.save()
     context = {}
     context['user_to_display'] = user
     context['is_owner'] = user == request.user
@@ -252,7 +244,6 @@ def profile(request):
             user.save()
         except:
             return HttpResponse("Oops you clicked upload instaed of save when editing bio. Try again but click save so that you're not posting image")
-            #return HttpResponseRedirect("../profile/")
 
     context['custom_image'] = user.uploaded_image
     return render(request, 'profile.html', context)
@@ -331,11 +322,6 @@ def playlist(request):
         song_uri += uri + ','
     """
     
-    #song_uri = song_uri[:-1]
-    #cred = Credentials(token, user_id)
-
-    # context['songNames1'] = songNames[:20]
-    # context['songNames2'] = songNames[20:]
     context['tracks'] = tracks
     return render(request, 'playlist.html', context)
 

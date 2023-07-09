@@ -185,6 +185,7 @@ def get_top_genre(request, user):
 
 
 def get_music_taste(request, user):
+
     f = open('theme/static/genre_correlations', 'r')
     glines = f.readlines()
     genres_cf = {}
@@ -194,11 +195,11 @@ def get_music_taste(request, user):
         values = line.split(",")
         values[5] = values[5].strip()
         genres_cf[values[0].lower()] = values[1:]
+
     # Get genres of songs for weight
     sp = get_spotify_object(request)
     total_genres = 0
     tracks = user.top_tracks.all()
-    pprint(user.top_tracks.all())
     for track in tracks:
         song_uri = track.uri
         artist_id = sp.track(song_uri).get("artists")[0].get("id")
@@ -216,7 +217,7 @@ def get_music_taste(request, user):
                     genres_amt[genre] = genres_amt.get(genre) + 1
                     total_genres = total_genres + 1
             else:
-                # Check is the genre given is just the subtype of a genre in the correlation values
+                # Check if the genre given is just the subtype of a genre in the correlation values
                 split = genre.split()
                 for word in split:
                     if genres_cf.get(word, None) != None:
@@ -227,8 +228,8 @@ def get_music_taste(request, user):
                         else:
                             genres_amt[word] = genres_amt.get(word) + 1
                             total_genres = total_genres + 1
-            # Genre has no personality correlation
-            # correlation is [3,3,3,3,3]
+
+            # Situation when genre has no personality correlation [3,3,3,3,3]
             if added_to_dict is False:
                 if genres_amt.get(genre, None) == None:
                     genres_amt[genre] = 1
