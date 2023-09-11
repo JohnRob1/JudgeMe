@@ -47,7 +47,7 @@ This project was used as our project in CS 30700: Software Engineering at Purdue
 </details>
 <details>
   <summary>Click the "Show Friends' Music Taste" to get a slider view of where their music taste value is</summary>
-  ![Screenshot from 2023-09-11 15-06-26](https://github.com/Stimils02/CS307-Project/assets/70769897/b5523b46-8e78-4e31-be6d-2f2df3fdb8f3)
+  <img width="1680" alt="Screenshot from 2023-09-11 15-06-26" src="https://github.com/Stimils02/CS307-Project/assets/70769897/b5523b46-8e78-4e31-be6d-2f2df3fdb8f3">
 </details>
 <details>
   <summary>To judge a friend specifically, click the "Friend vs Friend" button. Depending on how close your taste is, there will be a GIF to compliment/insult them!</summary>
